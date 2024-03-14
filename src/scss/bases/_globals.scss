@@ -1,5 +1,5 @@
-@use 'base/variables' as v;
-@use 'base/mixins' as m;
+@use 'bases/variables' as v;
+@use 'bases/mixins' as m;
 picture{
     display: block;
 }
@@ -25,5 +25,5 @@ a{
 *:before,
 *:after{
     box-sizing: inherit;
-    font-family: v.$fontRegular;
+    // font-family: v.$fontRegular;
 }

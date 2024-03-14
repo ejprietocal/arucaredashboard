@@ -4,7 +4,9 @@
   "description": "website designed for medical appointments ",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "gulp build",
+    "build": "gulp cssgenerator && gulp imgGenerator && gulp versionWebp && gulp versionAvif && gulp jsGenerator && gulp assetsGenerator"
   },
   "keywords": [
     "arucare",
