@@ -1,0 +1,29 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+picture{
+    display: block;
+}
+
+html{
+    font-size: 62.5%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+ul {
+    list-style: none; /* Elimina los marcadores/bolitas de la lista */
+    padding: 0; /* Elimina el relleno predeterminado */
+    margin: 0; /* Elimina los márgenes predeterminados */
+  }
+
+a{
+    text-decoration: none; /* Elimina el subrayado predeterminado */
+    color: inherit; /* Hereda el color del texto del elemento padre */
+    cursor: pointer
+}
+*,
+*:before,
+*:after{
+    box-sizing: inherit;
+    font-family: v.$fontRegular;
+}
