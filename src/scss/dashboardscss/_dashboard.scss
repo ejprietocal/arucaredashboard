@@ -1,2 +1,277 @@
 @use 'bases/mixins' as m;
 @use 'bases/variables' as v;
+
+
+
+:root{
+
+    // colors =====
+    --body-color: #eef1f4;
+    --sidebar-color: #FFF;
+    --primary-color: #0196e3;
+    --primary-color-light: #F6F5FF;
+    --toogle-color: #DDD;
+    --text-color: #707070;
+
+
+    // transition =====
+    --tran-02: all 0.2s ease;    
+    --tran-03: all 0.3s ease;    
+    --tran-04: all 0.4s ease;    
+    --tran-05: all 0.5s ease;      
+
+}
+.container-fluid{
+    background-color: var(--body-color);
+    transition: var(--tran-04);
+}
+
+.side-bar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 25rem;
+    transition: var(--tran-05);
+    background-color: var(--sidebar-color);
+    z-index: 100;
+
+    padding: 1rem 1.4rem;
+
+    .text{
+        transition: var(--tran-04);
+        white-space: nowrap;
+        opacity: 1;
+    }
+    &.close{
+        width: 9rem;
+        header{
+            .toogle{
+                transform: translateY(-50%);
+            }
+        }
+        // transform: rotate(180deg);
+        .text{
+            opacity: 0;
+        }
+        ~.home{
+            left: 9rem;
+            width: calc(100% - 9rem);
+        }
+    }
+
+    .name,.profession{
+        color: var(--text-color);
+    }
+    header {
+        position: relative;
+        .image-text {
+            display: flex;
+            align-items: center;
+            .image{
+                min-width:6rem;
+                display: flex;
+                align-items: center;
+                picture img {
+                    width: 4rem;
+                    border-radius: 6px;
+                }
+            }
+            .header-text{
+                display: flex;
+                flex-direction: column;
+                font-size: 1.6rem;
+                font-weight: 500;
+                .name{
+                    font-weight: 600;
+                }
+                .profession{
+                    margin-top: -0.2rem;
+                }
+        
+            }
+        }
+        .toogle{
+            color: var(--toogle-color);
+            background-color: var(--primary-color);
+            position: absolute;
+            top: 50%;
+            right: -2.5rem;
+            transform: translateY(-50%) rotate(180deg);
+            transition: var(--tran-03);
+            height: 2.7rem;
+            width: 2.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 2.2rem;
+            cursor: pointer;
+
+        }
+
+    }
+    .menu-bar{
+        height: calc(100% - 5rem);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        li{
+            height: 5rem;
+            margin-top: 1rem;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            .text{
+                // width: 100%;
+            }
+            .text,.icono{
+                color: var(--text-color);
+                transition:var(--tran-03) ;
+                display: flex;
+                align-items: center;
+                height: 100%;
+            }
+            a{
+                text-decoration: none;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                // justify-content: space-between;
+                border-radius: .6rem;
+                transition: var(--tran-04);
+                &:hover{
+                    background: var(--primary-color);
+                    .icono,.text{
+                        color: var(--sidebar-color);
+                    }
+                }
+            }
+
+        }
+        .search-box{
+            background: var(--primary-color-light);
+            border-radius: 1rem;
+            input{
+                height: 100%;
+                width: 100%;
+                background: var(--primary-color-light);
+                outline: none;
+                border: none;
+                border-radius: .6rem;
+            }
+        }
+        .icono{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            min-width: 6rem;
+        }
+    
+        .mode{
+            background: var(--primary-color-light);
+            position: relative;
+            border-radius: .6rem;
+            i{
+                position: absolute;
+                transition: var(--tran-04);
+                &.sun{
+                    opacity: 0;
+                }
+            }
+            .moon-sun{
+                height: 5rem;
+                width: 6rem;
+                display: flex;
+                align-items: center;
+            }
+            .toogle-switch{
+                cursor:pointer;
+                position: absolute;
+                right: 0rem;
+                background: var(--primary-color-light);
+                border-radius: .7rem;
+                height: 100%;
+                min-width: 6rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .switch{
+                    height: 2.2rem;
+                    position: relative;
+                    width: 4.4rem;
+                    border-radius: 2.5rem;
+                    background: var(--toogle-color);
+
+                    &::before{
+                        content: "";
+                        position: absolute;
+                        border-radius: 50%;
+                        top: 50%;
+                        left: .5rem;
+                        transform: translateY(-50%);
+                        height: 1.5rem;
+                        width: 1.5rem;
+                        background: var(--sidebar-color);
+                        transition: var(--tran-03);
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
+body.dark {
+
+    --body-color: #18191A;
+    --sidebar-color: #242526;
+    --primary-color: #3a3b3c;
+    --primary-color-light: #3a3b3c;
+    --toogle-color: #FFF;
+    --text-color: #ccc;
+
+
+    .side-bar .menu-bar{
+        li{
+            a{
+                &:hover{
+                    // background: var(--primary-color);
+                    .icono,.text{
+                        color: var(--text-color);
+                    }
+                }
+            }
+        }
+        .mode {
+            .moon-sun{
+                i.sun{
+                    opacity: 1;
+                }
+                i.moon{
+                    opacity: 0;
+                }
+            }
+
+            .toogle-switch .switch:before {
+                left: 2.5rem;
+            }
+        }
+    } 
+}
+
+
+.home{
+    height: 100vh;
+    transition: var(--tran-05);
+    background: var(--body-color);
+    position: relative;
+    @include m.tablet{        
+        left: 25rem;
+        width: calc(100% - 25rem);
+    }
+}
+

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "gulp build",
-    "build": "gulp cssgenerator && gulp imgGenerator && gulp versionWebp && gulp versionAvif && gulp jsGenerator && gulp assetsGenerator"
+    "build": "gulp cssgenerator && gulp versionWebp && gulp versionAvif && gulp imgGenerator && gulp assetsGenerator  && gulp jsGenerator"
   },
   "keywords": [
     "arucare",
@@ -31,4 +31,5 @@
     "gulp-webp": "^4.0.1",
     "sass": "^1.69.7"
   }
+
 }
