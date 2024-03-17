@@ -25,17 +25,6 @@
     background-color: var(--body-color);
     transition: var(--tran-04);
 }
-.icono{
-    color: var(--text-color);
-    transition:var(--tran-03) ;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    height: 100%;
-    font-size: 2.5rem;
-    min-width: 6rem;
-}
 .side-bar{
     position: fixed;
     top: 0;
@@ -244,6 +233,18 @@
         left: 22rem;
         position: absolute;
         width: 9rem;
+        .icono{
+            color: var(--text-color);
+            transition:var(--tran-03) ;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        
+            height: 100%;
+            font-size: 2.5rem;
+            min-width: 6rem;
+        }
+
         i{
             position: absolute;
             top: 18px;
