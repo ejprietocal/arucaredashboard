@@ -242,12 +242,10 @@
         
             height: 100%;
             font-size: 2.5rem;
-            min-width: 6rem;
         }
-
         i{
             position: absolute;
-            top: 18px;
+            top: 0;
             left: 0;
             transition: var(--tran-04);
             &.sun{
