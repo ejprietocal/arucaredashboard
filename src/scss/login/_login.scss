@@ -8,7 +8,20 @@
   --primary-color-light: #F6F5FF;
   --toogle-color: #DDD;
   --text-color: #707070;
+
+  --tran-02: all 0.2s ease;    
+  --tran-03: all 0.3s ease;    
+  --tran-04: all 0.4s ease;    
+  --tran-05: all 0.5s ease;  
 }
+
+
+// --body-color: #18191A;
+// --sidebar-color: #242526;
+// --primary-color: #3a3b3c;
+// --primary-color-light: #3a3b3c;
+// --toogle-color: #FFF;
+// --text-color: #ccc;
 
 .container-fluid{
     height: 100vh;
@@ -22,6 +35,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
     gap: 15px;
     padding: 6rem;
     background-color: #ffffff;
@@ -31,7 +45,28 @@
     border-radius: 11px;
     // font-family: "Ubuntu", sans-serif;
   }
-  
+  .mode-button{
+    position: relative;
+    bottom: -5rem;
+    right:-13rem;
+    width: 5rem;
+    border-radius: 1rem;
+    background-color: var(--toogle-color);
+    height: 2rem;
+
+    &::before{
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      top: 50%;
+      left: .5rem;
+      transform: translateY(-50%);
+      height: 1.5rem;
+      width: 1.5rem;
+      background: var(--sidebar-color);
+      transition: var(--tran-03);
+  }
+  }
   .logo_container {
     box-sizing: border-box;
     width: 15rem;

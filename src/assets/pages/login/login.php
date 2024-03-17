@@ -39,4 +39,10 @@
   </button>
 
   <p class="note">Terms of use &amp; Conditions</p>
+
+  <div class="mode-button">
+        <div class="switch_button">
+          
+        </div>
+  </div>
 </form>
