@@ -1,4 +1,4 @@
-import { sidebar } from "../dashboard/dashboard.min.js";
+import { mode } from "../dashboard/dashboard.min.js";
 
 const spinner = document.querySelector('.spinner');
 const container = document.querySelector('.container-fluid');
@@ -7,7 +7,7 @@ container_info.classList.add('container_info');
 
 document.addEventListener('DOMContentLoaded', function(event){
     login();
-
+  
 })
 document.addEventListener('load', function(event){
     // spinner.style.display ="none";
@@ -15,6 +15,7 @@ document.addEventListener('load', function(event){
 
 
 function login(){
+
     spinner.style.display = 'flex';
     fetch('public/assets/pages/login/login.php')
     .then(response=>{
@@ -33,6 +34,7 @@ function login(){
         container_info.innerHTML = data;
         container.appendChild(container_info);
         spinner.style.display ="none";
+        mode();
         submitLogin();
     })
     .catch(error => {
@@ -66,7 +68,7 @@ function submitLogin(){
         })
         .then(data=>{
             container.innerHTML = data;
-            sidebar();
+            mode();
             // container.appendChild(container_info);
             spinner.style.display ="none";
             // submitLogin();

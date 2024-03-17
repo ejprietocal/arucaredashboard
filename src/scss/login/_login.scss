@@ -36,45 +36,21 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    gap: 15px;
-    padding: 6rem;
-    background-color: #ffffff;
+    gap: .7rem;
+    padding: 5rem;
+    background-color: var(--sidebar-color);
     box-shadow: 0px 106px 42px rgba(0, 0, 0, 0.01),
       0px 59px 36px rgba(0, 0, 0, 0.05), 0px 26px 26px rgba(0, 0, 0, 0.09),
       0px 7px 15px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
     border-radius: 11px;
     // font-family: "Ubuntu", sans-serif;
   }
-  .mode-button{
-    position: relative;
-    bottom: -5rem;
-    right:-13rem;
-    width: 5rem;
-    border-radius: 1rem;
-    background-color: var(--toogle-color);
-    height: 2rem;
-
-    &::before{
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      top: 50%;
-      left: .5rem;
-      transform: translateY(-50%);
-      height: 1.5rem;
-      width: 1.5rem;
-      background: var(--sidebar-color);
-      transition: var(--tran-03);
-  }
-  }
   .logo_container {
     box-sizing: border-box;
-    width: 15rem;
+    width: 11rem;
     height: fit-content;
-    background: linear-gradient(180deg, rgba(248, 248, 248, 0) 50%, #F8F8F888 100%);
-    // border: 1px solid #F7F7F8;
     filter: drop-shadow(0px 0.5px 0.5px #EFEFEF) drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
-    border-radius: 11px;
+
   }
   
   .title_container {
@@ -89,7 +65,7 @@
     margin: 0;
     font-size: 2rem;
     font-weight: 700;
-    color: #212121;
+    color: var(--text-color);
   }
   
   .subtitle {
@@ -97,7 +73,7 @@
     max-width: 80%;
     text-align: center;
     line-height: 1.1rem;
-    color: #8B8E98
+    color: var(--text-color)
   }
   
   .input_container {
@@ -153,6 +129,7 @@
   }
   
   .sign-in_btn {
+    margin-top: 1rem;
     width: 100%;
     height: 40px;
     border: 0;
@@ -165,6 +142,7 @@
   }
    
 .note {
+    margin-top: 2rem;
     font-size: 1rem;
     color: #8B8E98;
     text-decoration: underline;
