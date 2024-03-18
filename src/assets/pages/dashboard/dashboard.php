@@ -23,8 +23,6 @@
         <i class='bx bx-chevron-right toogle'></i>
       </header>
 
-
-
       <div class="menu-bar">
         <div class="menu">
             <li class="search-box" id="search">
@@ -40,7 +38,7 @@
               </li>
               <li class="nav-link">
                 <a href="#" id="Doctors" class="link">
-                  <i class='bx bxs-home icono'></i>
+                <i class='bx bxs-shield-plus icono'></i>
                   <span class="text nav-text">Doctors</span>
                 </a>
               </li>

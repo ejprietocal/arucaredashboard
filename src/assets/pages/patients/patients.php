@@ -5,12 +5,12 @@
         <caption class="fs-3">List of patients</caption>
         <thead class="text-light" >
             <tr>
-                <th>name</th>
-                <th>email</th>
-                <th>mobile</th>
-                <th>gender</th>
-                <th>created</th>
-                <th>action</th>
+                <th class="">name</th>
+                <th class="">email</th>
+                <th class="">mobile</th>
+                <th class="">gender</th>
+                <th class="">created</th>
+                <th class="">action</th>
             </tr>
         </thead>
 

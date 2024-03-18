@@ -32,12 +32,12 @@ const db = getFirestore(firebaseApp);
 // });
 
 // console.log(querySnapshot);
-export async function getPatientsData(data) {
+export async function getData(data) {
     try {
         // const item_clicked = document.querySelectorAll('.link');
 
         const querySnapshot = await getDocs(collection(db, data));
-        return querySnapshot.docs.map(doc => doc.data());
+        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
         console.error("Error al obtener datos de pacientes: ", error);
         return [];

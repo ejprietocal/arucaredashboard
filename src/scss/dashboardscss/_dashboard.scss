@@ -26,8 +26,8 @@
     transition: var(--tran-04);
 }
 .home{
-    left: 9rem;
-    width: calc(100% - 9rem);
+    left: 7rem;
+    width: calc(100% - 7rem);
 }
 .side-bar{
     position: fixed;
@@ -39,7 +39,7 @@
     background-color: var(--sidebar-color);
     z-index: 100;
 
-    padding: 1rem 1.4rem;
+    padding: 1rem;
 
     .text{
         transition: var(--tran-04);
@@ -47,7 +47,7 @@
         opacity: 1;
     }
     &.close{
-        width: 9rem;
+        width: 7rem;
         header{
             .toogle{
                 transform: translateY(-50%);
@@ -58,8 +58,8 @@
             opacity: 0;
         }
         ~.home{
-            left: 9rem;
-            width: calc(100% - 9rem);
+            left: 7rem;
+            width: calc(100% - 7rem);
         }
     }
 
@@ -119,6 +119,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        overflow-x: hidden;
         li{
             height: 5rem;
             margin-top: 1rem;
@@ -170,7 +171,7 @@
             align-items: center;
             justify-content: center;
             font-size: 2.5rem;
-            min-width: 6rem;
+            min-width: 5rem;
         }
     
     }
@@ -198,7 +199,7 @@
             background: var(--primary-color-light);
             border-radius: .7rem;
             // height: 100%;
-            min-width: 6rem;
+            min-width: 5rem;
             display: flex;
             align-items: center;
             justify-content: center;
