@@ -11,6 +11,7 @@ const firebaseApp = initializeApp({
 
 // Obtiene una instancia de Firestore
 const db = getFirestore(firebaseApp);
+// const querySnapshot = await getDocs(collection(db, 'Patients'));
 
 // Obtén los datos de la colección "appointments"
 // const dataRef = collection(db, "Appointments");
@@ -25,5 +26,21 @@ const db = getFirestore(firebaseApp);
 //     .catch((error) => {
 //         console.error("Error al obtener documentos: ", error);
 // });
+// let content = ``;
+// querySnapshot.forEach(doc => {
+//     console.log(doc.id, " => ", doc.data());
+// });
 
-export const database = db;
+// console.log(querySnapshot);
+export async function getPatientsData(data) {
+    try {
+        // const item_clicked = document.querySelectorAll('.link');
+
+        const querySnapshot = await getDocs(collection(db, data));
+        return querySnapshot.docs.map(doc => doc.data());
+    } catch (error) {
+        console.error("Error al obtener datos de pacientes: ", error);
+        return [];
+    }
+}
+

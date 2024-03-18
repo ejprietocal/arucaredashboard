@@ -12,7 +12,7 @@
     --primary-color-light: #F6F5FF;
     --toogle-color: #DDD;
     --text-color: #707070;
-
+    --text-color2:#fff;
 
     // transition =====
     --tran-02: all 0.2s ease;    
@@ -24,6 +24,10 @@
 .container-fluid{
     background-color: var(--body-color);
     transition: var(--tran-04);
+}
+.home{
+    left: 9rem;
+    width: calc(100% - 9rem);
 }
 .side-bar{
     position: fixed;
@@ -307,6 +311,7 @@ body.dark {
     --primary-color-light: #3a3b3c;
     --toogle-color: #FFF;
     --text-color: #ccc;
+    --text-color2:#fff;
 
 
     .side-bar .menu-bar{
@@ -339,7 +344,7 @@ body.dark {
 
 
 .home{
-    height: 100vh;
+    height: fit-content;
     transition: var(--tran-05);
     background: var(--body-color);
     position: relative;
@@ -347,5 +352,106 @@ body.dark {
         left: 25rem;
         width: calc(100% - 25rem);
     }
+
+    .data_from_db{
+        padding: 1.5rem;
+        caption{
+            color: var(--text-color);
+            text-transform: capitalize;
+            font-weight: bold;
+        }
+
+        #no-more-tables{
+            font-size: 1.3rem;
+            thead{
+                font-size: 1.5rem;
+            }
+            tbody > tr:nth-of-type(2n+1) > *{
+                box-shadow: inset 0 0 0 9999px var(--body-color);
+                
+            }
+            tbody > tr:hover > *{
+                box-shadow: inset 0 0 0 9999px var(--primary-color);
+                color: var(--text-color2);
+            }
+            .dt-info,.dt-search{
+                color: var(--text-color);
+                font-size: 1.3rem;
+            }
+            .dt-paging .dt-paging-button:hover{
+                background: var(--text-color);
+                border: 1px solid var(--sidebar-color);
+                border-radius: 1rem;
+            }
+            .dt-buttons{
+                gap: 1rem;
+                .dropdown-menu{
+                    width: fit-content;
+                }
+            }
+            .page-link{
+                color: var(--text-color);
+                background: var(--primary-color-light);
+                font-size: 1.3rem;
+
+                &.active{
+                    border-color: var(--text-color);
+                }
+                
+            }
+            #dt-search-0{
+                background: var(--primary-color-light);
+            }
+            thead,tr,td,tbody,th{
+                background: var(--sidebar-color);
+                color: var(--text-color);
+                text-transform: capitalize;
+            }
+            td{
+                &:hover{
+                    color: var(--text-color2);
+                }
+            }
+            tr{
+                border-bottom: 2px solid var(--text-color);
+                
+                td.dtr-control:before{
+                    border-left: 10px solid var(--text-color);
+                    // border-top: 0;
+                }
+                .dtr-expanded > td.dtr-control:before{
+                    border-top: 10px solid var(--text-color);
+                    border-left: 0;
+                }
+                
+            }
+            // @media only screen and (max-width:v.$md) {                
+            //     tbody,tr,td{
+            //         display: block;
+            //     }
+            //     thead > tr{
+            //         position: absolute;
+            //         top: -100rem;
+            //         left:  -100rem;
+            //     }
+            //     td{
+            //         position: relative;
+            //         padding-left: 50%;
+            //         border: none;
+            //         &:before{
+            //             content: attr(data-title);
+            //             position: absolute;
+            //             left:6px;
+            //             font-weight: bold;
+            //             font-size: 1.2rem;
+            //             // padding: 1rem;
+            //         }
+            //     }
+
+            // }
+        }
+        
+    }
+
 }
 

@@ -6,6 +6,10 @@
     background-color: rgba(255, 255, 255, 0.2);
 }
 
+.home > .spinner{
+  z-index: 99;
+}
+
 @keyframes ldio-caqhl4ym1gi {
     0% { opacity: 1 }
     100% { opacity: 0 }

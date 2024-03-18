@@ -27,37 +27,37 @@
 
       <div class="menu-bar">
         <div class="menu">
-            <li class="search-box">
+            <li class="search-box" id="search">
               <i class='bx bx-search icono'></i>
               <input type="search" placeholder="Search...">
             </li>
             <ul class="menu-links p-0">
               <li class="nav-link">
-                <a href="#">
+                <a href="#" id="dashboard" class="link">
                   <i class='bx bxs-home icono'></i>
                   <span class="text nav-text">Dashboard</span>
                 </a>
               </li>
               <li class="nav-link">
-                <a href="#">
+                <a href="#" id="doctors" class="link">
                   <i class='bx bxs-home icono'></i>
                   <span class="text nav-text">Doctors</span>
                 </a>
               </li>
               <li class="nav-link">
-                <a href="#">
+                <a href="#" id="Patients" class="link">
                 <i class='bx bx-user-check icono'></i>
                   <span class="text nav-text">Patients</span>
                 </a>
               </li>
               <li class="nav-link">
-                <a href="#">
+                <a href="#"  id="appointments" class="link">
                 <i class='bx bx-plus-medical icono'></i>
                   <span class="text nav-text">Apointment</span>
                 </a>
               </li>
-              <li class="nav-link">
-                <a href="#">
+              <li class="nav-link" >
+                <a href="#"id="services" class="link">
                 <i class="bi bi-hospital-fill icono"></i>
                   <span class="text nav-text">Services</span>
                 </a>
@@ -68,7 +68,7 @@
 
           <div class="bottom-content">
             <li class="">
-                <a href="#">
+                <a href="#" id="logout" class="link">
                 <i class="bx bx-log-out icono"></i>
                   <span class="text nav-text">Logout</span>
                 </a>
@@ -94,7 +94,14 @@
 
 
   <section class="home">
-        <div class="text">Dashboard</div>
+
+
+
+        <div class="spinner position-absolute top-0 w-100 justify-content-center align-items-center" style="display:none">
+        <div class="loadingio-spinner-spinner-a1cop02ybag"><div class="ldio-caqhl4ym1gi">
+        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+        </div></div>
+        </div>
   </section>
 
 </div>
