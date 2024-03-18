@@ -39,7 +39,7 @@
                 </a>
               </li>
               <li class="nav-link">
-                <a href="#" id="doctors" class="link">
+                <a href="#" id="Doctors" class="link">
                   <i class='bx bxs-home icono'></i>
                   <span class="text nav-text">Doctors</span>
                 </a>
@@ -51,13 +51,13 @@
                 </a>
               </li>
               <li class="nav-link">
-                <a href="#"  id="appointments" class="link">
+                <a href="#"  id="Appointments" class="link">
                 <i class='bx bx-plus-medical icono'></i>
                   <span class="text nav-text">Apointment</span>
                 </a>
               </li>
               <li class="nav-link" >
-                <a href="#"id="services" class="link">
+                <a href="#"id="Services" class="link">
                 <i class="bi bi-hospital-fill icono"></i>
                   <span class="text nav-text">Services</span>
                 </a>
