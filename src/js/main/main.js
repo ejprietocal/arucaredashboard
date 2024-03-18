@@ -90,10 +90,11 @@ function clickoption(){
             if(datosSelect){
                 datos.remove();
             }
-            // console.log(item.id);
+
+            console.log(item.id.toLowerCase());
             loading.style.display = "flex";
             if(item.id === 'Patients'){
-                fetch(`public/assets/pages/${item.id}/${item.id}.php`)
+                fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`)
                 .then(response=>{
                     if (response.status === 404) {
                         throw new Error('El recurso solicitado no se encontró');
