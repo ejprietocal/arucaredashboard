@@ -613,7 +613,7 @@ function clickAdd(){
                     home.appendChild(added);
 
                     loading.style.display = 'none';
-
+                    saveInfo();
 
                 })
 
@@ -622,6 +622,50 @@ function clickAdd(){
         }
     })
 
+}
+
+
+function saveInfo(){
+    const form = document.getElementById('form'),
+          loadingform = form.querySelector('.spinner-border'),
+          button = form.querySelector('.btn'), 
+          btn_close = form.querySelector('.button-close'),
+          iconform = form.querySelector('.bxs-save');  
+    form.addEventListener('submit', function(e){
+
+        if (!form.checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+
+        else{
+            e.preventDefault();
+            e.stopPropagation();
+            loadingform.style.display='flex';
+            iconform.style.display='none';
+            button.classList.add('disabled');
+            btn_close.classList.add('disabled');
+            const formData = new FormData(this);
+
+            formData.forEach((value,key)=>{
+            console.log(key,'->',value);
+
+            if(value === ''|| value===null){
+                errores.push(`el campo ${key} no puede ir vacio`);
+                }
+            });
+
+            // button.classList.remove('disabled');
+            btn_close.classList.remove('disabled');
+        }  
+
+        form.classList.add('was-validated')
+
+            // loadingform.style.display='none';
+            // iconform.style.display='flex';
+        // }
+
+    },false);
 }
 
 

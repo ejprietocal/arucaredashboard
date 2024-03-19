@@ -453,6 +453,8 @@ body.dark {
         padding: 1rem;
         background:var(--sidebar-color);
         min-height: 40vh;
+        max-height: 97vh;
+        overflow-y: auto;
         border-radius: 1rem;
         display: flex;
         align-items: center;
@@ -460,7 +462,10 @@ body.dark {
         justify-content: space-between;
         color: var(--text-color);
         width: 90%;
-        font-size: 1.3rem;
+        font-size: 1rem;
+        @include m.telefono{
+            font-size: 1.5rem;
+        }
         @include m.tablet{
             width: 75%;
         }
@@ -469,11 +474,19 @@ body.dark {
         }
         .container{
             display: block;
+
+
             @include m.tablet{
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 gap: 1rem;
+            }
+
+            &.container-services{
+                display: block;
+
+                
             }
         }
         input{
@@ -482,9 +495,13 @@ body.dark {
             &::placeholder{
                 color: var(--text-color);
             }
+            font-size: .8rem;
+            @include m.telefono{
+                font-size: 1.1rem;
+            }
             
         }
-        .btn-close{
+        .button-close{
             background-color: var(--text-color);
             height: fit-content;
         }
