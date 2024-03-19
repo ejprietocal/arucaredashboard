@@ -6,7 +6,7 @@ export function mode(){
     modeSwitch = body.querySelectorAll('.toogle-switch'),
     modeText = body.querySelector('.mode-text');
 
-    sistemColorPreference(body);
+//     sistemColorPreference(body);
     if(toggle){
           toggle.addEventListener('click' ,()=>{
                 sidebar.classList.toggle('close');
@@ -31,7 +31,7 @@ export function mode(){
     })
 }
 
-function sistemColorPreference(body){
+export function sistemColorPreference(body){
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             body.classList.add('dark');
       }

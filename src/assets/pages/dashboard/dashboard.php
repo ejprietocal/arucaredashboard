@@ -31,8 +31,8 @@
             </li>
             <ul class="menu-links p-0">
               <li class="nav-link">
-                <a href="#" id="dashboard" class="link">
-                  <i class='bx bxs-home icono'></i>
+                <a href="#" id="dashboard" class="link" >
+                  <i  type="button" class='bx bxs-home icono' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Tooltip on right"></i>
                   <span class="text nav-text">Dashboard</span>
                 </a>
               </li>
