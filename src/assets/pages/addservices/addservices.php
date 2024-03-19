@@ -41,4 +41,5 @@
       <i class='bx bxs-save' style="display:flex;"></i>
       <span role="status">Save Service</i></span>
     <!-- Save Doctor <i class='bx bxs-save' ></i> -->
-  </button></form>
+  </button>
+</form>

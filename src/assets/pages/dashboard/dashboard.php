@@ -25,37 +25,43 @@
 
       <div class="menu-bar">
         <div class="menu">
-            <li class="search-box" id="search">
+            <li class="search-box" id="search"  data-bs-toggle="tooltip" data-bs-placement="right" title="Search">
               <i class='bx bx-search icono'></i>
               <input type="search" placeholder="Search...">
             </li>
             <ul class="menu-links p-0">
               <li class="nav-link">
-                <a href="#" id="dashboard" class="link" >
-                  <i  type="button" class='bx bxs-home icono' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Tooltip on right"></i>
+                <a href="#" id="dashboard" class="link" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+                  <i  type="button" class='bx bxs-home icono'></i>
                   <span class="text nav-text">Dashboard</span>
                 </a>
               </li>
               <li class="nav-link">
-                <a href="#" id="Doctors" class="link">
+                <a href="#" id="Doctors" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Doctors">
                 <i class='bx bxs-shield-plus icono'></i>
                   <span class="text nav-text">Doctors</span>
                 </a>
               </li>
               <li class="nav-link">
-                <a href="#" id="Patients" class="link">
+                <a href="#" id="Patients" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Patients">
                 <i class='bx bx-user-check icono'></i>
                   <span class="text nav-text">Patients</span>
                 </a>
               </li>
               <li class="nav-link">
-                <a href="#"  id="Appointments" class="link">
+                <a href="#"  id="Appointments" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Appointments">
                 <i class='bx bx-plus-medical icono'></i>
                   <span class="text nav-text">Apointment</span>
                 </a>
               </li>
+              <li class="nav-link">
+                <a href="#"  id="Medicines" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Medicines">
+                   <i class='bx bxs-capsule icono'></i>
+                  <span class="text nav-text">Medicines</span>
+                </a>
+              </li>
               <li class="nav-link" >
-                <a href="#"id="Services" class="link">
+                <a href="#"id="Services" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Services">
                 <i class="bi bi-hospital-fill icono"></i>
                   <span class="text nav-text">Services</span>
                 </a>
@@ -66,12 +72,12 @@
 
           <div class="bottom-content">
             <li class="">
-                <a href="#" id="logout" class="link">
+                <a href="#" id="logout" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Logout">
                 <i class="bx bx-log-out icono"></i>
                   <span class="text nav-text">Logout</span>
                 </a>
             </li>
-            <li class="mode">
+            <li class="mode"  data-bs-toggle="tooltip" data-bs-placement="right" title="Dark/Light Mode">
                 <div class="moon-sun">
                   <i class="bx bx-moon icono moon"></i>
                   <i class="bx bx-sun icono sun"></i>

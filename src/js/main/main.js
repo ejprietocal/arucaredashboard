@@ -8,6 +8,8 @@ container_info.classList.add('container_info');
 document.addEventListener('DOMContentLoaded', function(event){
     login();
 
+    
+
   
 })
 document.addEventListener('load', function(event){
@@ -38,6 +40,7 @@ function login(){
         mode();
         submitLogin();
         sistemColorPreference(document.querySelector('body'));
+        
     })
     .catch(error => {
         // Capturar y manejar errores
@@ -72,6 +75,8 @@ function submitLogin(){
             container.innerHTML = data;
             mode();
             clickoption();
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
             // container.appendChild(container_info);
             spinner.style.display ="none";
             // submitLogin();
@@ -562,6 +567,122 @@ function clickoption(){
                             }
                         });
                         loading.style.display = "none";
+    
+                    })
+                })
+            }
+            if(item.id === 'Medicines'){
+                fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`)
+                .then(response=>{
+                    if (response.status === 404) {
+                        throw new Error('El recurso solicitado no se encontró');
+                    } else if (response.status === 500) {
+                    throw new Error('Error interno del servidor');
+                    } else if(!response.ok) {
+                    throw new Error('Error en la solicitud fetch: ' + response.status);
+                    }
+                    else{
+                        return response.text();
+                    }
+                })
+                .then(data=>{
+
+                    datos.innerHTML = data;
+                    home.appendChild(datos);
+
+                    // initDatatable(item);
+    
+                    getData(item.id).then(doc =>{
+                        doc.forEach(medicines =>{
+                            content+=`
+                            <tr id="${medicines.id}">
+                                <td class="pt-3 pb-3" >${medicines.Name}</td>
+                                <td class="pt-3 pb-3" >${medicines.Price}</td>
+                                <td class="pt-3 pb-3" >${medicines.Composition}</td>
+                                <td class="pt-3 pb-3" >${medicines.Quantity}</td>
+                                <td class="pt-3 pb-3" >${medicines.Available}</td>
+                                <td class="pt-3 pb-3" >${medicines.Delivery}</td>
+                                <td class="pt-3 pb-3 text-center">
+                                    <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            `
+                        })
+                        return content;
+    
+                    }).then(data=>{
+                        tbody_patients.innerHTML = data;
+                        const  table = new DataTable('#myTable',{
+
+                            responsive:true,
+                            scrollCollapse: true,
+                            columnDefs: [
+                                        {orderable:false,targets:[4]},
+                                        {searchable:false,targets:[4]}
+                                        ],
+                            scroller: true,
+                            scrollY: heightContent,
+                            destroy:true,
+                            // select: true,
+                            lengthMenu: [ [12, 25, 50, -1], [12, 25, 50] ], // Define las opciones para "Show entries"
+                            layout: {
+                                topStart: {
+                                    buttons: [
+                                        // Botón para copiar al portapapeles
+                                        {
+                                            extend: 'colvis', // Botón para mostrar/ocultar columnas
+                                            text: 'Show/Hide Cols' // Texto personalizado para el botón
+                                        },
+                                        {
+                                            extend: 'pageLength', // Botón para controlar la longitud de página
+                                            text: 'Entries',
+                                        },
+                                        {
+                                            extend: 'csv',
+                                            split: [
+                                                {
+                                                    extend: 'pdf', // Botón para exportar a PDF
+                                                    text: 'Generate PDF', // Texto para el botón de exportación PDF
+                                                    filename: `${item.id}-${fechaHoraFormateada}`, // Nombre del documento PDF
+                                                    exportOptions: {
+                                                        columns: ':visible'
+                                                    }
+                                                },                                    
+                                                {
+                                                    extend: 'excel', // Botón para exportar a Excel
+                                                    text: 'Generate Excel', // Texto para el botón de exportación Excel
+                                                    filename: `${item.id}-${fechaHoraFormateada}`, // Nombre del archivo Excel
+                                                    exportOptions: {
+                                                        columns: ':visible'
+                                                    }
+                                                },
+                                                
+                                                {extend: 'copy', text: 'Copy all Data'},
+                                                {
+                                                    extend: 'copy', // Botón para copiar al portapapeles
+                                                    text: 'Copy Visible Data',
+                                                    exportOptions: {
+                                                        modifier: {
+                                                            selected: true, // Copiar solo los elementos seleccionados
+                                                            page: 'current' // Copiar solo los elementos de la página actual
+                                                        }
+                                                    },
+                                                    className: 'copyButton',
+                                                    title: null,
+                                                    header: false
+                                                }
+                                        
+                                            ]
+                                        },
+                                        
+        
+                                    ]
+                                }
+                            }
+                        });
+                        loading.style.display = "none";
+                        clickAdd();
     
                     })
                 })
