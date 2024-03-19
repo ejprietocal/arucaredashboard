@@ -453,7 +453,7 @@ body.dark {
         padding: 1rem;
         background:var(--sidebar-color);
         min-height: 40vh;
-        max-height: 97vh;
+        max-height: 98vh;
         overflow-y: auto;
         border-radius: 1rem;
         display: flex;
@@ -463,6 +463,7 @@ body.dark {
         color: var(--text-color);
         width: 90%;
         font-size: 1rem;
+        margin: 0;
         @include m.telefono{
             font-size: 1.5rem;
         }

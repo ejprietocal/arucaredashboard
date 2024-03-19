@@ -106,6 +106,24 @@
         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
         </div></div>
         </div>
+
+
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+          <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header fs-2">
+                <i class='bx bx-check rounded me-2 fs-1 fw-bolder' style="color:green;"></i>
+              <strong class="me-auto">¡Success!</strong>
+              <small>Now</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body fs-3" style="height:fit-content">
+                Component created successfully
+            </div>
+          </div>
+        </div>
+
+
+
   </section>
 
 </div>

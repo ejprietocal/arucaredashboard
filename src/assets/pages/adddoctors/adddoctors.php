@@ -1,5 +1,5 @@
 <form id="form" action='POST' class="alert  position-relative alert-dismissible fade show animate__bounceIn shadow needs-validation" novalidate>
-  <button type="button" class="button-close btn-close position-sticky ms-auto" data-bs-dismiss="alert" data-bs-target=".createContainer" aria-label="Close"></button>
+  <button type="button" class="button-close btn-close" data-bs-dismiss="alert" data-bs-target=".createContainer" aria-label="Close"></button>
   <strong class="fs-2">Doctor Creation</strong>
 
   <div class="container">
@@ -157,7 +157,7 @@
     </div>
   </div>
 
-  <input type="hidden" value="true" name="Doctors">  
+  <input type="hidden" value="true" name="CreateIn">  
   
   <button type="submit" class="btn btn-primary fs-3 d-flex align-items-center gap-2">
       <span class="spinner-border" aria-hidden="true" style="display:none;"></span>

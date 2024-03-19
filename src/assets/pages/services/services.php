@@ -6,7 +6,7 @@
 
 
     <table class="table table-striped caption-top display responsive nowrap"style="width:100%" id="myTable">
-        <caption class="fs-3">List of patients</caption>
+        <caption class="fs-3">List of Services</caption>
         <thead class="text-light" >
             <tr>
                 <th class="">name</th>
@@ -21,4 +21,3 @@
 
     </table>
 </div>
-

@@ -1,5 +1,5 @@
 import { mode, sistemColorPreference } from "../dashboard/dashboard.min.js";
-import { getData } from "../../../database/firebase/conexion.js";
+import { getData,setCollection } from "../../../database/firebase/conexion.js";
 const spinner = document.querySelector('.spinner');
 const container = document.querySelector('.container-fluid');
 const container_info = document.createElement('div');
@@ -93,9 +93,16 @@ function clickoption(){
     const heightContent = "55vh";
     items.forEach(item =>{
         item.addEventListener('click', function(e){
+            const createContainer = document.querySelector('.createContainer');
+            if(createContainer){
+                createContainer.remove();
+            }
+
+            home.dataset.idbutton=`${item.id}`;
+
             const datosSelect =  home.querySelector('.data_from_db');
             var fechaActual = new Date();
-    
+            
             var year = fechaActual.getFullYear();
             var month = fechaActual.getMonth() + 1; // Sumamos 1 porque los meses van de 0 a 11
             var day = fechaActual.getDate();
@@ -109,7 +116,7 @@ function clickoption(){
             if(datosSelect){
                 datos.remove();
             }
-
+            
             loading.style.display = "flex";
             if(item.id ==='Services'){
                 fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`)
@@ -734,7 +741,7 @@ function clickAdd(){
                     home.appendChild(added);
 
                     loading.style.display = 'none';
-                    saveInfo();
+                    saveInfo(button.id);
 
                 })
 
@@ -746,7 +753,21 @@ function clickAdd(){
 }
 
 
-function saveInfo(){
+function saveInfo(formId){
+    // const toastTrigger = document.getElementById('liveToastBtn');
+    // console.log(itemiD);
+    
+    const home = document.querySelector('.home');
+    console.log(home.dataset.idbutton);
+    const option = document.querySelector(`#${home.dataset.idbutton}`);
+    
+    const toastLiveExample = document.getElementById('liveToast'),
+          toast_header = toastLiveExample.querySelector('.toast-header'),
+          toast_warning = toastLiveExample.querySelector('.bx'),
+          toast_messageup = toastLiveExample.querySelector('strong'),
+          toast_body = toastLiveExample.querySelector('.toast-body');
+
+        
     const form = document.getElementById('form'),
           loadingform = form.querySelector('.spinner-border'),
           button = form.querySelector('.btn'), 
@@ -767,24 +788,112 @@ function saveInfo(){
             button.classList.add('disabled');
             btn_close.classList.add('disabled');
             const formData = new FormData(this);
+            const fechaActualUTC = new Date().toUTCString();
+            formData.append('createIn', `${fechaActualUTC} Time Zone`);
 
-            formData.forEach((value,key)=>{
-            console.log(key,'->',value);
+            if(formId === 'addServices'){
+                setCollection('Services',formData)
+                .then((docId)=>{
+                    console.log("Documento guardado con ID:", docId);
 
-            if(value === ''|| value===null){
-                errores.push(`el campo ${key} no puede ir vacio`);
-                }
-            });
+                    button.classList.remove('disabled');
+                    btn_close.classList.remove('disabled');
+                    loadingform.style.display='none';
+                    iconform.style.display='flex';
 
-            // button.classList.remove('disabled');
-            btn_close.classList.remove('disabled');
+                    btn_close.click();
+
+                    toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                    toastBootstrap.show();
+
+
+                    option.click();
+
+                  
+                })
+                .catch(error=>{
+                    console.error("Error al guardar el documento:", error);
+
+                    toast_warning.classList.remove('bx-check');
+                    toast_warning.classList.add('bxs-error');
+                    toast_warning.style.color = 'red';
+                    toast_messageup.innerHTML = `¡Ups! something went wrong`;
+                    toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                    toastBootstrap.show();
+                    // console.log(error);
+                })
+            }
+            if(formId === 'addDoctors'){
+                setCollection('Doctors',formData)
+                .then((docId)=>{
+                    console.log("Documento guardado con ID:", docId);
+
+                    button.classList.remove('disabled');
+                    btn_close.classList.remove('disabled');
+                    loadingform.style.display='none';
+                    iconform.style.display='flex';
+
+                    btn_close.click();
+
+                    toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                    toastBootstrap.show();
+
+                    option.click();
+                })
+                .catch(error=>{
+                    console.error("Error al guardar el documento:", error);
+
+                    toast_warning.classList.remove('bx-check');
+                    toast_warning.classList.add('bxs-error');
+                    toast_warning.style.color = 'red';
+                    toast_messageup.innerHTML = `¡Ups! something went wrong`;
+                    toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                    toastBootstrap.show();
+
+                    // console.log(error);
+                })
+            }
+            if(formId === 'addMedicines'){
+                setCollection('Medicines',formData)
+                .then((docId)=>{
+                    console.log("Documento guardado con ID:", docId);
+
+                    button.classList.remove('disabled');
+                    btn_close.classList.remove('disabled');
+                    loadingform.style.display='none';
+                    iconform.style.display='flex';
+
+                    btn_close.click();
+
+                    toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                    toastBootstrap.show()
+
+                    option.click();
+                })
+                .catch(error=>{
+                    console.error("Error al guardar el documento:", error);
+
+                    toast_warning.classList.remove('bx-check');
+                    toast_warning.classList.add('bxs-error');
+                    toast_warning.style.color = 'red';
+                    toast_messageup.innerHTML = `¡Ups! something went wrong`;
+                    toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                    toastBootstrap.show();
+
+                    // console.log(error);
+                })
+            }
+
         }  
-
+        
         form.classList.add('was-validated')
 
-            // loadingform.style.display='none';
-            // iconform.style.display='flex';
-        // }
 
     },false);
 }
