@@ -140,6 +140,8 @@ export function clickoption(){
                               scrollCollapse: true,
                               columnDefs: [
                                           {orderable:false,targets:[2]},
+                                          { responsivePriority: 1, targets: 0 },
+                                          { responsivePriority: 2, targets: 2 }
                                           // {searchable:false,targets:[9]}
                                           ],
                               scroller: true,
@@ -381,6 +383,8 @@ export function clickoption(){
                               scrollCollapse: true,
                               columnDefs: [{className:"text-centered",targets:[0,1,2,3,4,5]},
                                           {orderable:false,targets:[9,6]},
+                                          { responsivePriority: 1, targets: 0 },
+                                          { responsivePriority: 2, targets: 10 }
                                           // {searchable:false,targets:[9]}
                                           ],
                               scroller: true,
@@ -612,7 +616,9 @@ export function clickoption(){
                               scrollCollapse: true,
                               columnDefs: [
                                           {orderable:false,targets:[4]},
-                                          {searchable:false,targets:[4]}
+                                          {searchable:false,targets:[4]},
+                                          { responsivePriority: 1, targets: 0 },
+                                          { responsivePriority: 2, targets: 6 }
                                           ],
                               scroller: true,
                               scrollY: heightContent,
@@ -899,7 +905,6 @@ form.addEventListener('submit', function(e){
       form.classList.add('was-validated');
 },false);
 }
-  
   
   
 function  ModyfyAndDelete(){

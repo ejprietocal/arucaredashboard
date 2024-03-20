@@ -93,30 +93,13 @@ function submitLogin(){
                     }
                 })
                 .then((data)=>{
-                    // container.appendChild(container_info);
-                    // submitLogin();
 
                     return data;
                 })
                 .then(data=>{
-                    // getDatafromLogin(data);
-                    // let bool = 0;
-                    // if(document.querySelector('body').classList.contains('dark')){
-                    //     bool = 0;
-                    // }
-                    // else{
-                    //     bool = 1;
-                    // }
-                    // localStorage.setItem('data',data);
 
-                    // localStorage.setItem('darkBody',bool);
                     window.location.href = "/dashboard.php";
-                    // spinner.style.display ="none";
-                    // container.innerHTML = data;
-                    // mode();
-                    // clickoption();
-                    // activateTooltips();
-                    // return data;
+
                 })
                 .catch(error => {
                     // Manejo de errores
