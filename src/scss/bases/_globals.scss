@@ -3,6 +3,12 @@
 picture{
     display: block;
 }
+i{
+    pointer-events: none;
+    &.toogle{
+        pointer-events: all;
+    }
+}
 
 html{
     font-size: 62.5%;

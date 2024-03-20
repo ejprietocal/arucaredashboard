@@ -31,7 +31,7 @@
             </li>
             <ul class="menu-links p-0">
               <li class="nav-link">
-                <a href="#" id="dashboard" class="link" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+                <a href="#" id="Dashboard" class="link" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
                   <i  type="button" class='bx bxs-home icono'></i>
                   <span class="text nav-text">Dashboard</span>
                 </a>
@@ -72,7 +72,7 @@
 
           <div class="bottom-content">
             <li class="">
-                <a href="#" id="logout" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Logout">
+                <a href="#" id="Logout" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Logout">
                 <i class="bx bx-log-out icono"></i>
                   <span class="text nav-text">Logout</span>
                 </a>
@@ -121,8 +121,6 @@
             </div>
           </div>
         </div>
-
-
 
   </section>
 

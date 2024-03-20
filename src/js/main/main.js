@@ -1,16 +1,14 @@
 import { mode, sistemColorPreference } from "../dashboard/dashboard.min.js";
 import { getData,setCollection } from "../../../database/firebase/conexion.js";
+
 const spinner = document.querySelector('.spinner');
-const container = document.querySelector('.container-fluid');
+const container = document.querySelector('body > .container-fluid');
 const container_info = document.createElement('div');
 container_info.classList.add('container_info');
+var tooltipList;
 
 document.addEventListener('DOMContentLoaded', function(event){
-    login();
-
-    
-
-  
+    login();  
 })
 document.addEventListener('load', function(event){
     // spinner.style.display ="none";
@@ -35,8 +33,25 @@ function login(){
     })
     .then(data=>{
         container_info.innerHTML = data;
+        container.lastChild.remove();
         container.appendChild(container_info);
         spinner.style.display ="none";
+        const eyepassword = document.querySelector('.password-input-text'),
+              eye = eyepassword.querySelector('.bi');  
+        const passwordInput = document.querySelector('.input-login-password');
+
+        eyepassword.addEventListener('click', e=>{
+            if(eye.classList.contains('bi-eye')){
+                eye.classList.remove('bi-eye');
+                eye.classList.add('bi-eye-slash');
+                passwordInput.setAttribute('type','password');
+            }
+            else{
+                eye.classList.add('bi-eye');
+                eye.classList.remove('bi-eye-slash');
+                passwordInput.setAttribute('type','text');
+            }
+        })
         mode();
         submitLogin();
         sistemColorPreference(document.querySelector('body'));
@@ -51,37 +66,47 @@ function login(){
 function submitLogin(){
     const login = document.querySelector('.form_container');
 
-    login.addEventListener('submit', function(event){
-        event.preventDefault();
-        const form = new FormData(this);
-        form.forEach((key,value)=>{
-            console.log(key,'->',value );
-        })
-        spinner.style.display ="flex";
-        fetch('public/assets/pages/dashboard/dashboard.php')
-        .then(response=>{
-            if (response.status === 404) {
-                throw new Error('El recurso solicitado no se encontró');
-            } else if (response.status === 500) {
-            throw new Error('Error interno del servidor');
-            } else if(!response.ok) {
-            throw new Error('Error en la solicitud fetch: ' + response.status);
-            }
-            else{
-                return response.text();
-            }
-        })
-        .then(data=>{
-            container.innerHTML = data;
-            mode();
-            clickoption();
-            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-            // container.appendChild(container_info);
-            spinner.style.display ="none";
-            // submitLogin();
-        })
-    })
+    login.addEventListener('submit', function(e){
+
+        if (!login.checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        else{
+            e.preventDefault();
+            e.stopPropagation();
+            const form = new FormData(this);
+            // form.forEach((key,value)=>{
+            //     console.log(key,'->',value );
+            // })
+            spinner.style.display ="flex";
+            fetch('public/assets/pages/dashboard/dashboard.php')
+            .then(response=>{
+                if (response.status === 404) {
+                    throw new Error('El recurso solicitado no se encontró');
+                } else if (response.status === 500) {
+                throw new Error('Error interno del servidor');
+                } else if(!response.ok) {
+                throw new Error('Error en la solicitud fetch: ' + response.status);
+                }
+                else{
+                    return response.text();
+                }
+            })
+            .then(data=>{
+                container.innerHTML = data;
+                mode();
+                clickoption();
+                activateTooltips();
+                // container.appendChild(container_info);
+                spinner.style.display ="none";
+                // submitLogin();
+            })
+
+        }
+
+        login.classList.add('was-validated');
+    },false);     
 }
 
 function clickoption(){
@@ -223,6 +248,8 @@ function clickoption(){
                         });
                         loading.style.display = "none";
                         clickAdd();
+                        ModyfyAndDelete();
+                        activateTooltips();
                     })
                 })
             }
@@ -260,8 +287,8 @@ function clickoption(){
                                 <td class="pt-3 pb-3">${appointment.doctorEmail}</td>
                                 <td class="pt-3 pb-3">${appointment.status}</td>
                                 <td class="pt-3 pb-3 text-center">
-                                    <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
-                                    <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>
                             `
@@ -339,6 +366,7 @@ function clickoption(){
                             }
                         });
                         loading.style.display = "none";
+                        activateTooltips();
     
                     })
                 })
@@ -381,8 +409,8 @@ function clickoption(){
                                 <td class="pt-3 pb-3">${doctor.Gender}</td>
                                 <td class="pt-3 pb-3">${doctor.Status}</td>
                                 <td class="pt-3 pb-3 text-center">
-                                    <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
-                                    <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>
                             `
@@ -461,6 +489,8 @@ function clickoption(){
                         });
                         loading.style.display = "none";
                         clickAdd();
+                        ModyfyAndDelete();
+                        activateTooltips();
                     })
                 })
             }
@@ -494,9 +524,9 @@ function clickoption(){
                                 <td class="pt-3 pb-3" data-title="mobile">${paciente.MobileNumber}</td>
                                 <td class="pt-3 pb-3" data-title="gender">${paciente.Gender}</td>
                                 <td class="pt-3 pb-3" data-title="created">${paciente.CreateIn}</td>
-                                <td class="pt-3 pb-3 text-center" data-title="action">
-                                    <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
-                                    <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                <td class="pt-3 pb-3 text-center">
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>
                             `
@@ -574,7 +604,7 @@ function clickoption(){
                             }
                         });
                         loading.style.display = "none";
-    
+                        activateTooltips();
                     })
                 })
             }
@@ -610,8 +640,8 @@ function clickoption(){
                                 <td class="pt-3 pb-3" >${medicines.Available}</td>
                                 <td class="pt-3 pb-3" >${medicines.Delivery}</td>
                                 <td class="pt-3 pb-3 text-center">
-                                    <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
-                                    <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>
                             `
@@ -690,9 +720,21 @@ function clickoption(){
                         });
                         loading.style.display = "none";
                         clickAdd();
+                        ModyfyAndDelete();
+                        activateTooltips();
     
                     })
                 })
+            }
+            if(item.id==='Dashboard'){
+                loading.style.display = "none";
+                activateTooltips();
+            }
+            if(item.id ==='Logout'){
+                loading.style.display = "none";
+                login();
+                // destroyTooltips();
+                activateTooltips();
             }
         
        })
@@ -706,8 +748,6 @@ function clickAdd(){
     buttonadd.forEach(button =>{
         if(button){
             button.addEventListener('click', function(event){
-                // console.log(button.id);
-                
                 loading.style.display = 'flex';
                 fetch(`public/assets/pages/${button.id.toLowerCase()}/${button.id.toLowerCase()}.php`)
                 .then(response=>{
@@ -754,8 +794,6 @@ function clickAdd(){
 
 
 function saveInfo(formId){
-    // const toastTrigger = document.getElementById('liveToastBtn');
-    // console.log(itemiD);
     
     const home = document.querySelector('.home');
     console.log(home.dataset.idbutton);
@@ -813,7 +851,7 @@ function saveInfo(formId){
                   
                 })
                 .catch(error=>{
-                    console.error("Error al guardar el documento:", error);
+                    // console.error("Error al guardar el documento:", error);
 
                     toast_warning.classList.remove('bx-check');
                     toast_warning.classList.add('bxs-error');
@@ -822,7 +860,6 @@ function saveInfo(formId){
                     toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
                     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
                     toastBootstrap.show();
-                    // console.log(error);
                 })
             }
             if(formId === 'addDoctors'){
@@ -844,7 +881,7 @@ function saveInfo(formId){
                     option.click();
                 })
                 .catch(error=>{
-                    console.error("Error al guardar el documento:", error);
+                    // console.error("Error al guardar el documento:", error);
 
                     toast_warning.classList.remove('bx-check');
                     toast_warning.classList.add('bxs-error');
@@ -853,8 +890,6 @@ function saveInfo(formId){
                     toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
                     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
                     toastBootstrap.show();
-
-                    // console.log(error);
                 })
             }
             if(formId === 'addMedicines'){
@@ -876,7 +911,7 @@ function saveInfo(formId){
                     option.click();
                 })
                 .catch(error=>{
-                    console.error("Error al guardar el documento:", error);
+                    // console.error("Error al guardar el documento:", error);
 
                     toast_warning.classList.remove('bx-check');
                     toast_warning.classList.add('bxs-error');
@@ -885,17 +920,80 @@ function saveInfo(formId){
                     toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
                     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
                     toastBootstrap.show();
-
-                    // console.log(error);
                 })
             }
 
         }  
         
-        form.classList.add('was-validated')
-
-
+        form.classList.add('was-validated');
     },false);
 }
 
+function activateTooltips(){
+    if (typeof tooltipList !== 'undefined' && tooltipList.length > 0) {
+        tooltipList.forEach(tooltip => {
+            tooltip.dispose();
+        });
+        tooltipList = []; // Limpiar la lista de tooltips activos
+    }
+
+    // Crear nuevas instancias de tooltips con el nuevo método
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipList = Array.from(tooltipTriggerList).map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+}
+
+function  ModyfyAndDelete(){
+    const rows = document.querySelectorAll('tr');
+    const loading = document.querySelector('.home > .spinner');
+    if(rows){
+        rows.forEach(row =>{
+            row.addEventListener('click', function(event){
+                if(event.target.classList.contains('btn-danger')){
+                    console.log(row.id,'->','click en delete');
+                    loading.style.display = 'flex';
+                    fetch('/public/assets/pages/delete/delete.php',{
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded' // Tipo de contenido específico
+                        },
+                        body:"id="+row.id
+
+                    })
+                    .then(response=>{
+                        if (response.status === 404) {
+                            throw new Error('El recurso solicitado no se encontró');
+                        } else if (response.status === 500) {
+                        throw new Error('Error interno del servidor');
+                        } else if(!response.ok) {
+                        throw new Error('Error en la solicitud fetch: ' + response.status);
+                        }
+                        else{
+                            return response.text();
+                        }
+                    })
+                    .then(data=>{
+
+           
+                        const home = document.querySelector('.home');
+                        const added =document.createElement('div');
+                        added.classList.add('position-absolute');
+                        added.classList.add('createContainer');
+                        added.classList.add('d-flex');
+                        added.classList.add('top-0');
+                        added.classList.add('align-items-center');
+                        added.classList.add('justify-content-center');
+                        added.classList.add('w-100');
+                        added.style.height = '100vh';
+
+                        added.innerHTML = data;
+                        home.appendChild(added);
+                        loading.style.display = 'none';
+
+                    })
+
+                }
+            })
+        })
+    }
+}
 

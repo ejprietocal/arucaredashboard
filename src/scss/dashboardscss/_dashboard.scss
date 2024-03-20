@@ -13,6 +13,7 @@
     --toogle-color: #DDD;
     --text-color: #707070;
     --text-color2:#fff;
+    --backColorInverse: #000000;
 
     // transition =====
     --tran-02: all 0.2s ease;    
@@ -322,6 +323,7 @@ body.dark {
     --toogle-color: #FFF;
     --text-color: #ccc;
     --text-color2:#fff;
+    --backColorInverse:#fff;
 
 
     .side-bar .menu-bar{
@@ -512,3 +514,9 @@ body.dark {
 
 }
 
+.custom-tooltip {
+
+
+    // $tooltip-font-size: $font-size-md;
+
+  }
