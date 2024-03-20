@@ -7,7 +7,6 @@
 <div class="container-fluid d-flex justify-content-center align-items-center p-0">
 
 
-
 </div>            
 
 <div class="spinner position-fixed top-0 w-100 justify-content-center align-items-center" style="display:none">
