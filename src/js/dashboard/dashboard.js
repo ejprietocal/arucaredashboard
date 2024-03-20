@@ -42,6 +42,8 @@ export function mode(){
 
  
     })
+
+    sistemColorPreference(body);
     colorPreference();
 }
 
@@ -57,7 +59,7 @@ export function mode(){
   }
 
 
-export function sistemColorPreference(body){
+function sistemColorPreference(body){
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             body.classList.add('dark');
       }

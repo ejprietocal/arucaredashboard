@@ -1,4 +1,4 @@
-import { mode, sistemColorPreference} from "../dashboard/dashboard.min.js";
+import { mode} from "../dashboard/dashboard.min.js";
 
 
 const spinner = document.querySelector('.spinner');
@@ -49,7 +49,7 @@ function login(){
         })
         mode();
         submitLogin();
-        sistemColorPreference(document.querySelector('body'));
+        // sistemColorPreference(document.querySelector('body'));
         
     })
     .catch(error => {
