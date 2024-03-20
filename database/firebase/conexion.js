@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getFirestore, collection, getDocs, setDoc, updateDoc, addDoc} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, setDoc, updateDoc, addDoc,deleteDoc,doc } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
 import {auth}  from "../key/arucare-6b98c-firebase-adminsdk-hfb95-3069606af1.js";
 
 // Inicializa la aplicación de Firebase con las credenciales
@@ -30,10 +30,29 @@ export async function setCollection(tableName,formDataObject){
         return docRef.id;
 
     }catch(error){
-        console.error("Error al guardar el documento: ", error);
+        // console.error("Error al guardar el documento: ", error);
         throw error;
     }
 
+}
+
+export async function deleteDocument(tableName, documentId) {
+    try {
+        // Obtener una referencia a la colección
+        const db = getFirestore(firebaseApp);
+        const collectionRef = collection(db, tableName);
+
+        // Obtener una referencia al documento que se desea eliminar
+        const documentRef = doc(collectionRef, documentId);
+
+        // Eliminar el documento
+        await deleteDoc(documentRef);
+        return documentId;
+
+    } catch (error) {
+
+        throw error;
+    }
 }
 
 
@@ -41,7 +60,6 @@ export async function setCollection(tableName,formDataObject){
 
 export async function getData(data) {
     try {
-        // const item_clicked = document.querySelectorAll('.link');
         const querySnapshot = await getDocs(collection(db, data));
         return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     } catch (error) {

@@ -1,4 +1,4 @@
-import { getData,setCollection } from "../../../database/firebase/conexion.js";
+import { getData,setCollection,deleteDocument} from "../../../database/firebase/conexion.js";
 var tooltipList;
 const spinner = document.querySelector('body > .spinner_extern');
 // let  bodyColor = localStorage.getItem("darkBody");
@@ -910,18 +910,27 @@ form.addEventListener('submit', function(e){
 function  ModyfyAndDelete(){
 const rows = document.querySelectorAll('tr');
 const loading = document.querySelector('.home > .spinner');
+const home = document.querySelector('.home');
+const toastLiveExample = document.getElementById('liveToast'),
+      toast_header = toastLiveExample.querySelector('.toast-header'),
+      toast_warning = toastLiveExample.querySelector('.bx'),
+      toast_messageup = toastLiveExample.querySelector('strong'),
+      toast_body = toastLiveExample.querySelector('.toast-body');
+
+const option = document.querySelector(`#${home.dataset.idbutton}`);
 if(rows){
       rows.forEach(row =>{
             row.addEventListener('click', function(event){
             if(event.target.classList.contains('btn-danger')){
                   console.log(row.id,'->','click en delete');
+                  // console.log(row.querySelector('td').textContent);
                   loading.style.display = 'flex';
                   fetch('/public/assets/pages/delete/delete.php',{
                         method: 'POST',
                         headers: {
                         'Content-Type': 'application/x-www-form-urlencoded' // Tipo de contenido específico
                         },
-                        body:"id="+row.id
+                        body:"id="+row.id + "&name=" + row.querySelector('td').textContent + '&category=' + home.dataset.idbutton 
 
                   })
                   .then(response=>{
@@ -939,7 +948,7 @@ if(rows){
                   .then(data=>{
 
             
-                        const home = document.querySelector('.home');
+                        // const home = document.querySelector('.home');
                         const added =document.createElement('div');
                         added.classList.add('position-absolute');
                         added.classList.add('createContainer');
@@ -953,6 +962,57 @@ if(rows){
                         added.innerHTML = data;
                         home.appendChild(added);
                         loading.style.display = 'none';
+
+                        const btn_delete = document.querySelector('.btn-delete'),
+                              spinner_border = btn_delete.querySelector('.spinner-border'),
+                              icon_border = btn_delete.querySelector('i.bi');
+                        const btn_close = document.querySelector('.button-close');
+                        const btn_no = document.querySelector('.btn-no');
+
+                        btn_delete.addEventListener('click', function(e){
+                              console.log('click en eliminar');
+                              btn_delete.classList.add('disabled');
+                              btn_close.classList.add('disabled');
+                              btn_no.classList.add('disabled');
+                              spinner_border.style.display = 'block';
+                              icon_border.style.display = 'none';
+
+
+
+                              deleteDocument(home.dataset.idbutton,row.id)
+                                    .then((docId)=>{
+
+                                          btn_delete.classList.remove('disabled');
+                                          btn_close.classList.remove('disabled');
+                                          btn_no.classList.remove('disabled');
+                                          spinner_border.style.display = 'none';
+                                          icon_border.style.display = 'block';
+
+                                          btn_close.click();
+
+                                          toast_body.innerHTML = `Component Deleted successfully <br> id: ${docId} `;
+                                          const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                                          toastBootstrap.show();
+                        
+                                          option.click();
+                                    })
+                                    .catch(error=>{
+                                          btn_delete.classList.remove('disabled');
+                                          btn_close.classList.remove('disabled');
+                                          btn_no.classList.remove('disabled');
+                                          spinner_border.style.display = 'none';
+                                          icon_border.style.display = 'block';
+                                          
+                                          toast_warning.classList.remove('bx-check');
+                                          toast_warning.classList.add('bxs-error');
+                                          toast_warning.style.color = 'red';
+                                          toast_messageup.innerHTML = `¡Ups! something went wrong`;
+                                          toast_body.innerHTML= `Component could not be deleted su <br> error: ${error} `;
+                                          const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                                          toastBootstrap.show();
+                                    })
+                        })
+
 
                   })
 
