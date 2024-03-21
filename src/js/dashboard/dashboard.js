@@ -24,7 +24,6 @@ export function mode(){
     }
     modeSwitch.forEach(button=>{
       button.addEventListener('click' ,()=>{
-            console.log('click button')
             body.classList.toggle('dark');
   
             if(body.classList.contains('dark')){
@@ -769,6 +768,24 @@ function clickAdd(){
   
                       added.innerHTML = data;
                       home.appendChild(added);
+
+                      if(button.id === "addDoctors"){
+                      const password = document.querySelector('#Password');
+                      const eyepassword = document.querySelector('.input-group-text'),
+                            eyeicon = eyepassword.querySelector('i.bi');
+                      eyepassword.addEventListener('click',function(e){
+                          if(password.type === 'password'){
+                            password.type = 'text'
+                            eyeicon.classList.remove('bi-eye-slash-fill');
+                            eyeicon.classList.add('bi-eye-fill');
+                          }else{
+                            password.type= 'password';
+                            eyeicon.classList.add('bi-eye-slash-fill');
+                            eyeicon.classList.remove('bi-eye-fill');
+                          }
+
+                      })  
+                      }  
   
                       loading.style.display = 'none';
                       saveInfo(button.id);
@@ -801,6 +818,8 @@ const form = document.getElementById('form'),
       button = form.querySelector('.btn'), 
       btn_close = form.querySelector('.button-close'),
       iconform = form.querySelector('.bxs-save');  
+
+
 form.addEventListener('submit', function(e){
 
       if (!form.checkValidity()) {
@@ -851,7 +870,7 @@ form.addEventListener('submit', function(e){
             if(formId === 'addDoctors'){
                   const email = document.querySelector('#Email-Address');
                   const password = document.querySelector('#Password');
-                  let tokenAutentication;
+
                   createUserWithEmailAndPassword(auth, email.value, password.value)
                   .then((userCredential) => {
                         // Signed up 
@@ -898,23 +917,15 @@ form.addEventListener('submit', function(e){
                   })
                   .catch((error) => {
                         let message ='';
-                        const errorCode = error.code;
-                        // const errorMessage = error.message;
+                        // const errorCode = error.code;
+                        // console.log(error.message);
+                        if(error.message == 'Firebase: Error (auth/email-already-in-use).'){
+                            message = 'Email is already used'
+                        }
+                        else if(error.message == 'Firebase: Password should be at least 6 characters (auth/weak-password).'){
+                            message = '(Weak Password). Password should have at Least 6 characters'
+                        }
 
-                        if(errorCode == 'auth/invalid-email'){
-
-                              message = 'Email is Invalid';
-                        }
-                        else if(errorCode == 'auth/user-disabled'){
-                              message = 'User is Disabled';
-                        }
-                        else if(errorCode =='auth/user-not-found'){
-                              message = 'User not found';
-                        }
-                        else if(errorCode == 'auth/user-not-found'){
-                              message = 'Incorrect Password';
-                        }
-                        console.log(message);
                         button.classList.remove('disabled');
                         btn_close.classList.remove('disabled');
                         loadingform.style.display='none';
@@ -924,11 +935,9 @@ form.addEventListener('submit', function(e){
                         toast_warning.classList.add('bxs-error');
                         toast_warning.style.color = 'red';
                         toast_messageup.innerHTML = `¡Ups! something went wrong`;
-                        toast_body.innerHTML= `Component could not be created su <br> error: ${error.message} `;
+                        toast_body.innerHTML= `Component could not be created su error:<br>${message} `;
                         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
                         toastBootstrap.show();
-
-                        // ..
                   }); 
 
             }
@@ -1084,4 +1093,11 @@ if(rows){
             })
       })
 }
+}
+
+
+export function validateEmail(email) {
+    // Expresión regular para validar un email
+    var patronEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return patronEmail.test(email);
 }

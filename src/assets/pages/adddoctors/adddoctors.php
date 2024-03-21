@@ -112,12 +112,15 @@
     <div class="mb-3 w-100">
       <div class="col-12 position-relative">
         <label for="Password" class="form-label">Password</label>
-        <input  type="password" class="form-control" id="Password" placeholder="Password" required>
-        <div class="valid-tooltip">
-          Looks good!
-        </div>
-        <div class="invalid-tooltip">
-          Please Set a Password.
+        <div class="input-group m-0">
+          <input  type="password" class="form-control" id="Password" placeholder="Password" aria-label="Username" aria-describedby="basic-addon2" required>
+          <span class="input-group-text rounded-end fs-5" id="basic-addon2"><i class="bi bi-eye-slash-fill"></i></span>
+          <div class="valid-tooltip">
+            Looks good!
+          </div>
+          <div class="invalid-tooltip">
+            Please Set a Password.
+          </div>
         </div>
       </div>
     </div>

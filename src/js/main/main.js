@@ -1,5 +1,5 @@
-import { mode} from "../dashboard/dashboard.min.js";
-import {signInWithEmailAndPassword,getAuth } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
+import { mode,validateEmail} from "../dashboard/dashboard.min.js";
+import {signInWithEmailAndPassword,getAuth,sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
 import { firebaseApp } from "../../../database/firebase/conexion.js";
 
 const spinner = document.querySelector('.spinner');
@@ -52,25 +52,69 @@ function login(){
         })
         mode();
         submitLogin();
-        const script = document.createElement('script');
-        script.textContent = `
-            const toastTrigger = document.querySelector('.click-forgot')
-            const toastLiveExample = document.getElementById('liveToast')
-        
-            if (toastTrigger) {
-            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+        // const script = document.createElement('script');
+ 
+        const toastTrigger = document.querySelector('.click-forgot');
+        const toastLiveExample = document.getElementById('liveToast');
+    
+        if (toastTrigger) {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+        const liveToast = document.querySelector('#liveToast'),
+                toastHeader = liveToast.querySelector('.toast-header'),
+                iconHeader = toastHeader.querySelector('i.bi'),
+                messageUp = liveToast.querySelector('.messageUp'),
+                toastBody = liveToast.querySelector('.toast-body');
             toastTrigger.addEventListener('click', () => {
+                const user = document.querySelector('#validationCustomUsername').value;
+                // console.log(validateEmail(user));
+                if(!validateEmail(user)){
+                    iconHeader.classList.add('bi-exclamation-circle');
+                    iconHeader.classList.remove('bi-send-check-fill');
+                    liveToast.classList.add('bg-danger-subtle');
+                    liveToast.classList.add('text-danger-emphasis');
+                    liveToast.classList.remove('bg-success-subtle');
+                    messageUp.innerHTML = '¡Ups!';
+                    liveToast.classList.remove('text-success-emphasis');
+                    toastBody.innerHTML = "Please Enter a valid email in the User Field";
+                }
+                else{
+                    sendPasswordResetEmail(autorization,user)
+                        .then(()=>{
+                            toastBody.innerHTML = "Check your email and Follow Steps to reset password"
+                            messageUp.innerHTML = '¡Email Sent!'
+                            iconHeader.classList.remove('bi-exclamation-circle');
+                            iconHeader.classList.add('bi-send-check-fill');
+                            liveToast.classList.remove('bg-danger-subtle');
+                            liveToast.classList.remove('text-danger-emphasis');
+                            liveToast.classList.add('bg-success-subtle');
+                            liveToast.classList.add('text-success-emphasis');
+                        })
+                        .catch((error) => {
+
+                            iconHeader.classList.add('bi-exclamation-circle');
+                            iconHeader.classList.remove('bi-send-check-fill');
+                            liveToast.classList.add('bg-danger-subtle');
+                            liveToast.classList.add('text-danger-emphasis');
+                            liveToast.classList.remove('bg-success-subtle');
+                            messageUp.innerHTML = '¡Ups!';
+                            liveToast.classList.remove('text-success-emphasis');
+                            toastBody.innerHTML = error.message;
+
+                            // Se produjo un error al enviar el correo electrónico de restablecimiento
+                            // console.error("Error al enviar el correo electrónico para restablecer la contraseña:", error);
+                          });
+
+
+                    
+
+                }
+                
                 toastBootstrap.show()
             })
         }
-        `
-        document.head.appendChild(script);
-
-        // sistemColorPreference(document.querySelector('body'));
         
     })
     .catch(error => {
-        // Capturar y manejar errores
         console.error('Error en la solicitud fetch:', error);
     });
 
@@ -80,7 +124,6 @@ function submitLogin(){
             input_email = login.querySelector('#validationCustomUsername'),
             input_password = login.querySelector('#password_field');
     if(login){
-        
         login.addEventListener('submit', function(e){
 
             if (!login.checkValidity()) {
@@ -90,26 +133,15 @@ function submitLogin(){
             else{
                 e.preventDefault();
                 e.stopPropagation();
-                const form = new FormData(this);
-                
-                // form.forEach((key,value)=>{
-                //     console.log(key,'->',value );
-                // })
-                // autorization(input_email,input_password);
-                // window.location.href = '/dashboard.php';
-
-                
-
+                              
                 signInWithEmailAndPassword(autorization,input_email.value,input_password.value)
                 .then(cred =>{
                     // alert('usuario logeado');
                     spinner.style.display ="flex";
+                 
                     const user = cred.user;
-                    const userUID = user.uid
                     user.getIdToken()
                         .then(token=>{
-                            console.log(token);
-                            console.log(userUID);
                             sessionStorage.setItem('token', token);
                             fetch('public/assets/pages/dashboard/dashboard.php')
                             .then(response=>{
@@ -125,13 +157,10 @@ function submitLogin(){
                                 }
                             })
                             .then((data)=>{
-            
                                 return data;
                             })
                             .then(data=>{
-            
                                 window.location.href = "/dashboard.php";
-            
                             })
                             .catch(error => {
                                 // Manejo de errores
@@ -143,21 +172,44 @@ function submitLogin(){
                         });
                 })   
                 .catch(error=>{
-                    // console.log(error);
-                    const liveToast = document.querySelector('#liveToast'),
-                          toastHeader = liveToast.querySelector('toast-header'),
-                          messageUp = liveToast.querySelector('.messageUp'),
-                          toastBody = liveToast.querySelector('.toast-body');
-
-                    toastBody.innerHTML = error.message;
+                    let messagepop= ``;
+                    const toastLiveExample = document.getElementById('liveToast');
                     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                    const liveToast = document.querySelector('#liveToast'),
+                            toastHeader = liveToast.querySelector('.toast-header'),
+                            iconHeader = toastHeader.querySelector('i.bi'),
+                            messageUp = liveToast.querySelector('.messageUp'),
+                            toastBody = liveToast.querySelector('.toast-body');
+                    // console.log(error.message);
+                    iconHeader.classList.add('bi-exclamation-circle');
+                    iconHeader.classList.remove('bi-send-check-fill');
+                    liveToast.classList.add('bg-danger-subtle');
+                    liveToast.classList.add('text-danger-emphasis');
+                    liveToast.classList.remove('bg-success-subtle');
+                    liveToast.classList.remove('text-success-emphasis');
+                    messageUp.innerHTML = '¡Ups!';
+
+                    if(error.message === 'Firebase: Error (auth/invalid-email).'){
+                        messagepop = 'Email is Invalid';
+                    }
+                    else if(error.message === 'Firebase: Error (auth/user-not-found).'){
+                        messagepop = 'Email/User not found'
+                    }
+                    else if(error.message === 'Firebase: Error (auth/wrong-password).'){
+                        messagepop = 'You typed an incorrect password'
+                    }
+                    else if(error.message === 'Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).'){
+                        messagepop = 'Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later'
+                    }
+                    else{
+                        messagepop = error.message;
+                    }
+
+                    toastBody.innerHTML = messagepop;
                     toastBootstrap.show();
 
 
                 })
-
-
-
             }
 
             login.classList.add('was-validated');
