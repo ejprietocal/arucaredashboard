@@ -10,7 +10,8 @@ const imagemin = require('gulp-imagemin');
 const cache = require('gulp-cache');
 const avif = require('gulp-avif');
 const rename = require('gulp-rename');
-const jsmin = require('gulp-jsmin');
+const terser = require("gulp-terser");
+const uglify = require('gulp-uglify');
 
 
 const scss = 'src/scss/**/*.scss';
@@ -72,10 +73,18 @@ function assetsGenerator(done){
 
 function jsGenerator(done){
     src(javascript)
-    .pipe(sourcemaps.init()) 
-    .pipe(jsmin())
+    .pipe(uglify())
+    // .pipe(sourcemaps.init()) 
+    // .pipe(jsmin())
+    .pipe(terser({
+        mangle: true, // Habilita la ofuscación de nombres de variables y funciones
+        compress: true, // Habilita la compresión y optimización del código
+        output: {
+          comments: false // Elimina los comentarios del código minificado
+        }
+    }))
     .pipe(rename({suffix: '.min'}))
-    .pipe(sourcemaps.write('.')) 
+    // .pipe(sourcemaps.write('.')) 
     .pipe(dest('public/js/'))
     done();
 }

@@ -50,6 +50,7 @@
   </button>
 
   <p class="note">Terms of use &amp; Conditions</p>
+  <a class="click-forgot link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">¿Forgot you password?</a>
 
 
   <div class="mode">
@@ -65,3 +66,5 @@
     </div>
   </div>
 </form>
+
+

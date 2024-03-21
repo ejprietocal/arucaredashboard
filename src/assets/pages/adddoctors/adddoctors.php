@@ -66,7 +66,7 @@
         </div>
       </div>
     </div>
-      
+
     <div class="mb-3 w-100">
       <div class="col-12 position-relative">
         <label for="dob" class="form-label">Date of Birth </label>
@@ -84,8 +84,8 @@
   <div class="container">
     <div class="mb-3 w-100">
       <div class="col-12 position-relative">
-        <label for="Experience" class="form-label">Experience</label>
-        <input name="Experience" type="text" class="form-control" id="Experience" placeholder="Experience" required>
+        <label for="Experience" class="form-label">Experience (in Year)</label>
+        <input name="Experience" type="number" class="form-control" id="Experience" placeholder="Experience" required>
             <div class="valid-tooltip">
               Looks good!
             </div>
@@ -112,7 +112,7 @@
     <div class="mb-3 w-100">
       <div class="col-12 position-relative">
         <label for="Password" class="form-label">Password</label>
-        <input name="Password" type="password" class="form-control" id="Password" placeholder="Password" required>
+        <input  type="password" class="form-control" id="Password" placeholder="Password" required>
         <div class="valid-tooltip">
           Looks good!
         </div>

@@ -1,4 +1,8 @@
 import { getData,setCollection,deleteDocument} from "../../../database/firebase/conexion.js";
+import {createUserWithEmailAndPassword,getAuth,signOut } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
+import { firebaseApp } from "../../../database/firebase/conexion.js";
+const auth = getAuth(firebaseApp);
+
 var tooltipList;
 const spinner = document.querySelector('body > .spinner_extern');
 // let  bodyColor = localStorage.getItem("darkBody");
@@ -359,7 +363,7 @@ export function clickoption(){
                                   <td class="pt-3 pb-3">${doctor.FirstName}</td>
                                   <td class="pt-3 pb-3">${doctor.LastName}</td>
                                   <td class="pt-3 pb-3">${doctor.DocumentID}</td>
-                                  <td class="pt-3 pb-3">${doctor.Email}</td>
+                                  <td id="email-doctor-table" class="pt-3 pb-3">${doctor.Email}</td>
                                   <td class="pt-3 pb-3">${doctor.Contact}</td>
                                   <td class="pt-3 pb-3"></td>
                                   <td class="pt-3 pb-3">${doctor.Experience}</td>
@@ -695,6 +699,15 @@ export function clickoption(){
               if(item.id ==='Logout'){
                   loading.style.display = "none";
                   spinner.style.display = "flex";
+                  signOut(auth)
+                        .then(() => {
+                        // La sesión se ha cerrado correctamente
+                        console.log("Sesión cerrada correctamente.");
+                        })
+                        .catch((error) => {
+                        // Manejar errores al cerrar sesión
+                        console.error("Error al cerrar sesión:", error);
+                        });
                   // activateTooltips();
                   window.location.href = "/";
                   // destroyTooltips();
@@ -806,68 +819,118 @@ form.addEventListener('submit', function(e){
             const fechaActualUTC = new Date().toUTCString();
             formData.append('createIn', `${fechaActualUTC} Time Zone`);
 
-            if(formId === 'addServices'){
+            if(formId === 'addServices'){     
             setCollection('Services',formData)
-            .then((docId)=>{
-                  console.log("Documento guardado con ID:", docId);
+                  .then((docId)=>{
+                        console.log("Documento guardado con ID:", docId);
 
-                  button.classList.remove('disabled');
-                  btn_close.classList.remove('disabled');
-                  loadingform.style.display='none';
-                  iconform.style.display='flex';
+                        button.classList.remove('disabled');
+                        btn_close.classList.remove('disabled');
+                        loadingform.style.display='none';
+                        iconform.style.display='flex';
 
-                  btn_close.click();
+                        btn_close.click();
 
-                  toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
-                  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-                  toastBootstrap.show();
+                        toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
+                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                        toastBootstrap.show();
+                        option.click(); 
+                  })
+                  .catch(error=>{
+                        // console.error("Error al guardar el documento:", error);
 
-
-                  option.click();
-
-                  
-            })
-            .catch(error=>{
-                  // console.error("Error al guardar el documento:", error);
-
-                  toast_warning.classList.remove('bx-check');
-                  toast_warning.classList.add('bxs-error');
-                  toast_warning.style.color = 'red';
-                  toast_messageup.innerHTML = `¡Ups! something went wrong`;
-                  toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
-                  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-                  toastBootstrap.show();
-            })
+                        toast_warning.classList.remove('bx-check');
+                        toast_warning.classList.add('bxs-error');
+                        toast_warning.style.color = 'red';
+                        toast_messageup.innerHTML = `¡Ups! something went wrong`;
+                        toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
+                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                        toastBootstrap.show();
+                  })
             }
             if(formId === 'addDoctors'){
-            setCollection('Doctors',formData)
-            .then((docId)=>{
-                  console.log("Documento guardado con ID:", docId);
+                  const email = document.querySelector('#Email-Address');
+                  const password = document.querySelector('#Password');
+                  let tokenAutentication;
+                  createUserWithEmailAndPassword(auth, email.value, password.value)
+                  .then((userCredential) => {
+                        // Signed up 
+                        const user = userCredential.user;
+                        const uid = user.uid;
+                        user.getIdToken()
+                              .then((idToken)=>{
+                                    // console.log("Token de autenticación:", idToken);
+                                    setCollection('Doctors',formData,idToken,uid)
+                                    .then((docId)=>{
+                                          console.log("Documento guardado con ID:", docId);
+                        
+                                          button.classList.remove('disabled');
+                                          btn_close.classList.remove('disabled');
+                                          loadingform.style.display='none';
+                                          iconform.style.display='flex';
+                        
+                                          btn_close.click();
+            
+                                          toast_warning.classList.add('bx-check');
+                                          toast_warning.classList.remove('bxs-error');
+                                          toast_warning.style.color = 'green';
+                                          toast_messageup.innerHTML = `¡Success!`;
+                        
+                                          toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
+                                          const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                                          toastBootstrap.show();
+                        
+                                          option.click();
+                                    })
+                                    .catch(error=>{
+                                          // console.error("Error al guardar el documento:", error);
+                        
+                                          toast_warning.classList.remove('bx-check');
+                                          toast_warning.classList.add('bxs-error');
+                                          toast_warning.style.color = 'red';
+                                          toast_messageup.innerHTML = `¡Ups! something went wrong`;
+                                          toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
+                                          const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                                          toastBootstrap.show();
+                                    })
+                              })
+                        // ...
+                  })
+                  .catch((error) => {
+                        let message ='';
+                        const errorCode = error.code;
+                        // const errorMessage = error.message;
 
-                  button.classList.remove('disabled');
-                  btn_close.classList.remove('disabled');
-                  loadingform.style.display='none';
-                  iconform.style.display='flex';
+                        if(errorCode == 'auth/invalid-email'){
 
-                  btn_close.click();
+                              message = 'Email is Invalid';
+                        }
+                        else if(errorCode == 'auth/user-disabled'){
+                              message = 'User is Disabled';
+                        }
+                        else if(errorCode =='auth/user-not-found'){
+                              message = 'User not found';
+                        }
+                        else if(errorCode == 'auth/user-not-found'){
+                              message = 'Incorrect Password';
+                        }
+                        console.log(message);
+                        button.classList.remove('disabled');
+                        btn_close.classList.remove('disabled');
+                        loadingform.style.display='none';
+                        iconform.style.display='flex';
 
-                  toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
-                  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-                  toastBootstrap.show();
+                        toast_warning.classList.remove('bx-check');
+                        toast_warning.classList.add('bxs-error');
+                        toast_warning.style.color = 'red';
+                        toast_messageup.innerHTML = `¡Ups! something went wrong`;
+                        toast_body.innerHTML= `Component could not be created su <br> error: ${error.message} `;
+                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                        toastBootstrap.show();
 
-                  option.click();
-            })
-            .catch(error=>{
-                  // console.error("Error al guardar el documento:", error);
+                        // ..
+                  }); 
 
-                  toast_warning.classList.remove('bx-check');
-                  toast_warning.classList.add('bxs-error');
-                  toast_warning.style.color = 'red';
-                  toast_messageup.innerHTML = `¡Ups! something went wrong`;
-                  toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
-                  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-                  toastBootstrap.show();
-            })
             }
             if(formId === 'addMedicines'){
             setCollection('Medicines',formData)
@@ -923,6 +986,7 @@ if(rows){
             row.addEventListener('click', function(event){
             if(event.target.classList.contains('btn-danger')){
                   console.log(row.id,'->','click en delete');
+
                   // console.log(row.querySelector('td').textContent);
                   loading.style.display = 'flex';
                   fetch('/public/assets/pages/delete/delete.php',{
@@ -977,7 +1041,7 @@ if(rows){
                               spinner_border.style.display = 'block';
                               icon_border.style.display = 'none';
 
-
+                              
 
                               deleteDocument(home.dataset.idbutton,row.id)
                                     .then((docId)=>{
@@ -1002,7 +1066,7 @@ if(rows){
                                           btn_no.classList.remove('disabled');
                                           spinner_border.style.display = 'none';
                                           icon_border.style.display = 'block';
-                                          
+
                                           toast_warning.classList.remove('bx-check');
                                           toast_warning.classList.add('bxs-error');
                                           toast_warning.style.color = 'red';
