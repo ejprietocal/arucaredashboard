@@ -1,6 +1,9 @@
 import { getData,setCollection,deleteDocument} from "../../../database/firebase/conexion.js";
 import {createUserWithEmailAndPassword,getAuth,signOut } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
 import { firebaseApp } from "../../../database/firebase/conexion.js";
+import { initializateGraph } from "../graph/graph.min.js";
+
+
 const auth = getAuth(firebaseApp);
 
 var tooltipList;
@@ -75,8 +78,12 @@ export function clickoption(){
       const datos = document.createElement('div');
       datos.classList.add('data_from_db');
       const heightContent = "55vh";
+      let e;
       items.forEach(item =>{
           item.addEventListener('click', function(e){
+              while(e = document.querySelector('.data_from_db')){
+                      e.remove();
+              }
               const createContainer = document.querySelector('.createContainer');
               if(createContainer){
                   createContainer.remove();
@@ -693,6 +700,29 @@ export function clickoption(){
               }
               if(item.id==='Dashboard'){
                   loading.style.display = "none";
+                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`)
+                  .then(response=>{
+                      if (response.status === 404) {
+                          throw new Error('El recurso solicitado no se encontró');
+                      } else if (response.status === 500) {
+                      throw new Error('Error interno del servidor');
+                      } else if(!response.ok) {
+                      throw new Error('Error en la solicitud fetch: ' + response.status);
+                      }
+                      else{
+                          return response.text();
+                      }
+                  })
+                  .then(data=>{
+                    datos.innerHTML = data;
+                    home.appendChild(datos);
+                    initializateGraph('myChart');  
+                  })
+                  .catch(error=>{
+                    console.log(error);
+                  })
+
+
                   activateTooltips();
               }
               if(item.id ==='Logout'){
@@ -835,8 +865,8 @@ form.addEventListener('submit', function(e){
             button.classList.add('disabled');
             btn_close.classList.add('disabled');
             const formData = new FormData(this);
-            const fechaActualUTC = new Date().toUTCString();
-            formData.append('createIn', `${fechaActualUTC} Time Zone`);
+            // const fechaActualUTC = new Date().toUTCString();
+            // formData.append('createIn', `${fechaActualUTC} Time Zone`);
 
             if(formId === 'addServices'){     
             setCollection('Services',formData)
@@ -1101,3 +1131,4 @@ export function validateEmail(email) {
     var patronEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return patronEmail.test(email);
 }
+

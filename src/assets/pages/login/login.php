@@ -18,9 +18,9 @@
       <div class="input-group position-relative border border-2 rounded">
         <span class="input-group-text rounded-0" id="basic-addon1"><i class="bi bi-person-workspace fs-3"></i></span>
         <input placeholder="Username" title="Inpit title" name="input-name" type="text" class="input_field form-control" id="validationCustomUsername" required>
-        <div class="valid-tooltip end-0">
+        <!-- <div class="valid-tooltip end-0">
           Looks good!
-        </div>
+        </div> -->
         <div class="invalid-tooltip end-0">
           Please Enter an Username.
         </div>
@@ -35,9 +35,9 @@
           <span class="input-group-text rounded-0" id="basic-addon1"><i class="bi bi-key-fill fs-3"></i></span>
           <input placeholder="Password" title="Inpit title" name="input-password" type="password" class="input_field form-control input-login-password" id="password_field" required>
           <span class="input-group-text password-input-text border rounded-0" id="basic-addon2" role="button"><i class="bi bi-eye-slash fs-3"></i></span>
-          <div class="valid-tooltip end-0">
+          <!-- <div class="valid-tooltip end-0">
           Looks good!
-          </div>
+          </div> -->
           <div class="invalid-tooltip end-0">
               Please Enter a Password.
           </div>

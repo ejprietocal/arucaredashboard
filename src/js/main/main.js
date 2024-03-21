@@ -1,6 +1,6 @@
 import { mode,validateEmail} from "../dashboard/dashboard.min.js";
 import {signInWithEmailAndPassword,getAuth,sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
-import { firebaseApp } from "../../../database/firebase/conexion.js";
+import { firebaseApp,obtenerValorCookie,getAmountOf, getAmountUserPerMonth} from "../../../database/firebase/conexion.js";
 
 const spinner = document.querySelector('.spinner');
 const container = document.querySelector('body > .container-fluid');
@@ -58,6 +58,7 @@ function login(){
         const toastLiveExample = document.getElementById('liveToast');
     
         if (toastTrigger) {
+    
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
         const liveToast = document.querySelector('#liveToast'),
                 toastHeader = liveToast.querySelector('.toast-header'),
@@ -65,6 +66,11 @@ function login(){
                 messageUp = liveToast.querySelector('.messageUp'),
                 toastBody = liveToast.querySelector('.toast-body');
             toastTrigger.addEventListener('click', () => {
+                // getAmountOf('Patients');
+                // getAmountOf('Doctors');
+                // getAmountOf('Medicines');
+                // getAmountOf('Appointments');
+                getAmountUserPerMonth('Doctors');
                 const user = document.querySelector('#validationCustomUsername').value;
                 // console.log(validateEmail(user));
                 if(!validateEmail(user)){
@@ -138,11 +144,11 @@ function submitLogin(){
                 .then(cred =>{
                     // alert('usuario logeado');
                     spinner.style.display ="flex";
-                 
+                    
                     const user = cred.user;
                     user.getIdToken()
                         .then(token=>{
-                            sessionStorage.setItem('token', token);
+                            document.cookie = `token=${token}; path=/`;
                             fetch('public/assets/pages/dashboard/dashboard.php')
                             .then(response=>{
                                 if (response.status === 404) {
@@ -160,7 +166,12 @@ function submitLogin(){
                                 return data;
                             })
                             .then(data=>{
+                                
+                                
                                 window.location.href = "/dashboard.php";
+                                // const home = document.querySelector('.home');
+                                
+
                             })
                             .catch(error => {
                                 // Manejo de errores

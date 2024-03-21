@@ -514,6 +514,46 @@ body.dark {
 
 }
 
+.home-container{
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.font-color{
+    color: var(--backColorInverse);
+    transition: var(--tran-04);
+}
+
+.background-color{
+    background-color: var(--body-color);
+    transition: var(--tran-04);
+}
+
+.container-graphs{
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill,minmax(25rem,1fr));
+
+    .contain-graph{
+        min-height: 28rem;
+        backdrop-filter: blur(9px) saturate(152%);
+        -webkit-backdrop-filter: blur(9px) saturate(152%);
+        background-color: rgba(255, 255, 255, 0.58);
+        .graph-data{
+            // max-width: 30rem;
+            height: 100%;
+            width: 100%;
+        }
+    }
+}
+
+
+
+
+
+
+
 .custom-tooltip {
 
 

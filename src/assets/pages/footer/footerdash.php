@@ -23,5 +23,8 @@
 <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.colVis.min.js"></script>
 <script src="https://cdn.datatables.net/scroller/2.4.1/js/dataTables.scroller.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script type="module" src="/database/firebase/conexion.js"></script>
+<script type="module" src="/public/js/dashboard/loadDash.min.js"></script>
+<script type="module" src="/public/js/graph/graph.min.js"></script>

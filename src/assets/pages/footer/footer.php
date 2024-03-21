@@ -24,6 +24,7 @@
 <script src="https://cdn.datatables.net/scroller/2.4.1/js/dataTables.scroller.min.js"></script>
 <script type="module" src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js"></script>
 <!-- <script type="module" src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script type="module" src="/database/firebase/conexion.js" defer></script>
 

@@ -1,8 +1,8 @@
-import { initializeApp, } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js";
-import { getFirestore, collection, getDocs,getDoc, setDoc, updateDoc, addDoc,deleteDoc,doc} from "https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js";
+import { getFirestore, collection, getDocs,getDoc, setDoc, updateDoc, addDoc,deleteDoc,doc,Timestamp} from "https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore.js";
 import {getAuth, deleteUser} from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
 // Inicializa la aplicación de Firebase con las credenciales
-
+// import { obtenerValorCookie } from "../../src/js/dashboard/dashboard.js";
 
 const fireBaseConfig ={
     apiKey: "AIzaSyDEx11phpYJhl6QQqh4YsaQ4_d7K14PgII",
@@ -19,6 +19,24 @@ const fireBaseConfig ={
 //     databaseURL: 'https://arucare-6b98c.firebaseio.com'
 // });
 
+export function obtenerValorCookie(nombre) {
+    // Separar las cookies individuales
+    const cookies = document.cookie.split(';');
+
+    // Buscar la cookie con el nombre proporcionado
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // Verificar si la cookie tiene el formato nombre=valor
+        if (cookie.startsWith(`${nombre}=`)) {
+            // Obtener y devolver el valor de la cookie
+            return cookie.substring(nombre.length + 1);
+        }
+    }
+    // Si no se encontró la cookie, devolver null
+    return null;
+}
+
+
 export const firebaseApp = initializeApp(fireBaseConfig);
 
 const auth = getAuth(firebaseApp);
@@ -27,15 +45,62 @@ const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
 
-// const querySnapshot = await getDocs(collection(db, 'Patients'));
-// export const autorization = getAuth(firebaseApp);
-// Obtén los datos de la colección "appointments"
-// const dataRef = collection(db, "Appointments");
+
+export function getAmountOf(nameTable){
+    const quantityOf = collection(db, nameTable);
+
+    return getDocs(quantityOf)
+        .then(snapshot => {
+            const count = snapshot.size;
+            return count;
+        })
+        .catch(error => {
+            console.log(error);
+            throw error; // Puedes lanzar el error nuevamente para que sea manejado en el contexto que llama a esta función
+        });
+}
+
+export function getAmountUserPerMonth(){
+
+
+        const quantityOfDoc = collection(db,'Doctors');
+        const quantityOfPat = collection(db,'Patients');
+        const quantityOfApp = collection(db,'Appointments');
+
+
+
+        return getDocs(quantityOfDoc)
+            .then((docsSnapshot)=>{
+                docsSnapshot.forEach(docSnapshot=>{
+                    console.log(docSnapshot.data().CreateIn.toDate());
+                })
+            })
+
+
+}
+
 
 export async function setCollection(tableName,formDataObject,idToken = null,uid = null){
     try{
         const db = getFirestore(firebaseApp);
         const formularioRef = collection(db, tableName);
+
+        const nowUTC = new Date();
+        // Calcular el desplazamiento de zona horaria para UTC-5 (en milisegundos)
+        const offsetUTC5 = -5 * 60 * 60 * 1000; // -5 horas * 60 minutos/hora * 60 segundos/minuto * 1000 milisegundos/segundo
+        
+        // Aplicar el desplazamiento de zona horaria a la fecha y hora actual en UTC
+        const nowUTC5 = new Date(nowUTC.getTime() + offsetUTC5);
+        
+        // Convertir la fecha y hora ajustada a UTC-5 a segundos desde la época Unix
+        const seconds = Math.floor(nowUTC5.getTime() / 1000);
+        const nanoseconds = 0; // En este caso, no tenemos precisión de nanosegundos, así que dejamos esto como 0
+        
+        // Crear un objeto Timestamp utilizando los segundos y nanosegundos
+        const timestamp = {
+            seconds: seconds,
+            nanoseconds: nanoseconds
+        };
 
         const formDataObj = {};
         const userDataObj = {};
@@ -44,6 +109,7 @@ export async function setCollection(tableName,formDataObject,idToken = null,uid 
         });
         formDataObj['Token'] = idToken;
         formDataObj['UID'] = uid;
+        formDataObj['CreateIn'] = timestamp;
         const docRef = await addDoc(formularioRef, formDataObj);
 
         
@@ -73,8 +139,7 @@ export async function deleteDocument(tableName, documentId) {
         const db = getFirestore(firebaseApp);
         const collectionRef = collection(db, tableName);
         const collectionUsers = collection(db,'Users');
-        
-
+    
         // Obtener una referencia al documento que se desea eliminar
         const documentRef = doc(collectionRef, documentId);
         const UserRef = doc(collectionUsers,documentId);
@@ -87,28 +152,29 @@ export async function deleteDocument(tableName, documentId) {
                 // Acceder al campo "uids"
                 const uid = docSnapshot.data().UID;
                 // const token = docSnapshot.data().Token;
-                const token = sessionStorage.getItem('token');
-                console.log("Valor del campo 'uid':", uid);
-                console.log("Valor del campo 'token':", token);
-                fetch(`https://identitytoolkit.googleapis.com/v1/accounts:delete?key=AIzaSyDEx11phpYJhl6QQqh4YsaQ4_d7K14PgII`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`, // Reemplazar con tu token de autenticación
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        localId: uid // Reemplazar con el UID del usuario que deseas eliminar
-                    })
-                    })
-                    .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error al eliminar el usuario');
-                    }
-                    console.log('Usuario eliminado correctamente');
-                    })
-                    .catch(error => {
-                    console.error('Error al eliminar el usuario:', error);
-                    });
+                const cookieValue = obtenerValorCookie('token');
+                // console.log("Valor del campo 'uid':", uid);
+                // console.log("Valor del campo 'token':", token);
+                // fetch(`/public/assets/pages/delete/deleteconfirmed.php`, {
+                //     method: 'POST',
+                //     headers: {
+                //     'Content-Type': 'application/x-www-form-urlencoded',
+                //     'Cookie': `token=${cookieValue}` // Tipo de contenido específico
+                //     },
+                //     body: "uid=" + uid
+                //     })
+                //     .then(response => {
+                //         if (!response.ok) {
+                //             throw new Error('Error al eliminar el usuario');
+                //         }
+                //         return response.text()
+                //     })
+                //     .then(data => {
+                //         console.log(data); // Aquí obtienes el resultado de eliminarUsuario desde PHP
+                //     })
+                //     .catch(error => {
+                //     console.error('Error al eliminar el usuario:', error);
+                //     });
 
             })
             .catch((error) => {
