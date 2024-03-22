@@ -92,7 +92,7 @@
                 <span class="mode-text text">Dark mode</span>
     
     
-                <div class="toogle-switch">
+                <div class="toogle-switch ">
                     <span class="switch">
     
                     </span>

@@ -70,7 +70,7 @@ function login(){
                 // getAmountOf('Doctors');
                 // getAmountOf('Medicines');
                 // getAmountOf('Appointments');
-                getAmountUserPerMonth('Doctors');
+                // getAmountUserPerMonth('Doctors');
                 const user = document.querySelector('#validationCustomUsername').value;
                 // console.log(validateEmail(user));
                 if(!validateEmail(user)){

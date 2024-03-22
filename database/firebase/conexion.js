@@ -37,6 +37,7 @@ export function obtenerValorCookie(nombre) {
 }
 
 
+
 export const firebaseApp = initializeApp(fireBaseConfig);
 
 const auth = getAuth(firebaseApp);
@@ -67,8 +68,8 @@ export function getAmountUserPerMonth(){
         const quantityOfPat = collection(db,'Patients');
         const quantityOfApp = collection(db,'Appointments');
 
-
-
+        
+        // console.log(timee);
         return getDocs(quantityOfDoc)
             .then((docsSnapshot)=>{
                 docsSnapshot.forEach(docSnapshot=>{
@@ -85,22 +86,9 @@ export async function setCollection(tableName,formDataObject,idToken = null,uid 
         const db = getFirestore(firebaseApp);
         const formularioRef = collection(db, tableName);
 
-        const nowUTC = new Date();
-        // Calcular el desplazamiento de zona horaria para UTC-5 (en milisegundos)
-        const offsetUTC5 = -5 * 60 * 60 * 1000; // -5 horas * 60 minutos/hora * 60 segundos/minuto * 1000 milisegundos/segundo
-        
-        // Aplicar el desplazamiento de zona horaria a la fecha y hora actual en UTC
-        const nowUTC5 = new Date(nowUTC.getTime() + offsetUTC5);
-        
-        // Convertir la fecha y hora ajustada a UTC-5 a segundos desde la época Unix
-        const seconds = Math.floor(nowUTC5.getTime() / 1000);
-        const nanoseconds = 0; // En este caso, no tenemos precisión de nanosegundos, así que dejamos esto como 0
-        
-        // Crear un objeto Timestamp utilizando los segundos y nanosegundos
-        const timestamp = {
-            seconds: seconds,
-            nanoseconds: nanoseconds
-        };
+        const now = new Date();
+        const timestamp = new Timestamp(now.getTime() / 1000, 0);
+
 
         const formDataObj = {};
         const userDataObj = {};
@@ -111,6 +99,21 @@ export async function setCollection(tableName,formDataObject,idToken = null,uid 
         formDataObj['UID'] = uid;
         formDataObj['CreateIn'] = timestamp;
         const docRef = await addDoc(formularioRef, formDataObj);
+
+        const newData = {
+            Id: docRef.id // Reemplaza 'nuevoCampo' por el nombre del campo que deseas agregar
+        };
+
+        const docReferece = doc(db, tableName , docRef.id);
+
+        updateDoc(docReferece,newData)
+        .then(() => {
+            console.log('Campo agregado con éxito');
+        })
+        .catch((error) => {
+            console.error('Error al agregar el campo: ', error);
+            throw error;
+        });
 
         
         if(tableName === 'Doctors'){

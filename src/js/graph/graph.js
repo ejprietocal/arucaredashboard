@@ -65,3 +65,9 @@ export function initializateGraph(mychart) {
 }
 
 
+export function initializateGraphApp(mychart){
+
+    const ctx = document.getElementById(`${mychart}`);
+
+
+}
