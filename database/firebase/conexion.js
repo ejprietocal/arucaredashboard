@@ -1,6 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js";
-import { getFirestore, collection, getDocs,getDoc, setDoc, updateDoc, addDoc,deleteDoc,doc,Timestamp} from "https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore.js";
-import {getAuth, deleteUser} from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+import { getFirestore, collection, getDocs,getDoc, setDoc, updateDoc, addDoc,deleteDoc,doc,Timestamp} from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+import {getAuth, deleteUser} from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 // Inicializa la aplicación de Firebase con las credenciales
 // import { obtenerValorCookie } from "../../src/js/dashboard/dashboard.js";
 
@@ -61,19 +61,29 @@ export function getAmountOf(nameTable){
         });
 }
 
-export function getAmountUserPerMonth(){
-
-
-        const quantityOfDoc = collection(db,'Doctors');
-        const quantityOfPat = collection(db,'Patients');
+export function getAmountAppointmentsUserPerMonth(){
+        // const quantityOfDoc = collection(db,'Doctors');
+        // const quantityOfPat = collection(db,'Patients');
         const quantityOfApp = collection(db,'Appointments');
 
-        
+        let string_year;
+        let string_month;
+        let year_month;
+
+        let JsonYearCount = {};
         // console.log(timee);
-        return getDocs(quantityOfDoc)
+        return getDocs(quantityOfApp)
             .then((docsSnapshot)=>{
                 docsSnapshot.forEach(docSnapshot=>{
-                    console.log(docSnapshot.data().CreateIn.toDate());
+                    console.log(docSnapshot.data().createIn);
+                    year_month = cadena.split('-').slice(0, 2);
+                    string_year = year_month[0];
+                    string_month = year_month[1];
+
+                    Object.entries(JsonYearCount).forEach(([key,value])=>{
+
+                    })
+
                 })
             })
 
@@ -81,53 +91,64 @@ export function getAmountUserPerMonth(){
 }
 
 
-export async function setCollection(tableName,formDataObject,idToken = null,uid = null){
+export async function setCollection(tableName,formDataObject,idToken = null,uid = null,mapa=null){
     try{
         const db = getFirestore(firebaseApp);
-        const formularioRef = collection(db, tableName);
+        // const formularioRef = collection(db, tableName);
 
         const now = new Date();
         const timestamp = new Timestamp(now.getTime() / 1000, 0);
 
+        const docReference = doc(db, 'Doctors', uid);
 
         const formDataObj = {};
         const userDataObj = {};
         formDataObject.forEach((valor, clave) => {
             formDataObj[clave] = valor;
         });
-        formDataObj['Token'] = idToken;
-        formDataObj['UID'] = uid;
+        // formDataObj['Token'] = idToken;
+        formDataObj['ID'] = uid;
         formDataObj['CreateIn'] = timestamp;
-        const docRef = await addDoc(formularioRef, formDataObj);
+        const docRef = await setDoc(docReference, formDataObj);
 
-        const newData = {
-            Id: docRef.id // Reemplaza 'nuevoCampo' por el nombre del campo que deseas agregar
-        };
+        let mapTousers = {};
 
-        const docReferece = doc(db, tableName , docRef.id);
-
-        updateDoc(docReferece,newData)
-        .then(() => {
-            console.log('Campo agregado con éxito');
-        })
-        .catch((error) => {
-            console.error('Error al agregar el campo: ', error);
-            throw error;
-        });
-
+        let mapToObject = {};
+        if(mapa !=null){
+            for (let [clave, mapaInterno] of mapa.entries()) {
+                mapToObject[clave] = {};
+                for (let [claveInterna, valor] of mapaInterno.entries()) {
+                    mapToObject[clave][claveInterna] = valor;
+                }
+            }
+        }
+        const specialization = await updateDoc(docReference,{Specializations:mapToObject});
         
         if(tableName === 'Doctors'){
             userDataObj['email'] = formDataObject.get('Email');
             userDataObj['type'] = "Doctor";
 
+            mapa.forEach((mapaInterno,indice)=>{
+                  mapTousers[indice] ={};
+                  mapaInterno.forEach((finalmap,index)=>{
+                    if(index == 'Specialization'){
+                        mapTousers[indice]['specialization'] = finalmap;
+                    }
+                    else if(index == 'Status'){
+                        mapTousers[indice]['status'] = finalmap;
+                    }
+                  })  
+            })
+
             // const users = collection(db,'Users')
-            const docReference = doc(db, 'Users', docRef.id);
+            const docReference = doc(db, 'Users', uid);
+
 
             const userRef = await setDoc(docReference,userDataObj);
-
+            const specialization = await updateDoc(docReference,{specializations:mapTousers});
         }
 
-        return docRef.id;
+        return uid;
 
     }catch(error){
         // console.error("Error al guardar el documento: ", error);
@@ -188,6 +209,15 @@ export async function deleteDocument(tableName, documentId) {
         await deleteDoc(UserRef);
         await deleteDoc(documentRef);
 
+        //elimina el usuario
+        // deleteUser(auth, documentId)
+        // .then(() => {
+        //     // console.log("Usuario eliminado correctamente");
+        // })
+        // .catch((error) => {
+        //     console.error("Error al eliminar el usuario:", error);
+        //     throw error;
+        // });
 
 
         return documentId;

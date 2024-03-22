@@ -1,6 +1,6 @@
 import { mode,validateEmail} from "../dashboard/dashboard.min.js";
-import {signInWithEmailAndPassword,getAuth,sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
-import { firebaseApp,obtenerValorCookie,getAmountOf, getAmountUserPerMonth} from "../../../database/firebase/conexion.js";
+import {signInWithEmailAndPassword,getAuth,sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+import { firebaseApp,obtenerValorCookie,getAmountOf, getAmountAppointmentsUserPerMonth} from "../../../database/firebase/conexion.js";
 
 const spinner = document.querySelector('.spinner');
 const container = document.querySelector('body > .container-fluid');
@@ -71,6 +71,8 @@ function login(){
                 // getAmountOf('Medicines');
                 // getAmountOf('Appointments');
                 // getAmountUserPerMonth('Doctors');
+
+                getAmountAppointmentsUserPerMonth();
                 const user = document.querySelector('#validationCustomUsername').value;
                 // console.log(validateEmail(user));
                 if(!validateEmail(user)){
@@ -167,6 +169,7 @@ function submitLogin(){
                             })
                             .then(data=>{
                                 
+
                                 
                                 window.location.href = "/dashboard.php";
                                 // const home = document.querySelector('.home');

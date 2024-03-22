@@ -1,5 +1,5 @@
 import { getData,setCollection,deleteDocument} from "../../../database/firebase/conexion.js";
-import {createUserWithEmailAndPassword,getAuth,signOut } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
+import {createUserWithEmailAndPassword,getAuth,signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 import { firebaseApp } from "../../../database/firebase/conexion.js";
 import { initializateGraph } from "../graph/graph.min.js";
 
@@ -794,12 +794,16 @@ function clickAdd(){
                       added.classList.add('w-100');
                       added.style.height = '100vh';
   
-  
-  
+
+
                       added.innerHTML = data;
                       home.appendChild(added);
 
+
+
+
                       if(button.id === "addDoctors"){
+
                       const password = document.querySelector('#Password');
                       const eyepassword = document.querySelector('.input-group-text'),
                             eyeicon = eyepassword.querySelector('i.bi');
@@ -816,8 +820,36 @@ function clickAdd(){
 
                       })  
                       }  
+
   
                       loading.style.display = 'none';
+                      let aux = 1;
+                      const addNode = document.querySelector('.btn-add-new-node');
+                      const container_node = document.querySelector('#contenedor_node');
+                      addNode.addEventListener('click',function(e){
+                            e.preventDefault();
+
+                            let clone = document.querySelector('.clase-clone');
+                            let clon = clone.cloneNode(true);
+                            clon.setAttribute('data-clone',`${aux++}`);
+                            clon.querySelector('.card-header').innerHTML =`<div><i class="bi bi-journal-bookmark-fill me-2"></i> Specialization ${aux}</div> <button type="button"class="button-cerrar btn fs-4"><i class="bi bi-x-lg font-color"></i></button>`;
+                            clon.querySelector('.specialization-name').removeAttribute('readonly');
+                            clon.querySelector('.specialization-name').removeAttribute('value');
+                            container_node.appendChild(clon);
+                            console.log('click en node');
+
+                        }) 
+
+                      container_node.addEventListener('click',function(e){
+                        e.preventDefault();
+                        if(e.target.classList.contains('button-cerrar')){
+                            aux--;
+                            let contenedor = e.target.parentNode.parentNode;
+                            contenedor.parentNode.removeChild(contenedor);
+                        }
+                      });
+
+
                       saveInfo(button.id);
   
                   })
@@ -852,6 +884,7 @@ const form = document.getElementById('form'),
 
 form.addEventListener('submit', function(e){
 
+
       if (!form.checkValidity()) {
             e.preventDefault();
             e.stopPropagation();
@@ -867,6 +900,51 @@ form.addEventListener('submit', function(e){
             const formData = new FormData(this);
             // const fechaActualUTC = new Date().toUTCString();
             // formData.append('createIn', `${fechaActualUTC} Time Zone`);
+            let Specializations = new Map();
+            let count = 0;
+
+            // const nameAllSpecializations = document.querySelectorAll('.specialization-name');
+            // const priceAllSpecializations = document.querySelectorAll('.price-specialization');
+            // const statusAllSpecializations = document.querySelectorAll('.select-Status-specialization');
+
+            const selectDataClone = document.querySelectorAll('div[data-clone]');
+
+            selectDataClone.forEach(clone =>{
+                const nameClone = clone.querySelector('.specialization-name');
+                const priceClone = clone.querySelector('.price-specialization');
+                const statusClone = clone.querySelector('.select-Status-specialization');
+
+                let Specialization = new Map();
+
+                Specialization.set('Price',priceClone.value);
+                Specialization.set('Specialization',nameClone.value);
+                Specialization.set('Status',statusClone.value);
+                Specializations.set(count,Specialization);
+                count++;
+            })
+
+            // console.log(typeof(Specializations) + typeof(Specialization));
+
+            Specializations.forEach((mapaInterno, indice) => {
+                console.log(`Mapa interno en índice ${indice}:`);
+                
+                // Iterar sobre el mapa interno
+                mapaInterno.forEach((valor, clave) => {
+                    console.log(`  ${clave}: ${valor}`);
+                });
+                
+                console.log(""); // Imprimir una línea en blanco para separar los mapas internos
+            });
+
+            // console.log(JSON.stringify(Specializations));
+
+            // let jsonString = JSON.stringify(arrayMapas);
+
+
+            // formData.append('Specializations',jsonString);
+            // formData.forEach((value,key)=>{
+            //     console.log(key+ '->'+ value);
+            // })
 
             if(formId === 'addServices'){     
             setCollection('Services',formData)
@@ -909,7 +987,7 @@ form.addEventListener('submit', function(e){
                         user.getIdToken()
                               .then((idToken)=>{
                                     // console.log("Token de autenticación:", idToken);
-                                    setCollection('Doctors',formData,idToken,uid)
+                                    setCollection('Doctors',formData,idToken,uid,Specializations)
                                     .then((docId)=>{
                                           console.log("Documento guardado con ID:", docId);
                         

@@ -454,6 +454,7 @@ body.dark {
 
 
     #form{
+        overflow-x: hidden;
         padding: 1rem;
         background:var(--sidebar-color);
         min-height: 40vh;
@@ -468,6 +469,7 @@ body.dark {
         width: 90%;
         font-size: 1rem;
         margin: 0;
+        
         @include m.telefono{
             font-size: 1.5rem;
         }
@@ -479,7 +481,25 @@ body.dark {
         }
         .container{
             display: block;
+            .clase-clone{
+                .field_specialization{
+                    background: var(--body-color);
+                    color: var(--text-color);
+                    transition: var(--tran-04);
+                }
+            }
+            .specialization{
+                display: block;
+                background: var(--body-color);
+                color: var(--text-color);
+                transition: var(--tran-04);
+                @include m.tablet{
+                    display: flex;
+                    align-items: center;
 
+                    justify-content: space-between;
+                }
+            }
 
             @include m.tablet{
                 display: flex;
@@ -494,9 +514,10 @@ body.dark {
                 
             }
         }
-        input{
+        input:not([type='checkbox']),select{
             background: var(--primary-color-light);
             color: var(--text-color);
+            transition: var(--tran-04);
             &::placeholder{
                 color: var(--text-color);
             }
@@ -509,6 +530,11 @@ body.dark {
         .button-close{
             background-color: var(--text-color);
             height: fit-content;
+            margin: 0 0 auto auto;
+            position: sticky;
+            position: -webkit-sticky;
+            transition: var(--tran-04);
+
         }
         // min-width: ;
     }
