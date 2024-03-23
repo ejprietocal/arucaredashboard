@@ -1027,7 +1027,7 @@ form.addEventListener('submit', function(e){
                   })
             }
             if(formId === 'addDoctors'){
-                  const email = document.querySelector('#Email-Address');
+                  const email = document.querySelector('#Email_address');
                   const password = document.querySelector('#Password');
 
                   createUserWithEmailAndPassword(auth, email.value, password.value)

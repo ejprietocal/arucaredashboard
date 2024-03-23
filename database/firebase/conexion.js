@@ -62,19 +62,9 @@ export function getAmountOf(nameTable){
 }
 
 export function getAmountAppointmentsUserPerMonth(){
-        // const quantityOfDoc = collection(db,'Doctors');
-        // const quantityOfPat = collection(db,'Patients');
+
         const quantityOfApp = collection(db,'Appointments');
-
-        let string_year;
-        let string_month;
-        let year_month;
-
-
-        // let countOfperMonth= {};
-
         const currentYear = new Date().getFullYear();
-        // const lastTwoYearsData = {};
 
         return getDocs(quantityOfApp)
         .then((docsSnapshot)=>{
@@ -117,7 +107,6 @@ export function getAmountAppointmentsUserPerMonth(){
                     }
                 }
             }
-            // console.log(lastTwoYearsData);
             return lastTwoYearsData;
         })
         .catch(error=>{
@@ -288,6 +277,11 @@ export async function getData(data) {
     }
 }
 
+export async function validateAccess(uid){
 
+    const docReference = doc(db, 'Users', uid);
 
+    const doc = await getDoc(db,)
+
+}
 

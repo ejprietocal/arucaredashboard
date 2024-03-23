@@ -46,8 +46,8 @@
   <div class="container">
     <div class="mb-3 w-100">
       <div class="col-12 position-relative">
-        <label for="Email" class="form-label">Email address</label>
-        <input name="Email" type="email" class="form-control" id="Email" placeholder="name@example.com" required>
+        <label for="Email_address" class="form-label">Email address</label>
+        <input name="Email" type="email" class="form-control" id="Email_address" placeholder="name@example.com" required>
         <div class="valid-tooltip">
           Looks good!
         </div>

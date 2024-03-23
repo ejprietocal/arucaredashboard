@@ -144,6 +144,8 @@ function submitLogin(){
                     spinner.style.display ="flex";
                     
                     const user = cred.user;
+                    const uid = user.uid;
+                    // console.log(uid);
                     user.getIdToken()
                         .then(token=>{
                             document.cookie = `token=${token}; max-age=86400 path=/`;
