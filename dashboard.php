@@ -145,7 +145,7 @@
         <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-5">
           <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header fs-2">
-                <i class='bx bx-check rounded me-2 fs-1 fw-bolder' style="color:green;"></i>
+                <i class='bi bi-check2 rounded me-2 fs-1 fw-bolder' style="color:green;"></i>
               <strong class="me-auto">¡Success!</strong>
               <small>Now</small>
               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>

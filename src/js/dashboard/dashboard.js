@@ -940,7 +940,7 @@ const option = document.querySelector(`#${home.dataset.idbutton}`);
 
 const toastLiveExample = document.getElementById('liveToast'),
       toast_header = toastLiveExample.querySelector('.toast-header'),
-      toast_warning = toastLiveExample.querySelector('.bx'),
+      toast_warning = toastLiveExample.querySelector('.bi'),
       toast_messageup = toastLiveExample.querySelector('strong'),
       toast_body = toastLiveExample.querySelector('.toast-body');
 
@@ -1004,8 +1004,8 @@ form.addEventListener('submit', function(e){
 
                         toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
                         toast_messageup.innerHTML = `¡Success!`;
-                        toast_warning.classList.add('bx-check');
-                        toast_warning.classList.remove('bxs-error');
+                        toast_warning.classList.add('bi-check2');
+                        toast_warning.classList.remove('bi-cone-striped');
                         toast_warning.style.color = 'green';
 
                         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
@@ -1017,8 +1017,8 @@ form.addEventListener('submit', function(e){
                   .catch(error=>{
                         // console.error("Error al guardar el documento:", error);
 
-                        toast_warning.classList.remove('bx-check');
-                        toast_warning.classList.add('bxs-error');
+                        toast_warning.classList.remove('bi-check2');
+                        toast_warning.classList.add('bi-cone-striped');
                         toast_warning.style.color = 'red';
                         toast_messageup.innerHTML = `¡Ups! something went wrong`;
                         toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
@@ -1048,16 +1048,12 @@ form.addEventListener('submit', function(e){
                                           iconform.style.display='flex';
                         
                                           btn_close.click();
-            
-                                          toast_warning.classList.add('bx-check');
-                                          toast_warning.classList.remove('bxs-error');
-                                          toast_warning.style.color = 'green';
-                                          toast_messageup.innerHTML = `¡Success!`;
+
                         
                                           toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
                                           toast_messageup.innerHTML = `¡Success!`;
-                                          toast_warning.classList.add('bx-check');
-                                          toast_warning.classList.remove('bxs-error');
+                                          toast_warning.classList.add('bi-check2');
+                                          toast_warning.classList.remove('bi-cone-striped');
                                           toast_warning.style.color = 'green';
                                           const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                                           toastBootstrap.show();
@@ -1068,8 +1064,8 @@ form.addEventListener('submit', function(e){
                                     .catch(error=>{
                                           // console.error("Error al guardar el documento:", error);
                         
-                                          toast_warning.classList.remove('bx-check');
-                                          toast_warning.classList.add('bxs-error');
+                                          toast_warning.classList.remove('bi-check2');
+                                          toast_warning.classList.add('bi-cone-striped');
                                           toast_warning.style.color = 'red';
                                           toast_messageup.innerHTML = `¡Ups! something went wrong`;
                                           toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
@@ -1093,8 +1089,8 @@ form.addEventListener('submit', function(e){
                         loadingform.style.display='none';
                         iconform.style.display='flex';
 
-                        toast_warning.classList.remove('bx-check');
-                        toast_warning.classList.add('bxs-error');
+                        toast_warning.classList.remove('bi-check2');
+                        toast_warning.classList.add('bi-cone-striped');
                         toast_warning.style.color = 'red';
                         toast_messageup.innerHTML = `¡Ups! something went wrong`;
                         toast_body.innerHTML= `Component could not be created su error:<br>${message} `;
@@ -1117,8 +1113,8 @@ form.addEventListener('submit', function(e){
 
                   toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
                   toast_messageup.innerHTML = `¡Success!`;
-                  toast_warning.classList.add('bx-check');
-                  toast_warning.classList.remove('bxs-error');
+                  toast_warning.classList.add('bi-check2');
+                  toast_warning.classList.remove('bi-cone-striped');
                   toast_warning.style.color = 'green';
                   const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                   toastBootstrap.show()
@@ -1128,8 +1124,8 @@ form.addEventListener('submit', function(e){
             })
             .catch(error=>{
 
-                  toast_warning.classList.remove('bx-check');
-                  toast_warning.classList.add('bxs-error');
+                  toast_warning.classList.remove('bi-check2');
+                  toast_warning.classList.add('bi-cone-striped');
                   toast_warning.style.color = 'red';
                   toast_messageup.innerHTML = `¡Ups! something went wrong`;
                   toast_body.innerHTML= `Component could not be created su <br> error: ${error} `;
@@ -1151,7 +1147,7 @@ const loading = document.querySelector('.home > .spinner');
 const home = document.querySelector('.home');
 const toastLiveExample = document.getElementById('liveToast'),
       toast_header = toastLiveExample.querySelector('.toast-header'),
-      toast_warning = toastLiveExample.querySelector('.bx'),
+      toast_warning = toastLiveExample.querySelector('.bi'),
       toast_messageup = toastLiveExample.querySelector('strong'),
       toast_body = toastLiveExample.querySelector('.toast-body');
 
@@ -1225,8 +1221,8 @@ if(rows){
                                         //   toast_body.innerHTML = `Component Deleted successfully <br> id: ${docId} `;
                                           toast_body.innerHTML = `Component deleted successfully <br> id: ${docId} `;
                                           toast_messageup.innerHTML = `¡Success!`;
-                                          toast_warning.classList.add('bx-check');
-                                          toast_warning.classList.remove('bxs-error');
+                                          toast_warning.classList.add('bi-check2');
+                                          toast_warning.classList.remove('bi-cone-striped');
                                           toast_warning.style.color = 'green';
                                           const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                                           toastBootstrap.show();
@@ -1241,8 +1237,8 @@ if(rows){
                                           spinner_border.style.display = 'none';
                                           icon_border.style.display = 'block';
 
-                                          toast_warning.classList.remove('bx-check');
-                                          toast_warning.classList.add('bxs-error');
+                                          toast_warning.classList.remove('bi-check2');
+                                          toast_warning.classList.add('bi-cone-striped');
                                           toast_warning.style.color = 'red';
                                           toast_messageup.innerHTML = `¡Ups! something went wrong`;
                                           toast_body.innerHTML= `Component could not be deleted su <br> error: ${error} `;
