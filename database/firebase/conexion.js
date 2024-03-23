@@ -95,63 +95,93 @@ export async function setCollection(tableName,formDataObject,idToken = null,uid 
     try{
         const db = getFirestore(firebaseApp);
         // const formularioRef = collection(db, tableName);
-
         const now = new Date();
         const timestamp = new Timestamp(now.getTime() / 1000, 0);
-
-        const docReference = doc(db, 'Doctors', uid);
-
         const formDataObj = {};
         const userDataObj = {};
-        formDataObject.forEach((valor, clave) => {
-            formDataObj[clave] = valor;
-        });
-        // formDataObj['Token'] = idToken;
-        formDataObj['ID'] = uid;
-        formDataObj['CreateIn'] = timestamp;
-        const docRef = await setDoc(docReference, formDataObj);
-
+        const medicinesDataObj = {};
+        const servicesDataObject = {};
         let mapTousers = {};
-
         let mapToObject = {};
-        if(mapa !=null){
-            for (let [clave, mapaInterno] of mapa.entries()) {
-                mapToObject[clave] = {};
-                for (let [claveInterna, valor] of mapaInterno.entries()) {
-                    mapToObject[clave][claveInterna] = valor;
+
+        
+
+        if(tableName === 'Services'){
+            const docReference = doc(db, 'Services', formDataObject.get('name'));
+
+            formDataObject.forEach((valor, clave) => {
+                servicesDataObject[clave] = valor;
+            });
+
+            await setDoc(docReference,servicesDataObject);
+
+
+            return formDataObject.get('name');
+            
+        }
+        else if(tableName === 'Doctors'){
+            const docReference = doc(db, 'Doctors', uid);
+
+            formDataObject.forEach((valor, clave) => {
+                formDataObj[clave] = valor;
+            });
+            formDataObj['ID'] = uid;
+            formDataObj['CreateIn'] = timestamp;
+
+            await setDoc(docReference, formDataObj);
+    
+            //map to specializations
+            if(mapa !=null){
+                for (let [clave, mapaInterno] of mapa.entries()) {
+                    mapToObject[clave] = {};
+                    for (let [claveInterna, valor] of mapaInterno.entries()) {
+                        mapToObject[clave][claveInterna] = valor;
+                    }
                 }
             }
+            await updateDoc(docReference,{Specializations:mapToObject});
+            //=============================
+
+            if(tableName === 'Doctors'){
+                userDataObj['email'] = formDataObject.get('Email');
+                userDataObj['type'] = "Doctor";
+    
+                mapa.forEach((mapaInterno,indice)=>{
+                      mapTousers[indice] ={};
+                      mapaInterno.forEach((finalmap,index)=>{
+                        if(index == 'Specialization'){
+                            mapTousers[indice]['specialization'] = finalmap;
+                        }
+                        else if(index == 'Status'){
+                            mapTousers[indice]['status'] = finalmap;
+                        }
+                      })  
+                })
+    
+                // const users = collection(db,'Users')
+                const docReference = doc(db, 'Users', uid);
+    
+                await setDoc(docReference,userDataObj);
+                await updateDoc(docReference,{specializations:mapTousers});
+            }
+            
         }
-        const specialization = await updateDoc(docReference,{Specializations:mapToObject});
-        
-        if(tableName === 'Doctors'){
-            userDataObj['email'] = formDataObject.get('Email');
-            userDataObj['type'] = "Doctor";
+        else if(tableName === 'Medicines'){
+            const medicinesCollection = collection(db,'Medicines');
+            formDataObject.forEach((valor, clave) => {
+                medicinesDataObj[clave] = valor;
+            });
 
-            mapa.forEach((mapaInterno,indice)=>{
-                  mapTousers[indice] ={};
-                  mapaInterno.forEach((finalmap,index)=>{
-                    if(index == 'Specialization'){
-                        mapTousers[indice]['specialization'] = finalmap;
-                    }
-                    else if(index == 'Status'){
-                        mapTousers[indice]['status'] = finalmap;
-                    }
-                  })  
-            })
-
-            // const users = collection(db,'Users')
-            const docReference = doc(db, 'Users', uid);
-
-
-            const userRef = await setDoc(docReference,userDataObj);
-            const specialization = await updateDoc(docReference,{specializations:mapTousers});
+            const medicineRef = await addDoc(medicinesCollection,medicinesDataObj);
+            return medicineRef.id;
         }
+
+
 
         return uid;
 
     }catch(error){
-        // console.error("Error al guardar el documento: ", error);
+        console.error("Error al guardar el documento: ", error);
         throw error;
     }
 
@@ -208,16 +238,6 @@ export async function deleteDocument(tableName, documentId) {
         // Eliminar el documento
         await deleteDoc(UserRef);
         await deleteDoc(documentRef);
-
-        //elimina el usuario
-        // deleteUser(auth, documentId)
-        // .then(() => {
-        //     // console.log("Usuario eliminado correctamente");
-        // })
-        // .catch((error) => {
-        //     console.error("Error al eliminar el usuario:", error);
-        //     throw error;
-        // });
 
 
         return documentId;

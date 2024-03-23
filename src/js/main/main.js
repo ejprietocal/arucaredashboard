@@ -66,11 +66,7 @@ function login(){
                 messageUp = liveToast.querySelector('.messageUp'),
                 toastBody = liveToast.querySelector('.toast-body');
             toastTrigger.addEventListener('click', () => {
-                // getAmountOf('Patients');
-                // getAmountOf('Doctors');
-                // getAmountOf('Medicines');
-                // getAmountOf('Appointments');
-                // getAmountUserPerMonth('Doctors');
+
 
                 getAmountAppointmentsUserPerMonth();
                 const user = document.querySelector('#validationCustomUsername').value;
@@ -150,7 +146,7 @@ function submitLogin(){
                     const user = cred.user;
                     user.getIdToken()
                         .then(token=>{
-                            document.cookie = `token=${token}; path=/`;
+                            document.cookie = `token=${token}; max-age=60*60 path=/`;
                             fetch('public/assets/pages/dashboard/dashboard.php')
                             .then(response=>{
                                 if (response.status === 404) {

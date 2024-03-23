@@ -1,3 +1,16 @@
+<?php  
+  if(!isset($_COOKIE['token'])){
+
+    header('Location: /');
+    exit;
+
+  }
+
+
+?>
+
+
+
 <?php require 'public/assets/pages/header/header.php'?>
 
 <body>

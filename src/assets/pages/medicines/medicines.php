@@ -1,3 +1,14 @@
+<?php
+
+if(!isset($_COOKIE['token'])){
+
+    header('Location: /');
+    exit;
+
+  }
+
+?>
+
 <div class="table-responsive" id="no-more-tables">
 
     <div class="w-100 position-relative" style="min-height:3rem; height:fit-content">

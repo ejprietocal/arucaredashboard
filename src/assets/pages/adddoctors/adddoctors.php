@@ -1,3 +1,15 @@
+<?php
+
+if(!isset($_COOKIE['token'])){
+
+    header('Location: /');
+    exit;
+
+  }
+
+?>
+
+
 <form id="form" action='POST' class="alert  position-relative alert-dismissible fade show animate__bounceIn shadow needs-validation" novalidate>
   <button type="button" class="button-close btn-close" data-bs-dismiss="alert" data-bs-target=".createContainer" aria-label="Close"></button>
   <strong class="fs-2">Doctor Creation</strong>
@@ -165,7 +177,7 @@
     <div class="mb-3 w-100">
       <div id="contenedor_node"class="col-12">
         <label for="Specializations" class="form-label fw-bold fs-2">Specializations  <button type="button" class="btn-add-new-node btn fs-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add Specialization"><i class="bi bi-plus-lg font-color"></i></button></label>
-        <div data-clone="0" class="clase-clone card input-group mb-3 animate__bounceIn">
+        <div data-clone="0" class="clase-clone card input-group mb-3 animate__bounceIn bg-transparent border border-3">
           <!-- <label class="field_specialization p-2"></label> -->
           <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
           <div class="card-header field_specialization p-2 d-flex justify-content-between align-items-center">

@@ -110,7 +110,10 @@ export function clickoption(){
               
               loading.style.display = "flex";
               if(item.id ==='Services'){
-                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`)
+                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`,{
+                    method: 'GET',
+                    credentials: 'include'
+                  })
                   .then(response=>{
                       if (response.status === 404) {
                           throw new Error('El recurso solicitado no se encontró');
@@ -222,7 +225,10 @@ export function clickoption(){
                   })
               }
               if(item.id === 'Appointments'){
-                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`)
+                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`,{
+                    method: 'GET',
+                    credentials: 'include'
+                  })
                   .then(response=>{
                       if (response.status === 404) {
                           throw new Error('El recurso solicitado no se encontró');
@@ -340,7 +346,10 @@ export function clickoption(){
                   })
               }
               if(item.id === 'Doctors'){
-                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`)
+                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`,{
+                    method: 'GET',
+                    credentials: 'include'
+                  })
                   .then(response=>{
                       if (response.status === 404) {
                           throw new Error('El recurso solicitado no se encontró');
@@ -465,7 +474,10 @@ export function clickoption(){
                   })
               }
               if(item.id === 'Patients'){
-                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`)
+                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`,{
+                    method: 'GET',
+                    credentials: 'include'
+                  })
                   .then(response=>{
                       if (response.status === 404) {
                           throw new Error('El recurso solicitado no se encontró');
@@ -579,7 +591,10 @@ export function clickoption(){
                   })
               }
               if(item.id === 'Medicines'){
-                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`)
+                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`,{
+                    method: 'GET',
+                    credentials: 'include'
+                  })
                   .then(response=>{
                       if (response.status === 404) {
                           throw new Error('El recurso solicitado no se encontró');
@@ -700,7 +715,10 @@ export function clickoption(){
               }
               if(item.id==='Dashboard'){
                   loading.style.display = "none";
-                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`)
+                  fetch(`public/assets/pages/${item.id.toLowerCase()}/${item.id.toLowerCase()}.php`,{
+                    method: 'GET',
+                    credentials: 'include'
+                  })
                   .then(response=>{
                       if (response.status === 404) {
                           throw new Error('El recurso solicitado no se encontró');
@@ -731,14 +749,16 @@ export function clickoption(){
                   signOut(auth)
                         .then(() => {
                         // La sesión se ha cerrado correctamente
+                        document.cookie = 'token' + '=; max-age=-99999999';
                         console.log("Sesión cerrada correctamente.");
+                        window.location.href = "/";
                         })
                         .catch((error) => {
                         // Manejar errores al cerrar sesión
                         console.error("Error al cerrar sesión:", error);
                         });
                   // activateTooltips();
-                  window.location.href = "/";
+
                   // destroyTooltips();
               }
           
@@ -768,7 +788,10 @@ function clickAdd(){
           if(button){
               button.addEventListener('click', function(event){
                   loading.style.display = 'flex';
-                  fetch(`public/assets/pages/${button.id.toLowerCase()}/${button.id.toLowerCase()}.php`)
+                  fetch(`public/assets/pages/${button.id.toLowerCase()}/${button.id.toLowerCase()}.php`,{
+                    method: 'GET',
+                    credentials: 'include'
+                  })
                   .then(response=>{
                       if (response.status === 404) {
                           throw new Error('El recurso solicitado no se encontró');
@@ -807,26 +830,12 @@ function clickAdd(){
                       const password = document.querySelector('#Password');
                       const eyepassword = document.querySelector('.input-group-text'),
                             eyeicon = eyepassword.querySelector('i.bi');
-                      eyepassword.addEventListener('click',function(e){
-                          if(password.type === 'password'){
-                            password.type = 'text'
-                            eyeicon.classList.remove('bi-eye-slash-fill');
-                            eyeicon.classList.add('bi-eye-fill');
-                          }else{
-                            password.type= 'password';
-                            eyeicon.classList.add('bi-eye-slash-fill');
-                            eyeicon.classList.remove('bi-eye-fill');
-                          }
 
-                      })  
-                      }  
 
-  
-                      loading.style.display = 'none';
-                      let aux = 1;
-                      const addNode = document.querySelector('.btn-add-new-node');
-                      const container_node = document.querySelector('#contenedor_node');
-                      addNode.addEventListener('click',function(e){
+                        let aux = 1;
+                        const addNode = document.querySelector('.btn-add-new-node');
+                        const container_node = document.querySelector('#contenedor_node');
+                        addNode.addEventListener('click',function(e){
                             e.preventDefault();
 
                             let clone = document.querySelector('.clase-clone');
@@ -847,7 +856,25 @@ function clickAdd(){
                             let contenedor = e.target.parentNode.parentNode;
                             contenedor.parentNode.removeChild(contenedor);
                         }
-                      });
+                      });      
+                      eyepassword.addEventListener('click',function(e){
+                          if(password.type === 'password'){
+                            password.type = 'text'
+                            eyeicon.classList.remove('bi-eye-slash-fill');
+                            eyeicon.classList.add('bi-eye-fill');
+                          }else{
+                            password.type= 'password';
+                            eyeicon.classList.add('bi-eye-slash-fill');
+                            eyeicon.classList.remove('bi-eye-fill');
+                          }
+
+                      })  
+                      }  
+
+  
+                      loading.style.display = 'none';
+
+
 
 
                       saveInfo(button.id);
@@ -1108,6 +1135,7 @@ if(rows){
                   loading.style.display = 'flex';
                   fetch('/public/assets/pages/delete/delete.php',{
                         method: 'POST',
+                        credentials: 'include',
                         headers: {
                         'Content-Type': 'application/x-www-form-urlencoded' // Tipo de contenido específico
                         },

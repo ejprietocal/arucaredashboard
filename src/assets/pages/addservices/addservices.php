@@ -1,3 +1,15 @@
+<?php
+
+if(!isset($_COOKIE['token'])){
+
+    header('Location: /');
+    exit;
+
+  }
+
+?>
+
+
 <form id="form" action="POST" class="alert  alert-dismissible fade show animate__bounceIn shadow needs-validation" role="alert" novalidate>
   <button type="button" class="button-close btn-close" data-bs-dismiss="alert" data-bs-target=".createContainer" aria-label="Close"></button>
   <strong class="fs-2">Service Creation</strong>

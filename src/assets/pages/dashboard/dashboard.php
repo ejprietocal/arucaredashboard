@@ -1,3 +1,15 @@
+<?php
+
+if(!isset($_COOKIE['token'])){
+
+    header('Location: /');
+    exit;
+
+  }
+
+?>
+
+
 <div class="home-container ">
       <h1 class="font-color">Dashboard Arucare</h1>
       <hr class="font-color">
