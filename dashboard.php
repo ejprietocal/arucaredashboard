@@ -50,37 +50,37 @@
             </li>
             <ul class="menu-links p-0">
               <li class="nav-link">
-                <a href="#" id="Dashboard" class="link" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+                <a  id="Dashboard" class="link" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
                   <i  type="button" class='bx bxs-home icono'></i>
                   <span class="text nav-text">Dashboard</span>
                 </a>
               </li>
               <li class="nav-link">
-                <a href="#" id="Doctors" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Doctors">
+                <a  id="Doctors" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Doctors">
                 <i class='bx bxs-shield-plus icono'></i>
                   <span class="text nav-text">Doctors</span>
                 </a>
               </li>
               <li class="nav-link">
-                <a href="#" id="Patients" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Patients">
+                <a  id="Patients" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Patients">
                 <i class='bx bx-user-check icono'></i>
                   <span class="text nav-text">Patients</span>
                 </a>
               </li>
               <li class="nav-link">
-                <a href="#"  id="Appointments" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Appointments">
+                <a   id="Appointments" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Appointments">
                 <i class='bx bx-plus-medical icono'></i>
                   <span class="text nav-text">Apointment</span>
                 </a>
               </li>
               <li class="nav-link">
-                <a href="#"  id="Medicines" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Medicines">
+                <a   id="Medicines" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Medicines">
                    <i class='bx bxs-capsule icono'></i>
                   <span class="text nav-text">Medicines</span>
                 </a>
               </li>
               <li class="nav-link" >
-                <a href="#"id="Services" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Services">
+                <a id="Services" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Services">
                 <i class="bi bi-hospital-fill icono"></i>
                   <span class="text nav-text">Services</span>
                 </a>
@@ -91,7 +91,7 @@
 
           <div class="bottom-content">
             <li class="">
-                <a href="#" id="Logout" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Logout">
+                <a  id="Logout" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Logout">
                 <i class="bx bx-log-out icono"></i>
                   <span class="text nav-text">Logout</span>
                 </a>
@@ -142,7 +142,7 @@
         </div>
 
 
-        <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-5">
           <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header fs-2">
                 <i class='bx bx-check rounded me-2 fs-1 fw-bolder' style="color:green;"></i>

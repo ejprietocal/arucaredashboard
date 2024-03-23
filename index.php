@@ -15,7 +15,7 @@
 </div></div>
 </div>
 
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
+<div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-5">
   <div id="liveToast" class="toast bg-danger-subtle text-danger-emphasis" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header fs-2">
     <i class="bi bi-exclamation-circle me-2"></i>

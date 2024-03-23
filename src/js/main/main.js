@@ -1,6 +1,6 @@
 import { mode,validateEmail} from "../dashboard/dashboard.min.js";
 import {signInWithEmailAndPassword,getAuth,sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-import { firebaseApp,obtenerValorCookie,getAmountOf, getAmountAppointmentsUserPerMonth} from "../../../database/firebase/conexion.js";
+import { firebaseApp} from "../../../database/firebase/conexion.js";
 
 const spinner = document.querySelector('.spinner');
 const container = document.querySelector('body > .container-fluid');
@@ -68,7 +68,7 @@ function login(){
             toastTrigger.addEventListener('click', () => {
 
 
-                getAmountAppointmentsUserPerMonth();
+    
                 const user = document.querySelector('#validationCustomUsername').value;
                 // console.log(validateEmail(user));
                 if(!validateEmail(user)){
@@ -146,7 +146,7 @@ function submitLogin(){
                     const user = cred.user;
                     user.getIdToken()
                         .then(token=>{
-                            document.cookie = `token=${token}; max-age=60*60 path=/`;
+                            document.cookie = `token=${token}; max-age=86400 path=/`;
                             fetch('public/assets/pages/dashboard/dashboard.php')
                             .then(response=>{
                                 if (response.status === 404) {
@@ -155,7 +155,8 @@ function submitLogin(){
                                 throw new Error('Error interno del servidor');
                                 } else if(!response.ok) {
                                 throw new Error('Error en la solicitud fetch: ' + response.status);
-                                }
+      
+                            }
                                 else{
                                     return response.text();
                                 }
@@ -163,14 +164,9 @@ function submitLogin(){
                             .then((data)=>{
                                 return data;
                             })
-                            .then(data=>{
-                                
-
-                                
+                            .then(data=>{                
                                 window.location.href = "/dashboard.php";
                                 // const home = document.querySelector('.home');
-                                
-
                             })
                             .catch(error => {
                                 // Manejo de errores
@@ -218,10 +214,8 @@ function submitLogin(){
                     toastBody.innerHTML = messagepop;
                     toastBootstrap.show();
 
-
                 })
             }
-
             login.classList.add('was-validated');
         },false);     
 

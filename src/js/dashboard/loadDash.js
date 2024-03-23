@@ -1,4 +1,5 @@
-import { initializateGraph } from "../graph/graph.min.js";
+import { initializateGraph,initializateGraphApp } from "../graph/graph.min.js";
+import { clickAdd } from "../dashboard/dashboard.min.js";
 document.addEventListener('DOMContentLoaded',function(e){
 
 loadDash();
@@ -33,6 +34,8 @@ function loadDash(){
       datos.innerHTML = data;
       home.appendChild(datos);
       initializateGraph('myChart');  
+      initializateGraphApp('myChartApp');
+      clickAdd();
     })
     .catch(error=>{
       console.log(error);

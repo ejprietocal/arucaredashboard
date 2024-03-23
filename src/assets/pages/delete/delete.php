@@ -1,12 +1,5 @@
 <?php 
 
-  if(!isset($_COOKIE['token'])){
-
-    header('Location: /');
-    exit;
-
-  }
-
   if($_SERVER['REQUEST_METHOD']=== 'POST' && isset($_POST['id'])){
 
     $id = $_POST['id'];

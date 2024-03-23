@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
 import { getFirestore, collection, getDocs,getDoc, setDoc, updateDoc, addDoc,deleteDoc,doc,Timestamp} from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
-import {getAuth, deleteUser} from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+import {getAuth} from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 // Inicializa la aplicación de Firebase con las credenciales
 // import { obtenerValorCookie } from "../../src/js/dashboard/dashboard.js";
 
@@ -70,31 +70,66 @@ export function getAmountAppointmentsUserPerMonth(){
         let string_month;
         let year_month;
 
-        let JsonYearCount = {};
-        // console.log(timee);
+
+        // let countOfperMonth= {};
+
+        const currentYear = new Date().getFullYear();
+        // const lastTwoYearsData = {};
+
         return getDocs(quantityOfApp)
-            .then((docsSnapshot)=>{
-                docsSnapshot.forEach(docSnapshot=>{
-                    console.log(docSnapshot.data().createIn);
-                    year_month = cadena.split('-').slice(0, 2);
-                    string_year = year_month[0];
-                    string_month = year_month[1];
-
-                    Object.entries(JsonYearCount).forEach(([key,value])=>{
-
-                    })
-
-                })
-            })
-
-
+        .then((docsSnapshot)=>{
+            const countOfperMonth = {};
+    
+            docsSnapshot.forEach(docSnapshot=>{
+                const year_month = docSnapshot.data().createIn.split('-').slice(0, 2);
+                const string_year = year_month[0];
+                const string_month = year_month[1];
+    
+                if(!countOfperMonth[string_year]){
+                    countOfperMonth[string_year]={};
+                }
+                if(!countOfperMonth[string_year][string_month]){
+                    countOfperMonth[string_year][string_month] = 1;
+                }
+                else{
+                    countOfperMonth[string_year][string_month]++;
+                }
+            });
+    
+            const lastTwoYearsData = {};
+    
+            for (let year = currentYear - 1; year <= currentYear; year++) {
+                if (countOfperMonth[year.toString()]) {
+                    lastTwoYearsData[year.toString()] = countOfperMonth[year.toString()];
+                }
+            }
+    
+            // Generar todos los meses de enero a diciembre con un valor de 0 si no hay datos
+            for (let year = currentYear - 1; year <= currentYear; year++) {
+                if (!lastTwoYearsData[year.toString()]) {
+                    lastTwoYearsData[year.toString()] = {};
+                }
+    
+                for (let month = 1; month <= 12; month++) {
+                    const monthString = month.toString().padStart(2, '0');
+                    if (!lastTwoYearsData[year.toString()][monthString]) {
+                        lastTwoYearsData[year.toString()][monthString] = 0;
+                    }
+                }
+            }
+            // console.log(lastTwoYearsData);
+            return lastTwoYearsData;
+        })
+        .catch(error=>{
+            throw error;
+        })
+        
 }
 
 
 export async function setCollection(tableName,formDataObject,idToken = null,uid = null,mapa=null){
     try{
         const db = getFirestore(firebaseApp);
-        // const formularioRef = collection(db, tableName);
         const now = new Date();
         const timestamp = new Timestamp(now.getTime() / 1000, 0);
         const formDataObj = {};
@@ -103,8 +138,6 @@ export async function setCollection(tableName,formDataObject,idToken = null,uid 
         const servicesDataObject = {};
         let mapTousers = {};
         let mapToObject = {};
-
-        
 
         if(tableName === 'Services'){
             const docReference = doc(db, 'Services', formDataObject.get('name'));
@@ -176,8 +209,6 @@ export async function setCollection(tableName,formDataObject,idToken = null,uid 
             return medicineRef.id;
         }
 
-
-
         return uid;
 
     }catch(error){
@@ -243,7 +274,6 @@ export async function deleteDocument(tableName, documentId) {
         return documentId;
 
     } catch (error) {
-
         throw error;
     }
 }

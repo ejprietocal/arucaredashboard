@@ -1,13 +1,3 @@
-<?php
-
-if(!isset($_COOKIE['token'])){
-
-    header('Location: /');
-    exit;
-
-  }
-
-?>
 
 
 <form id="form" action='POST' class="alert  position-relative alert-dismissible fade show animate__bounceIn shadow needs-validation" novalidate>

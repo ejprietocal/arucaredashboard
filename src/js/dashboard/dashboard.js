@@ -1,7 +1,9 @@
 import { getData,setCollection,deleteDocument} from "../../../database/firebase/conexion.js";
 import {createUserWithEmailAndPassword,getAuth,signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 import { firebaseApp } from "../../../database/firebase/conexion.js";
-import { initializateGraph } from "../graph/graph.min.js";
+import { initializateGraph,initializateGraphApp } from "../graph/graph.min.js";
+
+
 
 
 const auth = getAuth(firebaseApp);
@@ -734,7 +736,9 @@ export function clickoption(){
                   .then(data=>{
                     datos.innerHTML = data;
                     home.appendChild(datos);
-                    initializateGraph('myChart');  
+                    initializateGraph('myChart');
+                    initializateGraphApp('myChartApp');
+                    clickAdd();
                   })
                   .catch(error=>{
                     console.log(error);
@@ -781,7 +785,7 @@ function activateTooltips(){
 
 
   
-function clickAdd(){
+export function clickAdd(){
       const buttonadd = document.querySelectorAll('.add-button');
       const loading = document.querySelector('.home > .spinner');
       buttonadd.forEach(button =>{
@@ -925,14 +929,11 @@ form.addEventListener('submit', function(e){
             button.classList.add('disabled');
             btn_close.classList.add('disabled');
             const formData = new FormData(this);
-            // const fechaActualUTC = new Date().toUTCString();
-            // formData.append('createIn', `${fechaActualUTC} Time Zone`);
+
             let Specializations = new Map();
             let count = 0;
 
-            // const nameAllSpecializations = document.querySelectorAll('.specialization-name');
-            // const priceAllSpecializations = document.querySelectorAll('.price-specialization');
-            // const statusAllSpecializations = document.querySelectorAll('.select-Status-specialization');
+
 
             const selectDataClone = document.querySelectorAll('div[data-clone]');
 
@@ -950,29 +951,6 @@ form.addEventListener('submit', function(e){
                 count++;
             })
 
-            // console.log(typeof(Specializations) + typeof(Specialization));
-
-            Specializations.forEach((mapaInterno, indice) => {
-                console.log(`Mapa interno en índice ${indice}:`);
-                
-                // Iterar sobre el mapa interno
-                mapaInterno.forEach((valor, clave) => {
-                    console.log(`  ${clave}: ${valor}`);
-                });
-                
-                console.log(""); // Imprimir una línea en blanco para separar los mapas internos
-            });
-
-            // console.log(JSON.stringify(Specializations));
-
-            // let jsonString = JSON.stringify(arrayMapas);
-
-
-            // formData.append('Specializations',jsonString);
-            // formData.forEach((value,key)=>{
-            //     console.log(key+ '->'+ value);
-            // })
-
             if(formId === 'addServices'){     
             setCollection('Services',formData)
                   .then((docId)=>{
@@ -986,9 +964,16 @@ form.addEventListener('submit', function(e){
                         btn_close.click();
 
                         toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
+                        toast_messageup.innerHTML = `¡Success!`;
+                        toast_warning.classList.add('bx-check');
+                        toast_warning.classList.remove('bxs-error');
+                        toast_warning.style.color = 'green';
+
                         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                         toastBootstrap.show();
-                        option.click(); 
+                        if(option){
+                            option.click(); 
+                        }
                   })
                   .catch(error=>{
                         // console.error("Error al guardar el documento:", error);
@@ -1031,10 +1016,15 @@ form.addEventListener('submit', function(e){
                                           toast_messageup.innerHTML = `¡Success!`;
                         
                                           toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
+                                          toast_messageup.innerHTML = `¡Success!`;
+                                          toast_warning.classList.add('bx-check');
+                                          toast_warning.classList.remove('bxs-error');
+                                          toast_warning.style.color = 'green';
                                           const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                                           toastBootstrap.show();
-                        
-                                          option.click();
+                                          if(option){
+                                              option.click();
+                                          }  
                                     })
                                     .catch(error=>{
                                           // console.error("Error al guardar el documento:", error);
@@ -1052,8 +1042,6 @@ form.addEventListener('submit', function(e){
                   })
                   .catch((error) => {
                         let message ='';
-                        // const errorCode = error.code;
-                        // console.log(error.message);
                         if(error.message == 'Firebase: Error (auth/email-already-in-use).'){
                             message = 'Email is already used'
                         }
@@ -1089,13 +1077,17 @@ form.addEventListener('submit', function(e){
                   btn_close.click();
 
                   toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
+                  toast_messageup.innerHTML = `¡Success!`;
+                  toast_warning.classList.add('bx-check');
+                  toast_warning.classList.remove('bxs-error');
+                  toast_warning.style.color = 'green';
                   const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                   toastBootstrap.show()
-
-                  option.click();
+                  if(option){
+                      option.click();
+                  }  
             })
             .catch(error=>{
-                  // console.error("Error al guardar el documento:", error);
 
                   toast_warning.classList.remove('bx-check');
                   toast_warning.classList.add('bxs-error');
@@ -1131,7 +1123,6 @@ if(rows){
             if(event.target.classList.contains('btn-danger')){
                   console.log(row.id,'->','click en delete');
 
-                  // console.log(row.querySelector('td').textContent);
                   loading.style.display = 'flex';
                   fetch('/public/assets/pages/delete/delete.php',{
                         method: 'POST',
@@ -1156,8 +1147,6 @@ if(rows){
                   })
                   .then(data=>{
 
-            
-                        // const home = document.querySelector('.home');
                         const added =document.createElement('div');
                         added.classList.add('position-absolute');
                         added.classList.add('createContainer');
@@ -1185,9 +1174,6 @@ if(rows){
                               btn_no.classList.add('disabled');
                               spinner_border.style.display = 'block';
                               icon_border.style.display = 'none';
-
-                              
-
                               deleteDocument(home.dataset.idbutton,row.id)
                                     .then((docId)=>{
 
@@ -1199,11 +1185,17 @@ if(rows){
 
                                           btn_close.click();
 
-                                          toast_body.innerHTML = `Component Deleted successfully <br> id: ${docId} `;
+                                        //   toast_body.innerHTML = `Component Deleted successfully <br> id: ${docId} `;
+                                          toast_body.innerHTML = `Component deleted successfully <br> id: ${docId} `;
+                                          toast_messageup.innerHTML = `¡Success!`;
+                                          toast_warning.classList.add('bx-check');
+                                          toast_warning.classList.remove('bxs-error');
+                                          toast_warning.style.color = 'green';
                                           const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                                           toastBootstrap.show();
-                        
-                                          option.click();
+                                          if(option){
+                                              option.click();
+                                          }  
                                     })
                                     .catch(error=>{
                                           btn_delete.classList.remove('disabled');
