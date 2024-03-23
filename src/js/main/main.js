@@ -1,6 +1,6 @@
 import { mode,validateEmail} from "../dashboard/dashboard.min.js";
 import {signInWithEmailAndPassword,getAuth,sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-import { firebaseApp} from "../../../database/firebase/conexion.js";
+import { firebaseApp,validateAccess} from "../../../database/firebase/conexion.js";
 
 const spinner = document.querySelector('.spinner');
 const container = document.querySelector('body > .container-fluid');
@@ -127,6 +127,23 @@ function submitLogin(){
     const login = document.querySelector('.form_container'),
             input_email = login.querySelector('#validationCustomUsername'),
             input_password = login.querySelector('#password_field');
+
+    const toastLiveExample = document.getElementById('liveToast');
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+    const liveToast = document.querySelector('#liveToast'),
+            toastHeader = liveToast.querySelector('.toast-header'),
+            iconHeader = toastHeader.querySelector('i.bi'),
+            messageUp = liveToast.querySelector('.messageUp'),
+            toastBody = liveToast.querySelector('.toast-body');
+
+            iconHeader.classList.add('bi-exclamation-circle');
+            iconHeader.classList.remove('bi-send-check-fill');
+            liveToast.classList.add('bg-danger-subtle');
+            liveToast.classList.add('text-danger-emphasis');
+            liveToast.classList.remove('bg-success-subtle');
+            liveToast.classList.remove('text-success-emphasis');
+
+            let messagepop= ``;
     if(login){
         login.addEventListener('submit', function(e){
 
@@ -138,6 +155,7 @@ function submitLogin(){
                 e.preventDefault();
                 e.stopPropagation();
                               
+
                 signInWithEmailAndPassword(autorization,input_email.value,input_password.value)
                 .then(cred =>{
                     // alert('usuario logeado');
@@ -145,56 +163,64 @@ function submitLogin(){
                     
                     const user = cred.user;
                     const uid = user.uid;
-                    // console.log(uid);
-                    user.getIdToken()
-                        .then(token=>{
-                            document.cookie = `token=${token}; max-age=86400 path=/`;
-                            fetch('public/assets/pages/dashboard/dashboard.php')
-                            .then(response=>{
-                                if (response.status === 404) {
-                                    throw new Error('El recurso solicitado no se encontró');
-                                } else if (response.status === 500) {
-                                throw new Error('Error interno del servidor');
-                                } else if(!response.ok) {
-                                throw new Error('Error en la solicitud fetch: ' + response.status);
-      
+                   validateAccess(uid)
+                        .then(promise=>{
+                            console.log(promise)
+                            if(promise){
+                                user.getIdToken()
+                                    .then(token=>{
+                                        document.cookie = `token=${token}; max-age=86400 path=/`;
+                                        fetch('public/assets/pages/dashboard/dashboard.php')
+                                        .then(response=>{
+                                            if (response.status === 404) {
+                                                throw new Error('El recurso solicitado no se encontró');
+                                            } else if (response.status === 500) {
+                                            throw new Error('Error interno del servidor');
+                                            } else if(!response.ok) {
+                                            throw new Error('Error en la solicitud fetch: ' + response.status);
+                
+                                        }
+                                            else{
+                                                return response.text();
+                                            }
+                                        })
+                                        .then((data)=>{
+                                            return data;
+                                        })
+                                        .then(data=>{                
+                                            window.location.href = "/dashboard.php";
+                                            // const home = document.querySelector('.home');
+                                        })
+                                        .catch(error => {
+                                            // Manejo de errores
+                                            return error;
+                                        });
+                                    })
+                                    .catch(error => {
+                                        console.error('Error al obtener el token:', error);
+                                    });
                             }
-                                else{
-                                    return response.text();
-                                }
-                            })
-                            .then((data)=>{
-                                return data;
-                            })
-                            .then(data=>{                
-                                window.location.href = "/dashboard.php";
-                                // const home = document.querySelector('.home');
-                            })
-                            .catch(error => {
-                                // Manejo de errores
-                                return error;
-                            });
+                            else{
+                                spinner.style.display ="none";
+                                throw new Error('User has no access to this dashboard');
+                            }
+
                         })
-                        .catch(error => {
-                            console.error('Error al obtener el token:', error);
-                        });
+                        .catch(error=>{
+                            // console.log(error);
+                            
+                            messagepop = error.message
+
+                            toastBody.innerHTML = messagepop;
+                            toastBootstrap.show();
+                        })
+
                 })   
                 .catch(error=>{
-                    let messagepop= ``;
-                    const toastLiveExample = document.getElementById('liveToast');
-                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-                    const liveToast = document.querySelector('#liveToast'),
-                            toastHeader = liveToast.querySelector('.toast-header'),
-                            iconHeader = toastHeader.querySelector('i.bi'),
-                            messageUp = liveToast.querySelector('.messageUp'),
-                            toastBody = liveToast.querySelector('.toast-body');
+                    
+
                     // console.log(error.message);
-                    iconHeader.classList.add('bi-exclamation-circle');
-                    iconHeader.classList.remove('bi-send-check-fill');
-                    liveToast.classList.add('bg-danger-subtle');
-                    liveToast.classList.add('text-danger-emphasis');
-                    liveToast.classList.remove('bg-success-subtle');
-                    liveToast.classList.remove('text-success-emphasis');
+
                     messageUp.innerHTML = '¡Ups!';
 
                     if(error.message === 'Firebase: Error (auth/invalid-email).'){

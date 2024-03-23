@@ -278,10 +278,29 @@ export async function getData(data) {
 }
 
 export async function validateAccess(uid){
+    try{
 
-    const docReference = doc(db, 'Users', uid);
-
-    const doc = await getDoc(db,)
+        const docReference = doc(db, 'Users', uid);
+        const docSnapshot = await getDoc(docReference);
+    
+        if(docSnapshot.exists()){
+            const userData = docSnapshot.data();
+            const userType = userData.type;
+    
+            if(userType === 'Doctor'){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+    catch(error){
+        throw error;
+    }
 
 }
 
