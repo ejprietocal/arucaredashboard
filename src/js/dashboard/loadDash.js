@@ -1,5 +1,5 @@
 import { initializateGraph,initializateGraphApp } from "../graph/graph.min.js";
-import { clickAdd } from "../dashboard/dashboard.min.js";
+import { clickAdd ,activateTooltips} from "../dashboard/dashboard.min.js";
 document.addEventListener('DOMContentLoaded',function(e){
 
 loadDash();
@@ -35,6 +35,7 @@ function loadDash(){
       home.appendChild(datos);
       initializateGraph('myChart');  
       initializateGraphApp('myChartApp');
+      activateTooltips();
       clickAdd();
     })
     .catch(error=>{

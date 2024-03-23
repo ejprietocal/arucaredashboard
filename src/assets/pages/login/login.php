@@ -55,8 +55,8 @@
 
   <div class="mode">
     <div class="moon-sun">
-        <i class="bx bx-moon icono moon"></i>
-        <i class="bx bx-sun icono sun"></i>
+        <i class="bi bi-moon-stars-fill icono moon"></i>
+        <i class="bi bi-sun-fill icono sun"></i>
     </div>
   
     <div class="toogle-switch">

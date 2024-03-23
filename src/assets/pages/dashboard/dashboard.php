@@ -20,7 +20,7 @@ if(!isset($_COOKIE['token'])){
             ShortCuts
           </div>
           <div class="card-body d-flex flex-column gap-5 justify-content-evenly">
-            <span id="addDoctors" type="button" class="add-button col-12 text-center h-25 fs-3 back-color-inverse p-3 rounded-4 d-flex align-items-center justify-content-center"><i class="bi bi-bandaid text-white fs-2 me-3"></i><span class="text-white">Add Doctor</span></span>
+            <span id="addDoctors" type="button" class="add-button col-12 text-center h-25 fs-3 back-color-inverse p-3 rounded-4 d-flex align-items-center justify-content-center"><i class="bi bi-file-person text-white fs-2 me-3"></i><span class="text-white">Add Doctor</span></span>
             <span id="addServices" type="button" class="add-button col-12 text-center h-25 fs-3 back-color-inverse p-3 rounded-4 d-flex align-items-center justify-content-center"><i class="bi bi-hospital-fill text-white fs-2 me-3"></i><span class="text-white">Add Service</span></span>
             <span id="addMedicines" type="button" class="add-button col-12 text-center h-25 fs-3 back-color-inverse p-3 rounded-4 d-flex align-items-center justify-content-center"><i class="bi bi-capsule text-white fs-2 me-3"></i><span class="text-white">Add Medicine</span></span>
           </div>
@@ -33,8 +33,8 @@ if(!isset($_COOKIE['token'])){
             Total Amounth Of Users
           </div>
           <canvas id="myChart" class="graph-data p-4"></canvas>
-          <div class="loading align-items-center justify-content-center position-absolute top-0 w-100 h-100" style="display:flex;">
-            <div class="spinner-grow text-primary w-50 h-50" role="status">
+          <div class="loading align-items-center justify-content-center position-absolute top-50 start-50 translate-middle" style="display:flex;width:10rem;height:10rem;">
+            <div class="spinner-border text-primary w-100 h-100" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
@@ -45,8 +45,8 @@ if(!isset($_COOKIE['token'])){
             Total Amounth Of Appointments Per Month (Last two years)
           </div>
           <canvas id="myChartApp" class="graph-data p-4"></canvas>
-          <div class="loading2 align-items-center justify-content-center position-absolute top-0 w-100 h-100" style="display:flex;">
-            <div class="spinner-grow text-primary w-50 h-50" role="status">
+          <div class="loading2 align-items-center justify-content-center position-absolute top-50 start-50 translate-middle" style="display:flex;width:10rem;height:10rem;">
+            <div class="spinner-border text-primary w-100 h-100" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>

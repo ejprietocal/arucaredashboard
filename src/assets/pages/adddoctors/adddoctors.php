@@ -20,7 +20,7 @@
     
     <div class="mb-3 w-100">
         <div class="col-12 position-relative">
-          <label for="lastName" class="form-label">Last Name</label>
+          <label for="lastname" class="form-label">Last Name</label>
           <input name="LastName" type="text" class="form-control" id="lastName" placeholder="Type your Last Name" required>
           <div class="valid-tooltip">
               Looks good!
@@ -46,8 +46,8 @@
   <div class="container">
     <div class="mb-3 w-100">
       <div class="col-12 position-relative">
-        <label for="Email-Address" class="form-label">Email address</label>
-        <input name="Email" type="email" class="form-control" id="Email-Address" placeholder="name@example.com" required>
+        <label for="Email" class="form-label">Email address</label>
+        <input name="Email" type="email" class="form-control" id="Email" placeholder="name@example.com" required>
         <div class="valid-tooltip">
           Looks good!
         </div>
@@ -149,7 +149,7 @@
       <div class="col-12 position-relative">
         <label for="select-Status" class="form-label">Status</label>
         <select name="Status" id="select-Status"class="form-select" aria-label="Default select example" required>
-          <option selected disabled value="">Status</option>
+          <option selected disabled value="">-- Select --</option>
           <option value="2">Active</option>
           <option value="1">Inactive</option>
           <!-- <option value="3">Other</option> -->
@@ -168,8 +168,7 @@
       <div id="contenedor_node"class="col-12">
         <label for="Specializations" class="form-label fw-bold fs-2">Specializations  <button type="button" class="btn-add-new-node btn fs-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add Specialization"><i class="bi bi-plus-lg font-color"></i></button></label>
         <div data-clone="0" class="clase-clone card input-group mb-3 animate__bounceIn bg-transparent border border-3">
-          <!-- <label class="field_specialization p-2"></label> -->
-          <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+
           <div class="card-header field_specialization p-2 d-flex justify-content-between align-items-center">
             <div>
               <i class="bi bi-journal-bookmark-fill me-2"></i>
@@ -178,11 +177,10 @@
           </div>
           <div class="input-group-text  specialization w-100 gap-3">
             <div class="col-12-md w-100 d-flex align-items-baseline">
-              <!-- <input class="form-check-input mt-0 me-2 fs-1" type="checkbox" value="" aria-label="Checkbox for following text input" checked disabled> -->
               <div class="position-relative col-6">
                 <div class="w-100 text-start">
-                  <label for="">Name:</label>
-                  <input  type="text" class="form-control specialization-name" aria-label="Text input with checkbox" value="Doctor" required readonly>
+                  <label for="specialization">Name:</label>
+                  <input  type="text" id="specialization"class="form-control specialization-name" aria-label="Text input with checkbox" value="Doctor" required readonly>
                   <div class="valid-feedback bg-white">
                     Looks good!
                   </div>
@@ -193,9 +191,9 @@
               </div>
                <div class="position-relative col-6">
                 <div class="w-100 text-start">
-                  <label for="">Status:</label>
-                  <select  class="form-select select-Status-specialization" aria-label="Default select example" required>
-                     <option selected disabled value="">Status</option>
+                  <label for="StatusSpecialization">Status:</label>
+                  <select  id="StatusSpecialization" class="form-select select-Status-specialization" aria-label="Default select example" required>
+                     <option selected disabled value="">-- Select --</option>
                      <option value="1">Available<i class="bi bi-check-lg ms-2"></i></option>
                      <option value="2">Unavailable<i class="bi bi-x-lg ms-2"></i></option>
                    </select>
@@ -206,15 +204,13 @@
                       Please choose a Status.
                   </div>
                 </div>
-               <!-- <label for="select-Status-specialization" class="form-label">Status</label> -->
                </div> 
             </div>
              <div class="col-4-md">
-                <!-- <label for="how-much" class="form-label">Status</label> -->
                 <div class="w-100 text-start position-relative">
-                  <label for="">Fee:</label>
-                  <i class="bi bi-currency-dollar fs-3 position-absolute" style="top: 15px;left: 4px;"></i>
-                  <input  type="number"  placeholder="How much (In Dollars)"class="form-control ps-5 pe-1 w-100 price-specialization" id="how-much" aria-label="Dollar amount (with dot and two decimal places)" required>
+                  <label for="fee_target">Fee:</label>
+                  <i id="howMuch" class="bi bi-currency-dollar fs-3 position-absolute" style="top: 15px;left: 4px;"></i>
+                  <input  type="number"  placeholder="How much (In Dollars)"class="form-control ps-5 pe-1 w-100 price-specialization" id="howMuch" aria-label="Dollar amount (with dot and two decimal places)" required>
                   <div class="valid-feedback end-0 bg-white">
                      Looks good!
                   </div>
@@ -230,12 +226,10 @@
   </div>
 
   
-  <!-- <input type="hidden" value="true" name="CreateIn">   -->
-  
   <button type="submit" class="btn btn-primary fs-3 d-flex align-items-center gap-2">
       <span class="spinner-border" aria-hidden="true" style="display:none;"></span>
       <i class='bx bxs-save' style="display:flex;"></i>
       <span role="status">Save Doctor</i></span>
-    <!-- Save Doctor <i class='bx bxs-save' ></i> -->
+
   </button>
 </form>

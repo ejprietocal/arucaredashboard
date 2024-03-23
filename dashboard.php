@@ -39,51 +39,51 @@
         </div>
         
         
-        <i class='bx bx-chevron-right toogle'></i>
+        <i class="bi bi-arrow-right-short toogle"></i>
       </header>
 
       <div class="menu-bar">
         <div class="menu">
             <li class="search-box" id="search"  data-bs-toggle="tooltip" data-bs-placement="right" title="Search">
-              <i class='bx bx-search icono'></i>
+              <i class="bi bi-search icono"></i>
               <input type="search" placeholder="Search...">
             </li>
             <ul class="menu-links p-0">
               <li class="nav-link">
-                <a  id="Dashboard" class="link" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
-                  <i  type="button" class='bx bxs-home icono'></i>
+                <button  type="button" id="Dashboard" class="btn link" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+                  <i class="bi bi-house-door-fill icono "></i>
                   <span class="text nav-text">Dashboard</span>
-                </a>
+                </button>
               </li>
               <li class="nav-link">
-                <a  id="Doctors" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Doctors">
-                <i class='bx bxs-shield-plus icono'></i>
+                <button  type="button" id="Doctors" class="btn link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Doctors">
+                  <i class="bi bi-file-person icono "></i>
                   <span class="text nav-text">Doctors</span>
-                </a>
+                </button>
               </li>
               <li class="nav-link">
-                <a  id="Patients" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Patients">
-                <i class='bx bx-user-check icono'></i>
+                <button type="button" id="Patients" class="btn link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Patients">
+                <i class="bi bi-person-lines-fill icono"></i>
                   <span class="text nav-text">Patients</span>
-                </a>
+                </button>
               </li>
               <li class="nav-link">
-                <a   id="Appointments" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Appointments">
-                <i class='bx bx-plus-medical icono'></i>
+                <button id="Appointments" class="btn link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Appointments">
+                <i class="bi bi-file-earmark-medical-fill icono"></i>
                   <span class="text nav-text">Apointment</span>
-                </a>
+                </button>
               </li>
               <li class="nav-link">
-                <a   id="Medicines" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Medicines">
-                   <i class='bx bxs-capsule icono'></i>
+                <button id="Medicines" class="btn link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Medicines">
+                  <i class="bi bi-capsule icono"></i>
                   <span class="text nav-text">Medicines</span>
-                </a>
+                </button>
               </li>
               <li class="nav-link" >
-                <a id="Services" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Services">
+                <button id="Services" class="btn link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Services">
                 <i class="bi bi-hospital-fill icono"></i>
                   <span class="text nav-text">Services</span>
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -91,15 +91,15 @@
 
           <div class="bottom-content">
             <li class="">
-                <a  id="Logout" class="link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Logout">
-                <i class="bx bx-log-out icono"></i>
+                <a  id="Logout" class="btn link"  data-bs-toggle="tooltip" data-bs-placement="right" title="Logout">
+                <i class="bi bi-box-arrow-left icono"></i>
                   <span class="text nav-text">Logout</span>
                 </a>
             </li>
             <li class="mode"  data-bs-toggle="tooltip" data-bs-placement="right" title="Dark/Light Mode">
                 <div class="moon-sun">
-                  <i class="bx bx-moon icono moon"></i>
-                  <i class="bx bx-sun icono sun"></i>
+                  <i class="bi bi-moon-stars-fill icono moon"></i>
+                  <i class="bi bi-sun-fill icono sun"></i>
                 </div>
     
                 <span class="mode-text text">Dark mode</span>

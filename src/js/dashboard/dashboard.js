@@ -78,11 +78,17 @@ export function clickoption(){
       const home = document.querySelector('.home');
       const loading = document.querySelector('.home > .spinner');
       const datos = document.createElement('div');
+      const buttonsOptions = document.querySelectorAll('.menu button');
       datos.classList.add('data_from_db');
       const heightContent = "55vh";
       let e;
       items.forEach(item =>{
           item.addEventListener('click', function(e){
+
+               buttonsOptions.forEach(button =>{
+                    button.disabled = true;
+                    button.style.pointerEvents = 'none';
+               }) 
               while(e = document.querySelector('.data_from_db')){
                       e.remove();
               }
@@ -223,6 +229,11 @@ export function clickoption(){
                           clickAdd();
                           ModyfyAndDelete();
                           activateTooltips();
+                          
+                        buttonsOptions.forEach(button =>{
+                                button.disabled = false;
+                                button.style.pointerEvents = 'auto';
+                        }) 
                       })
                   })
               }
@@ -342,6 +353,11 @@ export function clickoption(){
                               }
                           });
                           activateTooltips();
+                          buttonsOptions.forEach(button =>{
+                            button.disabled = false;
+                            button.style.pointerEvents = 'auto';
+
+                        }) 
                           loading.style.display = "none";
       
                       })
@@ -469,6 +485,11 @@ export function clickoption(){
                               }
                           });
                           loading.style.display = "none";
+                          buttonsOptions.forEach(button =>{
+                            button.disabled = false;
+                            button.style.pointerEvents = 'auto';
+
+                            }) 
                           activateTooltips();
                           clickAdd();
                           ModyfyAndDelete();
@@ -588,6 +609,11 @@ export function clickoption(){
                               }
                           });
                           activateTooltips();
+                          buttonsOptions.forEach(button =>{
+                            button.disabled = false;
+                            button.style.pointerEvents = 'auto';
+
+                            }) 
                           loading.style.display = "none";
                       })
                   })
@@ -708,6 +734,10 @@ export function clickoption(){
                               }
                           });
                           loading.style.display = "none";
+                          buttonsOptions.forEach(button =>{
+                            button.disabled = false;
+                            button.style.pointerEvents = 'auto';
+                            }) 
                           activateTooltips();
                           clickAdd();
                           ModyfyAndDelete();
@@ -738,6 +768,7 @@ export function clickoption(){
                     home.appendChild(datos);
                     initializateGraph('myChart');
                     initializateGraphApp('myChartApp');
+                    activateTooltips();
                     clickAdd();
                   })
                   .catch(error=>{
@@ -746,6 +777,11 @@ export function clickoption(){
 
 
                   activateTooltips();
+
+                  buttonsOptions.forEach(button =>{
+                    button.disabled = false;
+                    button.style.pointerEvents = 'auto';
+                    }) 
               }
               if(item.id ==='Logout'){
                   loading.style.display = "none";
@@ -753,6 +789,9 @@ export function clickoption(){
                   signOut(auth)
                         .then(() => {
                         // La sesión se ha cerrado correctamente
+                        buttonsOptions.forEach(button =>{
+                            button.disabled = false;
+                        }) 
                         document.cookie = 'token' + '=; max-age=-99999999';
                         console.log("Sesión cerrada correctamente.");
                         window.location.href = "/";
@@ -770,7 +809,7 @@ export function clickoption(){
       })
   
   }
-function activateTooltips(){
+export function activateTooltips(){
       if (typeof tooltipList !== 'undefined' && tooltipList.length > 0) {
           tooltipList.forEach(tooltip => {
               tooltip.dispose();
@@ -849,7 +888,7 @@ export function clickAdd(){
                             clon.querySelector('.specialization-name').removeAttribute('readonly');
                             clon.querySelector('.specialization-name').removeAttribute('value');
                             container_node.appendChild(clon);
-                            console.log('click en node');
+                
 
                         }) 
 
@@ -896,7 +935,7 @@ export function clickAdd(){
 function saveInfo(formId){
 
 const home = document.querySelector('.home');
-console.log(home.dataset.idbutton);
+// console.log(home.dataset.idbutton);
 const option = document.querySelector(`#${home.dataset.idbutton}`);
 
 const toastLiveExample = document.getElementById('liveToast'),
@@ -954,7 +993,7 @@ form.addEventListener('submit', function(e){
             if(formId === 'addServices'){     
             setCollection('Services',formData)
                   .then((docId)=>{
-                        console.log("Documento guardado con ID:", docId);
+                        // console.log("Documento guardado con ID:", docId);
 
                         button.classList.remove('disabled');
                         btn_close.classList.remove('disabled');
@@ -1001,7 +1040,7 @@ form.addEventListener('submit', function(e){
                                     // console.log("Token de autenticación:", idToken);
                                     setCollection('Doctors',formData,idToken,uid,Specializations)
                                     .then((docId)=>{
-                                          console.log("Documento guardado con ID:", docId);
+                                        //   console.log("Documento guardado con ID:", docId);
                         
                                           button.classList.remove('disabled');
                                           btn_close.classList.remove('disabled');
@@ -1067,7 +1106,7 @@ form.addEventListener('submit', function(e){
             if(formId === 'addMedicines'){
             setCollection('Medicines',formData)
             .then((docId)=>{
-                  console.log("Documento guardado con ID:", docId);
+                //   console.log("Documento guardado con ID:", docId);
 
                   button.classList.remove('disabled');
                   btn_close.classList.remove('disabled');
@@ -1121,7 +1160,6 @@ if(rows){
       rows.forEach(row =>{
             row.addEventListener('click', function(event){
             if(event.target.classList.contains('btn-danger')){
-                  console.log(row.id,'->','click en delete');
 
                   loading.style.display = 'flex';
                   fetch('/public/assets/pages/delete/delete.php',{
@@ -1168,7 +1206,6 @@ if(rows){
                         const btn_no = document.querySelector('.btn-no');
 
                         btn_delete.addEventListener('click', function(e){
-                              console.log('click en eliminar');
                               btn_delete.classList.add('disabled');
                               btn_close.classList.add('disabled');
                               btn_no.classList.add('disabled');
