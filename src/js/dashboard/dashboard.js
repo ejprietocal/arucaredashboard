@@ -1,4 +1,4 @@
-import { getData,setCollection,deleteDocument} from "../../../database/firebase/conexion.js";
+import { getData,setCollection,deleteDocument,getDocToupdate, updateDocument} from "../../../database/firebase/conexion.js";
 import {createUserWithEmailAndPassword,getAuth,signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 import { firebaseApp } from "../../../database/firebase/conexion.js";
 import { initializateGraph,initializateGraphApp } from "../graph/graph.min.js";
@@ -143,10 +143,10 @@ export function clickoption(){
                               content+=`
                               <tr id="${appointment.id}">
                                   <td class="pt-3 pb-3">${appointment.name}</td>
-                                  <td class="pt-3 pb-3">${appointment.available}</td>
+                                  <td class="pt-3 pb-3 text-center">${appointment.available}</td>
                                   <td class="pt-3 pb-3 text-center">
-                                      <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
-                                      <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                      <button class="btn btn-sm p-3 btn-primary"><i class="fa-solid fa-pencil"></i></button>
+                                      <button class="btn btn-sm p-3 btn-danger"><i class="fa-solid fa-trash"></i></button>
                                   </td>
                               </tr>
                               `
@@ -260,7 +260,8 @@ export function clickoption(){
                       home.appendChild(datos);
       
                       // initDatatable(item);
-      
+                      let statusAppointment;
+                      let statusBill;
                       getData(item.id).then(doc =>{
                           doc.forEach(appointment =>{
                               content+=`
@@ -271,8 +272,20 @@ export function clickoption(){
                                   <td class="pt-3 pb-3">${appointment.service}</td>
                                   <td class="pt-3 pb-3">${appointment.description}</td>
                                   <td class="pt-3 pb-3">${appointment.doctorFirstName} ${appointment.doctorLastName}</td>
-                                  <td class="pt-3 pb-3">${appointment.doctorEmail}</td>
-                                  <td class="pt-3 pb-3">${appointment.status}</td>
+                                  <td class="pt-3 pb-3">${appointment.doctorEmail.toLowerCase()}</td>
+                                  <td class="pt-3 pb-3 text-center">
+                                  ${statusBill = appointment.status === '0' ? '<span class="bg-danger text-white fw-bold p-3 ps-4 pe-4">Cancelled</span>':
+                                                 appointment.billsEntity?.[0]?.Status === 'Unpaid' ? '<span class="bg-warning text-dark fw-bold p-3 ps-5 pe-5">Unpaid</span>':
+                                                 appointment.billsEntity?.[0]?.Status === 'Paid'   ? '<span class="bg-success-subtle text-success-emphasis fw-bold p-3 ps-5 pe-5">Paid</span>':
+                                                   '<span class="bg-warning-subtle text-warning-emphasis fw-bold p-3">Pending</span>'}
+                                  </td>
+                                  <td class="d-flex aling-items-center justify-content-center p-0">
+                                    ${statusAppointment = appointment.status === '0' ? "<p class='btn btn-danger fw-bold m-0 h-100 w-100 text-center p-3' >cancelled</p>" :
+                                                          appointment.status === '1' ? "<p class='btn btn-warning fw-bold  m-0 h-100 w-100 text-center p-3'>booked</p>" :
+                                                          appointment.status === '2' ? "<p class='btn btn-success fw-bold m-0 h-100 w-100 text-center p-3'>finished</p>" :
+                                                          appointment.status === '3' ? "<p class='btn bg-success-subtle text-success-emphasis fw-bold m-0 h-100 w-100 text-center p-3'>checkout</p>" :
+                                                          "<p class='btn btn-primary fw-bold m-0 h-100 w-100 text-center p-3'>checkin</p>" 
+                                   }</td>
                                   <td class="pt-3 pb-3 text-center">
                                       <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
                                       <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
@@ -289,7 +302,11 @@ export function clickoption(){
                               responsive:true,
                               scrollCollapse: true,
                               columnDefs: [{className:"text-centered",targets:[0,1,2,3,4,5]},
-                                          {orderable:false,targets:[8]},
+                                          {orderable:false,targets:[9]},
+                                            { responsivePriority: 1, targets: 0 },
+                                            { responsivePriority: 3, targets: 8 },
+                                            { responsivePriority: 2, targets: 7 },
+                                            { responsivePriority: 4, targets: 9 },
                                           // {searchable:false,targets:[9]}
                                           ],
                               scroller: true,
@@ -385,30 +402,37 @@ export function clickoption(){
                       datos.innerHTML = data;
                       home.appendChild(datos);
       
-  
-  
                       // initDatatable(item);
-      
+                      let resultedted;  
                       getData(item.id).then(doc =>{
                           doc.forEach(doctor =>{
-                              content+=`
-                              <tr id="${doctor.id}">
-                                  <td class="pt-3 pb-3">${doctor.FirstName}</td>
-                                  <td class="pt-3 pb-3">${doctor.LastName}</td>
-                                  <td class="pt-3 pb-3">${doctor.DocumentID}</td>
-                                  <td id="email-doctor-table" class="pt-3 pb-3">${doctor.Email}</td>
-                                  <td class="pt-3 pb-3">${doctor.Contact}</td>
-                                  <td class="pt-3 pb-3"></td>
-                                  <td class="pt-3 pb-3">${doctor.Experience}</td>
-                                  <td class="pt-3 pb-3">${doctor.Dob}</td>
-                                  <td class="pt-3 pb-3">${doctor.Gender}</td>
-                                  <td class="pt-3 pb-3">${doctor.Status}</td>
-                                  <td class="pt-3 pb-3 text-center">
-                                      <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
-                                      <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
-                                  </td>
-                              </tr>
-                              `
+                            if(doctor.id != 'A4eWQX89sPNGVe4kBKArcfDrKed2' & doctor.id != 'MAvOH7gXTFQ19jOVomUBPuzu7OK2'){                                
+                                content+=`
+                                <tr id="${doctor.id}">
+                                    <td class="pt-3 pb-3">${doctor.FirstName}</td>
+                                    <td class="pt-3 pb-3">${doctor.LastName}</td>
+                                    <td class="pt-3 pb-3 text-center">${doctor.DocumentID}</td>
+                                    <td id="email-doctor-table" class="pt-3 pb-3">${doctor.Email}</td>
+                                    <td class="pt-3 pb-3 text-center">${doctor.Contact}</td>
+                                    <td class="pt-3 pb-3"></td>
+                                    <td class="pt-3 pb-3 text-center">${doctor.Experience}</td>
+                                    <td class="pt-3 pb-3">${doctor.Dob}</td>
+                                    <td class="pt-3 pb-3">
+                                    ${ resultedted = doctor.Gender === 'Male' ? doctor.Gender + "<i class='bi bi-gender-male fw-bold fs-3 ms-3' style='color:#0196e3'></i>" :
+                                                   doctor.Gender === 'Female' ? doctor.Gender + "<i class='bi bi-gender-female fw-bold fs-3 ms-3' style='color:pink'></i>":
+                                                   doctor.Gender+"<i class='bi bi-gender-neuter ms-3 fw-bold fs-3' style='color:purple'></i>"
+                                    }
+                                    </td>
+                                    <td class="d-flex justify-content-center align-items-center">
+                                    ${doctor.Status === '2' ? '<span type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Available"><i class="bi bi-person-fill-check fs-1" style="color:green"></i></span>' : '<span type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Not Available"><i class="bi bi-person-fill-x fs-1" style="color:red"></i></span>'}
+                                    </td>
+                                    <td class="pt-3 pb-3 text-center">
+                                        <button class="btn btn-sm btn-primary p-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
+                                        <button class="btn btn-sm btn-danger p-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                `
+                            }
                           })
                           return content;
       
@@ -419,11 +443,12 @@ export function clickoption(){
                               responsive:true,
                               scrollCollapse: true,
                               columnDefs: [{className:"text-centered",targets:[0,1,2,3,4,5]},
-                                          {orderable:false,targets:[9,6]},
+                                          {orderable:false,targets:[10]},
                                           { responsivePriority: 1, targets: 0 },
-                                          { responsivePriority: 2, targets: 10 }
+                                          { responsivePriority: 2, targets: 10 },
+                                          { responsivePriority: 3, targets: 9 }
                                           // {searchable:false,targets:[9]}
-                                          ],
+                                          ],         
                               scroller: true,
                               scrollY: heightContent,
                               destroy:true,
@@ -519,7 +544,7 @@ export function clickoption(){
                       home.appendChild(datos);
   
                       // initDatatable(item);
-      
+                      let resultedted;                      
                       getData(item.id).then(doc =>{
                           doc.forEach(paciente =>{
                               content+=`
@@ -527,11 +552,16 @@ export function clickoption(){
                                   <td class="pt-3 pb-3" data-title="name">${paciente.FirstName}</td>
                                   <td class="pt-3 pb-3" data-title="email">${paciente.Email}</td>
                                   <td class="pt-3 pb-3" data-title="mobile">${paciente.MobileNumber}</td>
-                                  <td class="pt-3 pb-3" data-title="gender">${paciente.Gender}</td>
-                                  <td class="pt-3 pb-3" data-title="created">${paciente.CreateIn}</td>
                                   <td class="pt-3 pb-3 text-center">
-                                      <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
-                                      <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
+                                  ${ resultedted = paciente.Gender === 'male' ? paciente.Gender + "<i class='bi bi-gender-male fw-bold fs-3 ms-3' style='color:#0196e3'></i>" :
+                                                 paciente.Gender === 'female' ? paciente.Gender + "<i class='bi bi-gender-female fw-bold fs-3 ms-3' style='color:pink'></i>":
+                                                 paciente.Gender+"<i class='bi bi-gender-neuter ms-3 fw-bold fs-3' style='color:purple'></i>"
+                                  }
+                                  </td>
+                                  <td class="pt-3 pb-3 text-center" data-title="created">${paciente.CreateIn.split('.')[0]}</td>
+                                  <td class="text-center d-flex align-items-center justify-content-center gap-1">
+                                      <button class="p-3 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
+                                      <button class="p-3 btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
                                   </td>
                               </tr>
                               `
@@ -546,7 +576,9 @@ export function clickoption(){
                               scrollCollapse: true,
                               columnDefs: [{className:"text-centered",targets:[0,1,2,3,4,5]},
                                           {orderable:false,targets:[5]},
-                                          {searchable:false,targets:[5]}
+                                          {searchable:false,targets:[5]},
+                                          { responsivePriority: 1, targets: 0 },
+                                          { responsivePriority: 2, targets: 5 },
                                           ],
                               scroller: true,
                               scrollY: heightContent,
@@ -794,7 +826,7 @@ export function clickoption(){
                         }) 
                         document.cookie = 'token' + '=; max-age=-99999999';
                         console.log("Sesión cerrada correctamente.");
-                        window.location.href = "/";
+                        window.location.href = "/dashboard";
                         })
                         .catch((error) => {
                         // Manejar errores al cerrar sesión
@@ -935,7 +967,6 @@ export function clickAdd(){
 function saveInfo(formId){
 
 const home = document.querySelector('.home');
-// console.log(home.dataset.idbutton);
 const option = document.querySelector(`#${home.dataset.idbutton}`);
 
 const toastLiveExample = document.getElementById('liveToast'),
@@ -947,9 +978,9 @@ const toastLiveExample = document.getElementById('liveToast'),
       
 const form = document.getElementById('form'),
       loadingform = form.querySelector('.spinner-border'),
-      button = form.querySelector('.btn'), 
+      button = form.querySelectorAll('.btn'), 
       btn_close = form.querySelector('.button-close'),
-      iconform = form.querySelector('.bxs-save');  
+      iconform = form.querySelector('.bi-floppy2-fill');  
 
 
 form.addEventListener('submit', function(e){
@@ -965,7 +996,9 @@ form.addEventListener('submit', function(e){
             e.stopPropagation();
             loadingform.style.display='flex';
             iconform.style.display='none';
-            button.classList.add('disabled');
+            button.forEach(boton=>{
+                boton.classList.add('disabled');
+            })
             btn_close.classList.add('disabled');
             const formData = new FormData(this);
 
@@ -995,14 +1028,16 @@ form.addEventListener('submit', function(e){
                   .then((docId)=>{
                         // console.log("Documento guardado con ID:", docId);
 
-                        button.classList.remove('disabled');
+                        button.forEach(boton=>{
+                            boton.classList.remove('disabled');
+                        })
                         btn_close.classList.remove('disabled');
                         loadingform.style.display='none';
                         iconform.style.display='flex';
 
                         btn_close.click();
 
-                        toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
+                        toast_body.innerHTML = `Component created successfully`;
                         toast_messageup.innerHTML = `¡Success!`;
                         toast_warning.classList.add('bi-check2');
                         toast_warning.classList.remove('bi-cone-striped');
@@ -1041,8 +1076,9 @@ form.addEventListener('submit', function(e){
                                     setCollection('Doctors',formData,idToken,uid,Specializations)
                                     .then((docId)=>{
                                         //   console.log("Documento guardado con ID:", docId);
-                        
-                                          button.classList.remove('disabled');
+                                            button.forEach(boton=>{
+                                                boton.classList.remove('disabled');
+                                            })
                                           btn_close.classList.remove('disabled');
                                           loadingform.style.display='none';
                                           iconform.style.display='flex';
@@ -1050,7 +1086,7 @@ form.addEventListener('submit', function(e){
                                           btn_close.click();
 
                         
-                                          toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
+                                          toast_body.innerHTML = `Component created successfully`;
                                           toast_messageup.innerHTML = `¡Success!`;
                                           toast_warning.classList.add('bi-check2');
                                           toast_warning.classList.remove('bi-cone-striped');
@@ -1084,7 +1120,9 @@ form.addEventListener('submit', function(e){
                             message = '(Weak Password). Password should have at Least 6 characters'
                         }
 
-                        button.classList.remove('disabled');
+                        button.forEach(boton=>{
+                            boton.classList.remove('disabled');
+                        })
                         btn_close.classList.remove('disabled');
                         loadingform.style.display='none';
                         iconform.style.display='flex';
@@ -1104,14 +1142,16 @@ form.addEventListener('submit', function(e){
             .then((docId)=>{
                 //   console.log("Documento guardado con ID:", docId);
 
-                  button.classList.remove('disabled');
+                    button.forEach(boton=>{
+                        boton.classList.remove('disabled');
+                    })
                   btn_close.classList.remove('disabled');
                   loadingform.style.display='none';
                   iconform.style.display='flex';
 
                   btn_close.click();
 
-                  toast_body.innerHTML = `Component created successfully <br> id: ${docId} `;
+                  toast_body.innerHTML = `Component created successfully`;
                   toast_messageup.innerHTML = `¡Success!`;
                   toast_warning.classList.add('bi-check2');
                   toast_warning.classList.remove('bi-cone-striped');
@@ -1158,7 +1198,7 @@ if(rows){
             if(event.target.classList.contains('btn-danger')){
 
                   loading.style.display = 'flex';
-                  fetch('/public/assets/pages/delete/delete.php',{
+                  fetch('public/assets/pages/delete/delete.php',{
                         method: 'POST',
                         credentials: 'include',
                         headers: {
@@ -1219,7 +1259,7 @@ if(rows){
                                           btn_close.click();
 
                                         //   toast_body.innerHTML = `Component Deleted successfully <br> id: ${docId} `;
-                                          toast_body.innerHTML = `Component deleted successfully <br> id: ${docId} `;
+                                          toast_body.innerHTML = `Component deleted successfully`;
                                           toast_messageup.innerHTML = `¡Success!`;
                                           toast_warning.classList.add('bi-check2');
                                           toast_warning.classList.remove('bi-cone-striped');
@@ -1250,6 +1290,239 @@ if(rows){
 
                   })
 
+            }
+            else if(event.target.classList.contains('btn-primary')){
+                console.log('click en modify');
+                loading.style.display = 'flex';
+                fetch('public/assets/pages/modify/modifydoctors.php')
+                .then(response=>{
+                    if (response.status === 404) {
+                    throw new Error('El recurso solicitado no se encontró');
+                    } else if (response.status === 500) {
+                    throw new Error('Error interno del servidor');
+                    } else if(!response.ok) {
+                    throw new Error('Error en la solicitud fetch: ' + response.status);
+                    }
+                    else{
+                    return response.text();
+                    }
+                })
+                .then(data=>{
+                    const added =document.createElement('div');
+                    added.classList.add('position-absolute');
+                    added.classList.add('createContainer');
+                    added.classList.add('d-flex');
+                    added.classList.add('top-0');
+                    added.classList.add('align-items-center');
+                    added.classList.add('justify-content-center');
+                    added.classList.add('w-100');
+                    added.style.height = '100vh';
+
+                    added.innerHTML = data;
+                    
+                    getDocToupdate(home.dataset.idbutton,row.id)
+                    .then(arrayInfo=>{
+                        home.appendChild(added);
+                        // console.log(arrayInfo);
+                        const container_node = document.querySelector('#contenedor_node');
+
+                        const formulario = document.querySelector('#form'),
+                              FirstName = formulario.querySelector('#name'),
+                              LastName = formulario.querySelector('#lastName'),
+                              documentId = formulario.querySelector('#Document'),
+                              emailAddres = formulario.querySelector('#Email_address'),
+                              contacto = formulario.querySelector('#Contact'),
+                              dateofBirth = formulario.querySelector('#dob'),
+                              addressField = formulario.querySelector('#Address'),
+                              experiencieYears = formulario.querySelector('#Experience'),
+                              statusSelect = formulario.querySelector('#select-Status'),
+                              genderSelect = formulario.querySelector('#select-Gender'),
+                              addNode = formulario.querySelector('.btn-add-new-node'),
+                              loadingform = formulario.querySelector('.spinner-border'),
+                              button = formulario.querySelectorAll('.btn'), 
+                              btn_close = formulario.querySelector('.button-close');
+                        const clase_clone = document.querySelector('.clase-clone'),
+                              status_specialization = clase_clone.querySelector('#StatusSpecialization'),
+                              fee_specialization = clase_clone.querySelector('#howMuch');
+                        console.log(arrayInfo.Specializations[0].Price);
+                        FirstName.value = arrayInfo.FirstName;  
+                        LastName.value = arrayInfo.LastName;
+                        documentId.value = arrayInfo.DocumentID;
+                        emailAddres.value = arrayInfo.Email;
+                        contacto.value = arrayInfo.Contact;
+                        dateofBirth.value = arrayInfo.Dob;
+                        addressField.value = arrayInfo.Address;
+                        experiencieYears.value = arrayInfo.Experience;
+                        fee_specialization.value = arrayInfo.Specializations[0].Price;                            
+                        const statusForSpecialization = arrayInfo.Specializations[0].Status;                            
+
+                        const genderSelected = arrayInfo.Gender;
+                        const statusSelected = arrayInfo.Status;
+                        const numberOfspecializations = Object.keys(arrayInfo.Specializations).length;
+                        let auxSpecializations = numberOfspecializations;
+
+                        for(let h = 0;h<=status_specialization.options.length;h++){
+                            if(status_specialization.options[h].value == statusForSpecialization){
+                                status_specialization.selectedIndex = h;
+                                console.log('entro');
+                                break;
+                            }
+                        }
+
+                        for(let i = 0; i< genderSelect.options.length;i++){
+                            if (genderSelect.options[i].value === genderSelected) {
+                                genderSelect.selectedIndex = i;
+                                break;
+                            }
+                        }
+                        for(let j = 0; j< statusSelect.options.length;j++){
+                            if (statusSelect.options[j].value === statusSelected) {
+                                statusSelect.selectedIndex = j;
+                                break;
+                            }
+                        }
+                        addNode.addEventListener('click',function(e){
+                            e.preventDefault();
+
+                            let clon = clase_clone.cloneNode(true);
+                            clon.setAttribute('data-clone',`${auxSpecializations++}`);
+                            clon.querySelector('.card-header').innerHTML =`<div><i class="bi bi-journal-bookmark-fill me-2"></i> Specialization ${auxSpecializations}</div> <button type="button"class="button-cerrar btn fs-4"><i class="bi bi-x-lg font-color"></i></button>`;
+                            clon.querySelector('.specialization-name').removeAttribute('readonly');
+                            clon.querySelector('.specialization-name').removeAttribute('value');
+                            clon.querySelector('#howMuch').value = "";
+                            container_node.appendChild(clon);
+                
+
+                        })
+                        container_node.addEventListener('click',function(e){
+                            e.preventDefault();
+                            if(e.target.classList.contains('button-cerrar')){
+                                auxSpecializations--;
+                                let contenedor = e.target.parentNode.parentNode;
+                                contenedor.parentNode.removeChild(contenedor);
+                            }
+                          });   
+
+
+                        if (numberOfspecializations > 1) {
+                            for (let i = 1; i < numberOfspecializations; i++) {                            
+                                let clon = clase_clone.cloneNode(true);
+                                clon.setAttribute('data-clone', `${i}`);
+                                
+                                // Construir la cadena de texto para el .card-header
+                                const cardHeaderContent = `<div><i class="bi bi-journal-bookmark-fill me-2"></i> Specialization ${i + 1}</div> <button type="button" class="button-cerrar btn fs-4"><i class="bi bi-x-lg font-color"></i></button>`;
+                                
+                                clon.querySelector('.card-header').innerHTML = cardHeaderContent;
+                                clon.querySelector('.specialization-name').removeAttribute('readonly');
+                                clon.querySelector('#specialization').value = arrayInfo.Specializations[i].Specialization;
+                                clon.querySelector('#howMuch').value = arrayInfo.Specializations[i].Price;
+                                
+                                const statusForSpecialization = arrayInfo.Specializations[i].Status;   
+                                const status = clon.querySelector('#StatusSpecialization');
+                                
+                                for (let h = 0; h < status.options.length; h++) {
+                                    if (status.options[h].value == statusForSpecialization) {
+                                        status.selectedIndex = h;
+                                        console.log('entro');
+                                        break;
+                                    }
+                                }
+                                container_node.appendChild(clon);
+                                
+                            }  
+                        }
+                        
+
+                        loading.style.display = 'none';
+
+
+                        formulario.addEventListener('submit',function(e){
+                            if (!formulario.checkValidity()) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                            else{
+                                e.preventDefault();
+                                e.stopPropagation();
+                                loadingform.style.display='flex';
+                                // iconform.style.display='none';
+                                button.forEach(boton=>{
+                                    boton.classList.add('disabled');
+                                })
+                                // button.classList.add('disabled');
+                                btn_close.classList.add('disabled');
+                                const formData = new FormData(this);
+
+                                let Specializations = new Map();
+                                let count = 0;
+
+                                const selectDataClone = document.querySelectorAll('div[data-clone]');
+
+
+                                selectDataClone.forEach(clone =>{
+                                    const nameClone = clone.querySelector('.specialization-name');
+                                    const priceClone = clone.querySelector('.price-specialization');
+                                    const statusClone = clone.querySelector('.select-Status-specialization');
+                    
+                                    let Specialization = new Map();
+                    
+                                    Specialization.set('Price',priceClone.value);
+                                    Specialization.set('Specialization',nameClone.value);
+                                    Specialization.set('Status',statusClone.value);
+                                    Specializations.set(count,Specialization);
+                                    count++;
+                                })
+
+                                updateDocument(home.dataset.idbutton,formData,row.id,Specializations)
+                                    .then(()=>{
+                                        button.forEach(boton=>{
+                                            boton.classList.remove('disabled');
+                                        })
+                                        // button.classList.add('disabled');
+                                        btn_close.classList.remove('disabled');
+                                        loadingform.style.display='none';
+
+
+                                        btn_close.click();
+                                        if(option){
+                                            option.click();
+                                        }
+
+                                        toast_body.innerHTML = `Component Modified successfully`;
+                                        toast_messageup.innerHTML = `¡Success!`;
+                                        toast_warning.classList.add('bi-check2');
+                                        toast_warning.classList.remove('bi-cone-striped');
+                                        toast_warning.style.color = 'green';
+                                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                                        toastBootstrap.show();
+                                    })
+                                    .catch(error=>{
+                                        // console.log(error);
+
+                                        toast_warning.classList.remove('bi-check2');
+                                        toast_warning.classList.add('bi-cone-striped');
+                                        toast_warning.style.color = 'red';
+                                        toast_messageup.innerHTML = `¡Ups! something went wrong`;
+                                        toast_body.innerHTML= `Component could not be modified su <br> error: ${error} `;
+                                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                                        toastBootstrap.show();
+
+
+                                        loadingform.style.display='none';
+
+                                        btn_close.click();
+                                        if(option){
+                                            option.click();
+                                        }
+                                    })
+                            }
+                          formulario.classList.add('was-validated');
+                        },false);
+                    })
+                    .catch(error=>{
+
+                    })
+                })
             }
             })
       })

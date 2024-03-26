@@ -140,9 +140,6 @@
             list-style: none;
             display: flex;
             align-items: center;
-            .text{
-                // width: 100%;
-            }
             .text,.icono{
                 color: var(--text-color);
                 transition:var(--tran-03) ;
@@ -157,14 +154,13 @@
                 display: flex;
                 align-items: center;
                 padding: 0;
-                // justify-content: space-between;
                 border-radius: .6rem;
                 border: none;
                 transition: var(--tran-04);
                 &:hover{
                     background: var(--primary-color);
                     .icono,.text{
-                        color: var(--text-color);
+                        color: white;
                     }
                 }
             }
@@ -427,7 +423,7 @@ body.dark {
             thead,tr,td,tbody,th{
                 background: var(--sidebar-color);
                 color: var(--text-color);
-                text-transform: capitalize;
+                // text-transform: capitalize;
             }
             td{
                 &:hover{
@@ -551,6 +547,7 @@ body.dark {
 
 .back-color-inverse{
     background: var(--primary-color-inverse);
+    transition: var(--tran-04);
 }
 
 .home-container{

@@ -1,10 +1,12 @@
+
+
 <form  method="POST" class="form_container animate__bounceIn needs-validation" novalidate>
   <div class="logo_container">
     <picture>
-        <source srcset="/public/images/logo-arucare.avif" type="image/avif">
-        <source srcset="/public/images/logo-arucare.webp" type="image/webp">
+        <source srcset="public/images/logo-arucare.avif" type="image/avif">
+        <source srcset="public/images/logo-arucare.webp" type="image/webp">
     
-        <img width="100%" src="/public/images/logo-arucare.png" alt="">
+        <img width="100%" src="public/images/logo-arucare.png" alt="">
     </picture>
   </div>
   <div class="title_container">

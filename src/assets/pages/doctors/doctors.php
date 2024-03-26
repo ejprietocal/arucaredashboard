@@ -3,7 +3,7 @@
 <div class="table-responsive" id="no-more-tables">
 
     <div class="w-100 position-relative" style="min-height:3rem; height:fit-content">
-        <button id="addDoctors" class="add-button btn btn-primary d-block position-absolute end-0" type="button">Add Doctor <i class='bx bx-plus' ></i> </button>
+        <button id="addDoctors" class="add-button btn btn-primary d-block position-absolute end-0" type="button">Add Doctor <i class="bi bi-plus-lg"></i></button>
     </div>
 
 
@@ -13,15 +13,15 @@
             <tr>
                 <th class="">First Name</th>
                 <th class="">Last Name</th>
-                <th class="">Document</th>
+                <th class="text-center">Document</th>
                 <th class="">Email</th>
-                <th class="">Contact</th>
+                <th class="text-center">Contact</th>
                 <th class="">Address</th>
-                <th class="">Experience (In Year)</th>
-                <th class="">DOB</th>
-                <th class="">Gender</th>
-                <th class="">Status</th>
-                <th class="">Options</th>
+                <th class="text-center">Experience (In Year)</th>
+                <th class="text-center">DOB</th>
+                <th class="text-center">Gender</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Options</th>
             </tr>
         </thead>
 

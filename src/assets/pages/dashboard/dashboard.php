@@ -16,7 +16,7 @@ if(!isset($_COOKIE['token'])){
 
       <div class="container-graphs">
       <div class="card contain-graph patients-container p-2 rounded shadow position-relative">
-          <div class="card-header">
+          <div class="card-header fs-2" style="height:5rem">
             ShortCuts
           </div>
           <div class="card-body d-flex flex-column gap-5 justify-content-evenly">
@@ -29,24 +29,24 @@ if(!isset($_COOKIE['token'])){
 
 
         <div class="card contain-graph patients-container p-2 rounded shadow position-relative">
-          <div class="card-header">
+        <div class="card-header fs-2" style="height:5rem">
             Total Amounth Of Users
           </div>
           <canvas id="myChart" class="graph-data p-4"></canvas>
           <div class="loading align-items-center justify-content-center position-absolute top-50 start-50 translate-middle" style="display:flex;width:10rem;height:10rem;">
-            <div class="spinner-border text-primary w-100 h-100" role="status">
+            <div class="spinner-border text-primary w-75 h-75" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
         </div>
 
         <div class="card contain-graph patients-container p-2 rounded shadow position-relative">
-          <div class="card-header">
-            Total Amounth Of Appointments Per Month (Last two years)
+        <div class="card-header fs-4" style="height:5rem">
+            Amounth Of Appointments Per Month <br> (Last two years)
           </div>
           <canvas id="myChartApp" class="graph-data p-4"></canvas>
           <div class="loading2 align-items-center justify-content-center position-absolute top-50 start-50 translate-middle" style="display:flex;width:10rem;height:10rem;">
-            <div class="spinner-border text-primary w-100 h-100" role="status">
+            <div class="spinner-border text-primary w-75 h-75" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>

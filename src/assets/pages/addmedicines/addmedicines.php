@@ -90,7 +90,7 @@
     <!-- <input type="hidden" value="true" name="Services">   -->
     <button type="submit" class="btn btn-primary fs-3 d-flex align-items-center gap-2">
       <span class="spinner-border" aria-hidden="true" style="display:none;"></span>
-      <i class='bx bxs-save' style="display:flex;"></i>
+      <i class='bi bi-floppy2-fill' style="display:flex;"></i>
       <span role="status">Save Medicine</i></span>
     <!-- Save Doctor <i class='bx bxs-save' ></i> -->
   </button>

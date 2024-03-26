@@ -1,14 +1,25 @@
+<?php 
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'];
+$document_root = $_SERVER['DOCUMENT_ROOT'];
+$base_url = $protocol . '://' . $host;
+
+// echo $base_url . $document_root;
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
     <title>Dashboard</title>
-    <link rel="stylesheet" href="/public/css/base.min.css">
-    <link rel="stylesheet" href="/public/css/boostrapcss.min.css">
-    <link rel="stylesheet" href="/public/css/animations.min.css">
-    <link rel="stylesheet" href="/public/css/log.min.css">
-    <link rel="stylesheet" href="/public/css/dashboard.min.css">
+
+    <link rel="stylesheet" href="public/css/base.min.css">
+    <link rel="stylesheet" href="public/css/boostrapcss.min.css">
+    <link rel="stylesheet" href="public/css/animations.min.css">
+    <link rel="stylesheet" href="public/css/log.min.css">
+    <link rel="stylesheet" href="public/css/dashboard.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/scroller/2.4.1/css/scroller.dataTables.min.css" />

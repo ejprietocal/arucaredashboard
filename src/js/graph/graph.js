@@ -21,7 +21,7 @@ export function initializateGraph(mychart) {
                 data: {
                     labels: ['Patients', 'Doctors', 'Appointments'],
                     datasets: [{
-                        label: '# of Elements',
+                        label: 'Elements: ',
                         data: [patients, doctors, appointments],
                         borderWidth: 1,
                         backgroundColor:[

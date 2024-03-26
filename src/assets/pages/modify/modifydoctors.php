@@ -1,6 +1,6 @@
 <form id="form" action='POST' class="alert  position-relative alert-dismissible fade show animate__bounceIn shadow needs-validation" novalidate>
   <button type="button" class="button-close btn-close" data-bs-dismiss="alert" data-bs-target=".createContainer" aria-label="Close"></button>
-  <strong class="fs-2">Doctor Creation</strong>
+  <strong class="fs-2">Doctor Modification</strong>
 
   <div class="container">
     <div class="mb-3 w-100">
@@ -45,7 +45,7 @@
     <div class="mb-3 w-100">
       <div class="col-12 position-relative">
         <label for="Email_address" class="form-label">Email address</label>
-        <input name="Email" type="email" class="form-control" id="Email_address" placeholder="name@example.com" required>
+        <input name="Email" type="email" class="form-control" id="Email_address" placeholder="name@example.com" required disabled>
         <div class="valid-tooltip">
           Looks good!
         </div>
@@ -86,7 +86,7 @@
       <div class="col-12 position-relative">
         <label for="Password" class="form-label">Password</label>
         <div class="input-group m-0">
-          <input  type="password" class="form-control" id="Password" placeholder="Password" aria-label="Username" aria-describedby="basic-addon2" required>
+          <input  type="password" class="form-control" id="Password" placeholder="Password" aria-label="Username" aria-describedby="basic-addon2" value="&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;&#11044;" disabled>
           <span class="input-group-text rounded-end fs-5" id="basic-addon2"><i class="bi bi-eye-slash-fill"></i></span>
           <div class="valid-tooltip">
             Looks good!
@@ -207,7 +207,7 @@
              <div class="col-4-md">
                 <div class="w-100 text-start position-relative">
                   <label for="fee_target">Fee:</label>
-                  <i id="howMuch" class="bi bi-currency-dollar fs-3 position-absolute" style="top: 15px;left: 4px;"></i>
+                  <i  class="bi bi-currency-dollar fs-3 position-absolute" style="top: 15px;left: 4px;"></i>
                   <input  type="number"  placeholder="How much (In Dollars)"class="form-control ps-5 pe-1 w-100 price-specialization" id="howMuch" aria-label="Dollar amount (with dot and two decimal places)" required>
                   <div class="valid-feedback end-0 bg-white">
                      Looks good!
@@ -227,7 +227,7 @@
   <button type="submit" class="btn btn-primary fs-3 d-flex align-items-center gap-2">
       <span class="spinner-border" aria-hidden="true" style="display:none;"></span>
       <i class='bi bi-floppy2-fill' style="display:flex;"></i>
-      <span role="status">Save Doctor</i></span>
+      <span role="status">Update Doctor</i></span>
 
   </button>
 </form>

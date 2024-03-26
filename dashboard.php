@@ -25,10 +25,10 @@
         <div class="image-text">
           <span class="image">
             <picture>
-              <source srcset="/public/images/logo-arucare.avif" type="image/avif">
-              <source srcset="/public/images/logo-arucare.webp" type="image/webp">
+              <source srcset="public/images/logo-arucare.avif" type="image/avif">
+              <source srcset="public/images/logo-arucare.webp" type="image/webp">
             
-              <img src="/public/images/logo-arucare.png" alt="logo">
+              <img src="public/images/logo-arucare.png" alt="logo">
             </picture>
           </span>
 
@@ -44,10 +44,10 @@
 
       <div class="menu-bar">
         <div class="menu">
-            <li class="search-box" id="search"  data-bs-toggle="tooltip" data-bs-placement="right" title="Search">
+            <!-- <li class="search-box" id="search"  data-bs-toggle="tooltip" data-bs-placement="right" title="Search">
               <i class="bi bi-search icono"></i>
               <input type="search" placeholder="Search...">
-            </li>
+            </li> -->
             <ul class="menu-links p-0">
               <li class="nav-link">
                 <button  type="button" id="Dashboard" class="btn link" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">

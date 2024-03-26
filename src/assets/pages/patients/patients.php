@@ -15,12 +15,12 @@ if(!isset($_COOKIE['token'])){
         <caption class="fs-3">List of patients</caption>
         <thead class="text-light" >
             <tr>
-                <th class="">name</th>
-                <th class="">email</th>
-                <th class="">mobile</th>
-                <th class="">gender</th>
-                <th class="">created</th>
-                <th class="">action</th>
+                <th class="">Name</th>
+                <th class="">Email</th>
+                <th class="">Mobile</th>
+                <th class="text-center">Gender</th>
+                <th class="text-center">Created</th>
+                <th class="text-center">Action</th>
             </tr>
         </thead>
 

@@ -188,7 +188,7 @@ function submitLogin(){
                                             return data;
                                         })
                                         .then(data=>{                
-                                            window.location.href = "/dashboard.php";
+                                            window.location.href = "dashboard.php";
                                             // const home = document.querySelector('.home');
                                         })
                                         .catch(error => {

@@ -12,8 +12,9 @@
                 <th class="">Description</th>
                 <th class="">Doctor Name</th>
                 <th class="">Doctor Email</th>
-                <th class="">Status</th>
-                <th class="">Options</th>
+                <th class="text-center">Bill</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Options</th>
             </tr>
         </thead>
 

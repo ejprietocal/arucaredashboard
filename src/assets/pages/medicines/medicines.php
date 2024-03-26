@@ -2,7 +2,7 @@
 <div class="table-responsive" id="no-more-tables">
 
     <div class="w-100 position-relative" style="min-height:3rem; height:fit-content">
-        <button id="addMedicines" class="add-button btn btn-primary d-block position-absolute end-0" type="button">Add Medicine <i class='bx bx-plus' ></i> </button>
+        <button id="addMedicines" class="add-button btn btn-primary d-block position-absolute end-0" type="button">Add Medicine <i class="bi bi-plus-lg"></i></button>
     </div>
 
     <table class="table table-striped caption-top display responsive nowrap"style="width:100%" id="myTable">

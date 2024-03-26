@@ -3,8 +3,8 @@
 
 </footer>
 
-<script src="/public/js/boostrap/boostrap.min.js"></script>
-<script type="module" src="/public/js/main/main.min.js"></script>
+<script src="public/js/boostrap/boostrap.min.js"></script>
+<script type="module" src="public/js/main/main.min.js"></script>
 <!-- <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
@@ -26,5 +26,5 @@
 <!-- <script type="module" src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script type="module" src="/database/firebase/conexion.js" defer></script>
+<script type="module" src="database/firebase/conexion.js" defer></script>
 

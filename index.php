@@ -1,3 +1,8 @@
+<?php
+
+?>
+
+
 
 <?php require 'public/assets/pages/header/header.php'?>
 

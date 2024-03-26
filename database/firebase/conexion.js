@@ -179,6 +179,8 @@ export async function setCollection(tableName,formDataObject,idToken = null,uid 
                         }
                       })  
                 })
+
+                
     
                 // const users = collection(db,'Users')
                 const docReference = doc(db, 'Users', uid);
@@ -266,6 +268,119 @@ export async function deleteDocument(tableName, documentId) {
         throw error;
     }
 }
+export async function getDocToupdate(tableName, documentId) {
+    try {
+        const ref = doc(collection(db, tableName), documentId);
+        let obj = {};
+
+        const printObjectProperties = (obj, prefix = '') => {
+            const newObj = {};
+
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    if (typeof obj[key] === 'object' && obj[key] !== null) {
+                        // Si el valor es un objeto, imprimir sus propiedades de forma recursiva
+                        newObj[key] = printObjectProperties(obj[key], prefix + key + '.');
+                    } else {
+                        newObj[key] = obj[key];
+                    }
+                }
+            }
+
+            return newObj;
+        };
+
+        const docSnapshot = await getDoc(ref);
+
+        if (docSnapshot.exists()) {
+            const data = docSnapshot.data();
+
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    obj[key] = data[key];
+                }
+            }
+
+            obj.id = docSnapshot.id;
+
+            const finalObject = printObjectProperties(obj);
+            // console.log(finalObject);
+            return finalObject;
+        } else {
+            console.log('Documento no encontrado');
+            return null;
+        }
+    } catch (error) {
+        console.error("Error al obtener el documento:", error);
+        throw error;
+    }
+}
+
+
+export async function updateDocument(tablename,formDataObject,documentId,mapa=null){
+
+    try{
+        const now = new Date();
+        const timestamp = new Timestamp(now.getTime() / 1000, 0);
+        const formDataObj = {};
+        const userDataObj = {};
+        const docReference = doc(db, tablename,documentId);
+        let mapTousers = {};
+        let mapToObject = {};
+
+
+        if(tablename === 'Doctors'){
+            userDataObj['email'] = formDataObject.get('Email');
+            userDataObj['type'] = "Doctor";
+
+            
+            formDataObject.forEach((valor, clave) => {
+                formDataObj[clave] = valor;
+            });
+            // formDataObj['ID'] = formDataObject;
+            formDataObj['ModifyIn'] = timestamp;
+
+            mapa.forEach((mapaInterno,indice)=>{
+                mapTousers[indice] ={};
+                mapaInterno.forEach((finalmap,index)=>{
+                  if(index == 'Specialization'){
+                      mapTousers[indice]['specialization'] = finalmap;
+                  }
+                  else if(index == 'Status'){
+                      mapTousers[indice]['status'] = finalmap;
+                  }
+                })  
+
+                
+            })
+
+            for (let [clave, mapaInterno] of mapa.entries()) {
+                mapToObject[clave] = {};
+                for (let [claveInterna, valor] of mapaInterno.entries()) {
+                    mapToObject[clave][claveInterna] = valor;
+                }
+            }
+            
+            const docReferenceTable = doc(db, 'Doctors', documentId);
+            await updateDoc(docReferenceTable, formDataObj);
+            await updateDoc(docReferenceTable,{Specializations:mapToObject});
+
+
+            const docReference = doc(db, 'Users', documentId);
+            await updateDoc(docReference,{specializations:mapTousers});
+        }
+
+        return true;
+
+    }
+    catch(error){
+        throw error;
+    }
+
+
+
+
+}
 
 export async function getData(data) {
     try {
@@ -285,9 +400,9 @@ export async function validateAccess(uid){
     
         if(docSnapshot.exists()){
             const userData = docSnapshot.data();
-            const userType = userData.type;
+            const userType = userData.superUser;
     
-            if(userType === 'Doctor'){
+            if(userType){
                 return true;
             }
             else{
