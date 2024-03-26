@@ -135,15 +135,19 @@ export function clickoption(){
                       }
                   })
                   .then(data=>{
-  
+                      let available;  
                       datos.innerHTML = data;
                       home.appendChild(datos);    
                       getData(item.id).then(doc =>{
-                          doc.forEach(appointment =>{
+                          doc.forEach(service =>{
                               content+=`
-                              <tr id="${appointment.id}">
-                                  <td class="pt-3 pb-3">${appointment.name}</td>
-                                  <td class="pt-3 pb-3 text-center">${appointment.available}</td>
+                              <tr id="${service.id}">
+                                  <td class="pt-3 pb-3">${service.name}</td>
+                                  <td class="d-flex align-items-center justify-content-center" >
+                                  ${available = service.available === '1' ? '<span class="p-3 border bg-success-subtle text-success-emphasis border-success border-3 rounded-3">Available <i class="bi bi-bookmark-check-fill"></i></span>':
+                                                 '<span class="p-3 border  bg-warning-subtle text-warning-emphasis border-warning border-3 rounded-3">Not Available <i class="bi bi-bookmark-x-fill"></i></span>'
+                                            }
+                                  </td>
                                   <td class="pt-3 pb-3 text-center">
                                       <button class="btn btn-sm p-3 btn-primary"><i class="fa-solid fa-pencil"></i></button>
                                       <button class="btn btn-sm p-3 btn-danger"><i class="fa-solid fa-trash"></i></button>
@@ -274,21 +278,20 @@ export function clickoption(){
                                   <td class="pt-3 pb-3">${appointment.doctorFirstName} ${appointment.doctorLastName}</td>
                                   <td class="pt-3 pb-3">${appointment.doctorEmail.toLowerCase()}</td>
                                   <td class="pt-3 pb-3 text-center">
-                                  ${statusBill = appointment.status === '0' ? '<span class="bg-danger text-white fw-bold p-3 ps-4 pe-4">Cancelled</span>':
-                                                 appointment.billsEntity?.[0]?.Status === 'Unpaid' ? '<span class="bg-warning text-dark fw-bold p-3 ps-5 pe-5">Unpaid</span>':
-                                                 appointment.billsEntity?.[0]?.Status === 'Paid'   ? '<span class="bg-success-subtle text-success-emphasis fw-bold p-3 ps-5 pe-5">Paid</span>':
-                                                   '<span class="bg-warning-subtle text-warning-emphasis fw-bold p-3">Pending</span>'}
+                                  ${statusBill = appointment.status === '0' ? '<span class="btn bg-danger text-white fw-bold p-2 pt-3 pb-3" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="<em>there is no Invoice</em><br><strong>Appointment cancelled<strong>">Cancelled <i class="bi bi-ban"></i></span>':
+                                                 appointment.billsEntity?.[0]?.Status === 'Unpaid' ? '<span class="btn bg-warning text-dark fw-bold p-3 ps-4 pe-4" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-html="true" data-bs-title="<em>Invoice Generated</em><br><strong>not paid yet<strong>">Unpaid <i class="bi bi-receipt"></i></span>':
+                                                 appointment.billsEntity?.[0]?.Status === 'Paid'   ? '<span class="btn bg-success-subtle text-success-emphasis fw-bold p-3 ps-5 pe-5" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" data-bs-title="<em>Invoice Paid</em><br><strong>check the transaction<strong>">Paid <i class="bi bi-cash"></i></span>':
+                                                   '<span class="btn bg-warning-subtle text-warning-emphasis fw-bold p-3"data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" data-bs-title="<em>Invoice not generated yet</em><br><strong>check with Doctor to see status<strong>">Pending <i class="bi bi-clock-fill"></i></span>'}
                                   </td>
-                                  <td class="d-flex aling-items-center justify-content-center p-0">
-                                    ${statusAppointment = appointment.status === '0' ? "<p class='btn btn-danger fw-bold m-0 h-100 w-100 text-center p-3' >cancelled</p>" :
-                                                          appointment.status === '1' ? "<p class='btn btn-warning fw-bold  m-0 h-100 w-100 text-center p-3'>booked</p>" :
-                                                          appointment.status === '2' ? "<p class='btn btn-success fw-bold m-0 h-100 w-100 text-center p-3'>finished</p>" :
-                                                          appointment.status === '3' ? "<p class='btn bg-success-subtle text-success-emphasis fw-bold m-0 h-100 w-100 text-center p-3'>checkout</p>" :
-                                                          "<p class='btn btn-primary fw-bold m-0 h-100 w-100 text-center p-3'>checkin</p>" 
+                                  <td class="pt-3 pb-3 text-center">
+                                    ${statusAppointment = appointment.status === '0' ? "<span class='btn btn-danger fw-bold  h-100 w-100 text-center p-3' data-bs-html='true' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='<em>there is no Invoice</em><br><strong>Appointment cancelled<strong>' >Cancelled <i class='bi bi-ban'></i></span>" :
+                                                          appointment.status === '1' ? "<span class='btn btn-warning fw-bold   h-100 w-100 text-center p-3' data-bs-html='true' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='<em>Appointment Booked</em><br><strong>A Doctor is taking care of it already<strong>'>Booked <i class='bi bi-journal-check'></i></span>" :
+                                                          appointment.status === '2' ? "<span class='btn btn-success fw-bold  h-100 w-100 text-center p-3' data-bs-html='true' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='<em>Appointment sesion</em><br><strong>Appointment sesion was done <strong>'>Finished</span>" :
+                                                          appointment.status === '3' ? "<span class='btn bg-success-subtle text-success-emphasis fw-bold  h-100 w-100 text-center p-3' data-bs-html='true'  data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='<em>Appointment sesion</em><br><strong>Appointment sesion was done <strong>'>Check-out <i class='bi bi-box-arrow-right'></i></span>" :
+                                                          "<span class='btn btn-primary fw-bold  h-100 w-100 text-center p-3'data-bs-html='true' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='<em>Patient request Appointment</em><br><strong>None of Doctors has taken it yet<strong>'>Check-in <i class='bi bi-door-open-fill'></i></span>" 
                                    }</td>
                                   <td class="pt-3 pb-3 text-center">
-                                      <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
-                                      <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
+                                      <button class="btn btn-sm btn-danger p-3 pe-4 ps-4" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash fs-4"></i></button>
                                   </td>
                               </tr>
                               `
@@ -304,9 +307,9 @@ export function clickoption(){
                               columnDefs: [{className:"text-centered",targets:[0,1,2,3,4,5]},
                                           {orderable:false,targets:[9]},
                                             { responsivePriority: 1, targets: 0 },
-                                            { responsivePriority: 3, targets: 8 },
-                                            { responsivePriority: 2, targets: 7 },
-                                            { responsivePriority: 4, targets: 9 },
+                                            { responsivePriority: 4, targets: 8 },
+                                            { responsivePriority: 3, targets: 7 },
+                                            { responsivePriority: 2, targets: 9 },
                                           // {searchable:false,targets:[9]}
                                           ],
                               scroller: true,
@@ -370,6 +373,7 @@ export function clickoption(){
                               }
                           });
                           activateTooltips();
+                          ModyfyAndDelete();
                           buttonsOptions.forEach(button =>{
                             button.disabled = false;
                             button.style.pointerEvents = 'auto';
@@ -427,8 +431,8 @@ export function clickoption(){
                                     ${doctor.Status === '2' ? '<span type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Available"><i class="bi bi-person-fill-check fs-1" style="color:green"></i></span>' : '<span type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Not Available"><i class="bi bi-person-fill-x fs-1" style="color:red"></i></span>'}
                                     </td>
                                     <td class="pt-3 pb-3 text-center">
-                                        <button class="btn btn-sm btn-primary p-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
-                                        <button class="btn btn-sm btn-danger p-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
+                                        <button class="btn btn-sm btn-primary p-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil fs-4"></i></button>
+                                        <button class="btn btn-sm btn-danger p-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash fs-4"></i></button>
                                     </td>
                                 </tr>
                                 `
@@ -560,7 +564,6 @@ export function clickoption(){
                                   </td>
                                   <td class="pt-3 pb-3 text-center" data-title="created">${paciente.CreateIn.split('.')[0]}</td>
                                   <td class="text-center d-flex align-items-center justify-content-center gap-1">
-                                      <button class="p-3 btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
                                       <button class="p-3 btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
                                   </td>
                               </tr>
@@ -641,6 +644,7 @@ export function clickoption(){
                               }
                           });
                           activateTooltips();
+                          ModyfyAndDelete();
                           buttonsOptions.forEach(button =>{
                             button.disabled = false;
                             button.style.pointerEvents = 'auto';
@@ -673,20 +677,24 @@ export function clickoption(){
                       home.appendChild(datos);
   
                       // initDatatable(item);
-      
+                      let available;   
                       getData(item.id).then(doc =>{
                           doc.forEach(medicines =>{
                               content+=`
                               <tr id="${medicines.id}">
-                                  <td class="pt-3 pb-3" >${medicines.Name}</td>
-                                  <td class="pt-3 pb-3" >${medicines.Price}</td>
-                                  <td class="pt-3 pb-3" >${medicines.Composition}</td>
-                                  <td class="pt-3 pb-3" >${medicines.Quantity}</td>
-                                  <td class="pt-3 pb-3" >${medicines.Available}</td>
-                                  <td class="pt-3 pb-3" >${medicines.Delivery}</td>
-                                  <td class="pt-3 pb-3 text-center">
-                                      <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
-                                      <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
+                                  <td class="pt-3 pb-3 text-center" >${medicines.Name}</td>
+                                  <td class="pt-3 pb-3 text-center" >${medicines.Price}</td>
+                                  <td class="pt-3 pb-3 text-center" >${medicines.Composition}</td>
+                                  <td class="pt-3 pb-3 text-center" >${medicines.Quantity}</td>
+                                  <td class="d-flex align-items-center justify-content-center" >
+                                  ${available = medicines.Available === '1' ? '<span class="p-3 border bg-success-subtle text-success-emphasis border-success border-3 rounded-3">Available <i class="bi bi-bookmark-check-fill"></i></span>':
+                                                 '<span class="p-3 border  bg-warning-subtle text-warning-emphasis border-warning border-3 rounded-3">Not Available <i class="bi bi-bookmark-x-fill"></i></span>'
+                                            }
+                                  </td>
+                                  <td class="pt-3 pb-3 text-center" >${medicines.Delivery}</td>
+                                  <td class="d-flex align-items-center p-4 justify-content-center gap-2">
+                                      <button class="btn p-4 btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
+                                      <button class="btn p-4 btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
                                   </td>
                               </tr>
                               `
@@ -1187,7 +1195,7 @@ const loading = document.querySelector('.home > .spinner');
 const home = document.querySelector('.home');
 const toastLiveExample = document.getElementById('liveToast'),
       toast_header = toastLiveExample.querySelector('.toast-header'),
-      toast_warning = toastLiveExample.querySelector('.bi'),
+      toast_warning = toastLiveExample.querySelector('i.bi'),
       toast_messageup = toastLiveExample.querySelector('strong'),
       toast_body = toastLiveExample.querySelector('.toast-body');
 
@@ -1291,7 +1299,7 @@ if(rows){
                   })
 
             }
-            else if(event.target.classList.contains('btn-primary')){
+            else if(event.target.classList.contains('btn-primary') && home.dataset.idbutton === 'Doctors'){
                 console.log('click en modify');
                 loading.style.display = 'flex';
                 fetch('public/assets/pages/modify/modifydoctors.php')
@@ -1340,7 +1348,8 @@ if(rows){
                               addNode = formulario.querySelector('.btn-add-new-node'),
                               loadingform = formulario.querySelector('.spinner-border'),
                               button = formulario.querySelectorAll('.btn'), 
-                              btn_close = formulario.querySelector('.button-close');
+                              btn_close = formulario.querySelector('.button-close'),
+                              iconform = formulario.querySelector('.bi-floppy2-fill'); 
                         const clase_clone = document.querySelector('.clase-clone'),
                               status_specialization = clase_clone.querySelector('#StatusSpecialization'),
                               fee_specialization = clase_clone.querySelector('#howMuch');
@@ -1445,7 +1454,7 @@ if(rows){
                                 e.preventDefault();
                                 e.stopPropagation();
                                 loadingform.style.display='flex';
-                                // iconform.style.display='none';
+                                iconform.style.display='none';
                                 button.forEach(boton=>{
                                     boton.classList.add('disabled');
                                 })
@@ -1481,7 +1490,7 @@ if(rows){
                                         // button.classList.add('disabled');
                                         btn_close.classList.remove('disabled');
                                         loadingform.style.display='none';
-
+                                        iconform.style.display='flex';
 
                                         btn_close.click();
                                         if(option){
@@ -1497,7 +1506,7 @@ if(rows){
                                         toastBootstrap.show();
                                     })
                                     .catch(error=>{
-                                        // console.log(error);
+                                        console.log(error);
 
                                         toast_warning.classList.remove('bi-check2');
                                         toast_warning.classList.add('bi-cone-striped');
@@ -1522,6 +1531,264 @@ if(rows){
                     .catch(error=>{
 
                     })
+                })
+            }
+            else if(event.target.classList.contains('btn-primary') && home.dataset.idbutton === 'Medicines'){
+                loading.style.display = 'flex';
+                fetch('public/assets/pages/modify/modifymedicines.php',{
+                })
+                .then(response=>{
+                      if (response.status === 404) {
+                      throw new Error('El recurso solicitado no se encontró');
+                      } else if (response.status === 500) {
+                      throw new Error('Error interno del servidor');
+                      } else if(!response.ok) {
+                      throw new Error('Error en la solicitud fetch: ' + response.status);
+                      }
+                      else{
+                      return response.text();
+                      }
+                })
+                .then(data=>{
+                    const added =document.createElement('div');
+                    added.classList.add('position-absolute');
+                    added.classList.add('createContainer');
+                    added.classList.add('d-flex');
+                    added.classList.add('top-0');
+                    added.classList.add('align-items-center');
+                    added.classList.add('justify-content-center');
+                    added.classList.add('w-100');
+                    added.style.height = '100vh';
+
+                    added.innerHTML = data;
+
+                    getDocToupdate(home.dataset.idbutton,row.id)
+                    .then(data=>{
+                        home.appendChild(added);
+                        loading.style.display = 'none';
+
+                        const formulario = document.querySelector('#form'),
+                              name_medicine = formulario.querySelector('#medicine_name'),
+                              price_medicine= formulario.querySelector('#price_id'),
+                              composition_medicine = formulario.querySelector('#composition_id'),
+                              quantity_medicine = formulario.querySelector('#quantity_id'),
+                              delivery_medicine = formulario.querySelector('#delivery_id'),
+                              status_medicine = formulario.querySelector('#selectStatus'),
+                              loadingform = formulario.querySelector('.spinner-border'),
+                              button = formulario.querySelectorAll('.btn'), 
+                              btn_close = formulario.querySelector('.button-close'),
+                              iconform = formulario.querySelector('.bi-floppy2-fill'); 
+                              
+                        name_medicine.value = data.Name.stringValue;
+                        price_medicine.value = data.Price.stringValue;
+                        composition_medicine.value = data.Composition.stringValue;
+                        quantity_medicine.value = data.Quantity.stringValue;
+                        delivery_medicine.value = data.Delivery.stringValue;
+                        
+                        const status_medicine_inicial = data.Available.stringValue;
+
+                        for(let i=0; i<=status_medicine.options.length; i++){
+                            if(status_medicine.options[i].value === status_medicine_inicial){
+                                status_medicine.selectedIndex = i;
+                                break;
+                            }
+                        }
+                        formulario.addEventListener('submit',function(e){
+                            if (!formulario.checkValidity()) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                            else{
+                                e.preventDefault();
+                                e.stopPropagation();
+                                loadingform.style.display='flex';
+                                iconform.style.display='none';
+                                button.forEach(boton=>{
+                                    boton.classList.add('disabled');
+                                })
+                                // button.classList.add('disabled');
+                                btn_close.classList.add('disabled');
+                                const formData = new FormData(this);
+
+                                updateDocument(home.dataset.idbutton,formData,row.id)
+                                    .then(()=>{
+                                        button.forEach(boton=>{
+                                            boton.classList.remove('disabled');
+                                        })
+                                        // button.classList.add('disabled');
+                                        btn_close.classList.remove('disabled');
+                                        loadingform.style.display='none';
+                                        iconform.style.display='flex';
+
+                                        btn_close.click();
+                                        if(option){
+                                            option.click();
+                                        }
+
+                                        toast_body.innerHTML = `Component Modified successfully`;
+                                        toast_messageup.innerHTML = `¡Success!`;
+                                        toast_warning.classList.add('bi-check2');
+                                        toast_warning.classList.remove('bi-cone-striped');
+                                        toast_warning.style.color = 'green';
+                                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                                        toastBootstrap.show();
+
+                                    })
+                                    .catch(error=>{
+
+                                        toast_warning.classList.remove('bi-check2');
+                                        toast_warning.classList.add('bi-cone-striped');
+                                        toast_warning.style.color = 'red';
+                                        toast_messageup.innerHTML = `¡Ups! something went wrong`;
+                                        toast_body.innerHTML= `Component could not be modified su <br> error: ${error} `;
+                                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                                        toastBootstrap.show();
+
+
+                                        loadingform.style.display='none';
+
+                                        btn_close.click();
+                                        if(option){
+                                            option.click();
+                                        }
+
+                                    })
+
+                            }
+                            formulario.classList.add('was-validated');
+                        },false);   
+
+                    });
+                    
+                })
+            }
+            else if(event.target.classList.contains('btn-primary') && home.dataset.idbutton === 'Services'){
+                loading.style.display = 'flex';
+                fetch('public/assets/pages/modify/modifyservices.php',{
+                })
+                .then(response=>{
+                      if (response.status === 404) {
+                      throw new Error('El recurso solicitado no se encontró');
+                      } else if (response.status === 500) {
+                      throw new Error('Error interno del servidor');
+                      } else if(!response.ok) {
+                      throw new Error('Error en la solicitud fetch: ' + response.status);
+                      }
+                      else{
+                      return response.text();
+                      }
+                })
+                .then(data=>{
+
+                    const added =document.createElement('div');
+                    added.classList.add('position-absolute');
+                    added.classList.add('createContainer');
+                    added.classList.add('d-flex');
+                    added.classList.add('top-0');
+                    added.classList.add('align-items-center');
+                    added.classList.add('justify-content-center');
+                    added.classList.add('w-100');
+                    added.style.height = '100vh';
+
+                    added.innerHTML = data;
+
+                    getDocToupdate(home.dataset.idbutton,row.id)
+                    .then(service=>{
+                        home.appendChild(added)
+                        loading.style.display = 'none';
+
+
+                        const formulario = document.querySelector('#form'),
+                            name_service = formulario.querySelector('#name_service'),
+                            status_service = formulario.querySelector('#selectStatus'),
+                            loadingform = formulario.querySelector('.spinner-border'),
+                            button = formulario.querySelectorAll('.btn'), 
+                            btn_close = formulario.querySelector('.button-close'),
+                            iconform = formulario.querySelector('.bi-floppy2-fill'); 
+
+                        name_service.value = service.name.stringValue;
+                        const status_service_init = service.available.stringValue;
+
+                        for(let i=0; i<=status_service.options.length; i++){
+                            if(status_service.options[i].value === status_service_init){
+                                status_service.selectedIndex = i;
+                                break;
+                            }
+                        }
+
+                        formulario.addEventListener('submit',function(e){
+                            if (!formulario.checkValidity()) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                            else{
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                loadingform.style.display='flex';
+                                iconform.style.display='none';
+                                button.forEach(boton=>{
+                                    boton.classList.add('disabled');
+                                })
+                                // button.classList.add('disabled');
+                                btn_close.classList.add('disabled');
+                                const formData = new FormData(this);
+
+                                updateDocument(home.dataset.idbutton,formData,row.id)
+                                .then(()=>{
+                                    button.forEach(boton=>{
+                                        boton.classList.remove('disabled');
+                                    })
+                                    // button.classList.add('disabled');
+                                    btn_close.classList.remove('disabled');
+                                    loadingform.style.display='none';
+                                    iconform.style.display='flex';
+
+                                    btn_close.click();
+                                    if(option){
+                                        option.click();
+                                    }
+
+                                    toast_body.innerHTML = `Component Modified successfully`;
+                                    toast_messageup.innerHTML = `¡Success!`;
+                                    toast_warning.classList.add('bi-check2');
+                                    toast_warning.classList.remove('bi-cone-striped');
+                                    toast_warning.style.color = 'green';
+                                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                                    toastBootstrap.show();
+
+
+                                })
+                                .catch(error=>{
+                                    toast_warning.classList.remove('bi-check2');
+                                    toast_warning.classList.add('bi-cone-striped');
+                                    toast_warning.style.color = 'red';
+                                    toast_messageup.innerHTML = `¡Ups! something went wrong`;
+                                    toast_body.innerHTML= `Component could not be modified su <br> error: ${error} `;
+                                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                                    toastBootstrap.show();
+
+
+                                    loadingform.style.display='none';
+
+                                    btn_close.click();
+                                    if(option){
+                                        option.click();
+                                    }
+                                })
+
+                            }
+
+
+                            formulario.classList.add('was-validated');
+                        },false)       
+                        
+                    })
+
+
+                })
+                .catch(error=>{
+
                 })
             }
             })

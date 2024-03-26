@@ -419,10 +419,12 @@ body.dark {
             }
             #dt-search-0{
                 background: var(--primary-color-light);
+                transition: var(--tran-04);
             }
             thead,tr,td,tbody,th{
                 background: var(--sidebar-color);
                 color: var(--text-color);
+                transition: var(--tran-04);
                 // text-transform: capitalize;
             }
             td{
@@ -442,6 +444,9 @@ body.dark {
                     border-left: 0;
                 }
                 
+            }
+            th{
+                text-align: center;
             }
         }
         

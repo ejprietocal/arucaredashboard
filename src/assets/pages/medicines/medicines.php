@@ -9,13 +9,13 @@
         <caption class="fs-3">List of Medicines</caption>
         <thead class="text-light" >
             <tr>
-                <th class="">name</th>
-                <th class="">price</th>
-                <th class="">composition</th>
-                <th class="">Quantity</th>
-                <th class="">Availability</th>
-                <th class="">delivery</th>
-                <th class="">action</th>
+                <th class="text-center">name</th>
+                <th class="text-center">price</th>
+                <th class="text-center">composition</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-center">Availability</th>
+                <th class="text-center">delivery</th>
+                <th class="text-center">action</th>
             </tr>
         </thead>
 
@@ -24,4 +24,3 @@
         </tbody>
     </table>
 </div>
-

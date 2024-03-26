@@ -11,13 +11,13 @@
         <caption class="fs-3">List of Doctors</caption>
         <thead class="text-light" >
             <tr>
-                <th class="">First Name</th>
-                <th class="">Last Name</th>
+                <th class="text-center">First Name</th>
+                <th class="text-center">Last Name</th>
                 <th class="text-center">Document</th>
-                <th class="">Email</th>
+                <th class="text-center">Email</th>
                 <th class="text-center">Contact</th>
-                <th class="">Address</th>
-                <th class="text-center">Experience (In Year)</th>
+                <th class="text-center">Address</th>
+                <th class="text-center">Experience <br><em>In Years</em> </th>
                 <th class="text-center">DOB</th>
                 <th class="text-center">Gender</th>
                 <th class="text-center">Status</th>

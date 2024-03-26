@@ -134,6 +134,7 @@ export async function setCollection(tableName,formDataObject,idToken = null,uid 
             formDataObject.forEach((valor, clave) => {
                 servicesDataObject[clave] = valor;
             });
+            servicesDataObject['CreateIn'] = timestamp;
 
             await setDoc(docReference,servicesDataObject);
 
@@ -195,6 +196,7 @@ export async function setCollection(tableName,formDataObject,idToken = null,uid 
             formDataObject.forEach((valor, clave) => {
                 medicinesDataObj[clave] = valor;
             });
+            medicinesDataObj['CreateIn'] = timestamp;
 
             const medicineRef = await addDoc(medicinesCollection,medicinesDataObj);
             return medicineRef.id;
@@ -220,43 +222,6 @@ export async function deleteDocument(tableName, documentId) {
         const documentRef = doc(collectionRef, documentId);
         const UserRef = doc(collectionUsers,documentId);
 
-        // const uid = 
-
-        if(tableName === 'Doctors'){
-            getDoc(documentRef)
-            .then((docSnapshot) => {
-                // Acceder al campo "uids"
-                const uid = docSnapshot.data().UID;
-                // const token = docSnapshot.data().Token;
-                const cookieValue = obtenerValorCookie('token');
-                // console.log("Valor del campo 'uid':", uid);
-                // console.log("Valor del campo 'token':", token);
-                // fetch(`/public/assets/pages/delete/deleteconfirmed.php`, {
-                //     method: 'POST',
-                //     headers: {
-                //     'Content-Type': 'application/x-www-form-urlencoded',
-                //     'Cookie': `token=${cookieValue}` // Tipo de contenido específico
-                //     },
-                //     body: "uid=" + uid
-                //     })
-                //     .then(response => {
-                //         if (!response.ok) {
-                //             throw new Error('Error al eliminar el usuario');
-                //         }
-                //         return response.text()
-                //     })
-                //     .then(data => {
-                //         console.log(data); // Aquí obtienes el resultado de eliminarUsuario desde PHP
-                //     })
-                //     .catch(error => {
-                //     console.error('Error al eliminar el usuario:', error);
-                //     });
-
-            })
-            .catch((error) => {
-                console.error("Error al obtener el documento:", error);
-            });
-        }
         // Eliminar el documento
         await deleteDoc(UserRef);
         await deleteDoc(documentRef);
@@ -271,45 +236,56 @@ export async function deleteDocument(tableName, documentId) {
 export async function getDocToupdate(tableName, documentId) {
     try {
         const ref = doc(collection(db, tableName), documentId);
-        let obj = {};
 
-        const printObjectProperties = (obj, prefix = '') => {
-            const newObj = {};
+        if(tableName === 'Doctors'){
+            let obj = {};
 
-            for (const key in obj) {
-                if (obj.hasOwnProperty(key)) {
-                    if (typeof obj[key] === 'object' && obj[key] !== null) {
-                        // Si el valor es un objeto, imprimir sus propiedades de forma recursiva
-                        newObj[key] = printObjectProperties(obj[key], prefix + key + '.');
-                    } else {
-                        newObj[key] = obj[key];
+            const printObjectProperties = (obj, prefix = '') => {
+                const newObj = {};
+    
+                for (const key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        if (typeof obj[key] === 'object' && obj[key] !== null) {
+                            // Si el valor es un objeto, imprimir sus propiedades de forma recursiva
+                            newObj[key] = printObjectProperties(obj[key], prefix + key + '.');
+                        } else {
+                            newObj[key] = obj[key];
+                        }
                     }
                 }
-            }
-
-            return newObj;
-        };
-
-        const docSnapshot = await getDoc(ref);
-
-        if (docSnapshot.exists()) {
-            const data = docSnapshot.data();
-
-            for (const key in data) {
-                if (data.hasOwnProperty(key)) {
-                    obj[key] = data[key];
+    
+                return newObj;
+            };
+    
+            const docSnapshot = await getDoc(ref);
+    
+            if (docSnapshot.exists()) {
+                const data = docSnapshot.data();
+    
+                for (const key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        obj[key] = data[key];
+                    }
                 }
+    
+                obj.id = docSnapshot.id;
+    
+                const finalObject = printObjectProperties(obj);
+                // console.log(finalObject);
+                return finalObject;
+            } else {
+                console.log('Documento no encontrado');
+                return null;
             }
-
-            obj.id = docSnapshot.id;
-
-            const finalObject = printObjectProperties(obj);
-            // console.log(finalObject);
-            return finalObject;
-        } else {
-            console.log('Documento no encontrado');
-            return null;
         }
+        else if(tableName === 'Medicines' || tableName === 'Services'){
+            const info = await getDoc(ref);
+            const infoString = JSON.stringify(info);
+            const data = info._document.data.value.mapValue.fields;
+            // console.log(data);
+            return data;
+        }
+   
     } catch (error) {
         console.error("Error al obtener el documento:", error);
         throw error;
@@ -365,15 +341,24 @@ export async function updateDocument(tablename,formDataObject,documentId,mapa=nu
             await updateDoc(docReferenceTable, formDataObj);
             await updateDoc(docReferenceTable,{Specializations:mapToObject});
 
-
             const docReference = doc(db, 'Users', documentId);
             await updateDoc(docReference,{specializations:mapTousers});
+            return true;
         }
+        else if(tablename === "Medicines" || tablename === 'Services'){
+            formDataObject.forEach((valor, clave) => {
+                formDataObj[clave] = valor;
+            });
 
-        return true;
+            formDataObj['ModifyIn'] = timestamp;
+            await updateDoc(docReference,formDataObj);
+
+            return true;
+        }
 
     }
     catch(error){
+
         throw error;
     }
 
