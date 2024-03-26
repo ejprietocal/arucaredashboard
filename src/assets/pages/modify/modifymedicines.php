@@ -20,7 +20,7 @@
         <div class="mb-3 w-100">
             <div class="col-12 position-relative">
                 <label for="price_id" class="form-label">Price</label>
-                <input name="Price"type="number"  class="form-control" id="price_id" placeholder="Price" required>
+                <input name="Price" type="number" min="0" step="any" class="form-control" id="price_id" placeholder="Price" required>
                 <div class="valid-tooltip">
                     Looks good!
                 </div>

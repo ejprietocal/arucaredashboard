@@ -1568,8 +1568,8 @@ if(rows){
                         loading.style.display = 'none';
 
                         const formulario = document.querySelector('#form'),
+                              price_medicine= formulario.querySelector('.col-12 #price_id'),
                               name_medicine = formulario.querySelector('#medicine_name'),
-                              price_medicine= formulario.querySelector('#price_id'),
                               composition_medicine = formulario.querySelector('#composition_id'),
                               quantity_medicine = formulario.querySelector('#quantity_id'),
                               delivery_medicine = formulario.querySelector('#delivery_id'),
@@ -1578,7 +1578,7 @@ if(rows){
                               button = formulario.querySelectorAll('.btn'), 
                               btn_close = formulario.querySelector('.button-close'),
                               iconform = formulario.querySelector('.bi-floppy2-fill'); 
-                              
+                        // console.log(data.Price.stringValue);      
                         name_medicine.value = data.Name.stringValue;
                         price_medicine.value = data.Price.stringValue;
                         composition_medicine.value = data.Composition.stringValue;
@@ -1586,7 +1586,7 @@ if(rows){
                         delivery_medicine.value = data.Delivery.stringValue;
                         
                         const status_medicine_inicial = data.Available.stringValue;
-
+                        
                         for(let i=0; i<=status_medicine.options.length; i++){
                             if(status_medicine.options[i].value === status_medicine_inicial){
                                 status_medicine.selectedIndex = i;
