@@ -47,7 +47,10 @@
         </div>
 
   </div>
-  <button title="Sign In" type="submit" class="sign-in_btn">
+  <button type="submit" title="Sign In" class="btn btn-primary d-flex aling-items-baseline justify-content-center gap-4 sign-in_btn p-3 fs-3" style="height:fit-content;">
+    <div class="spinner-border text-light" role="status" style="display:none;">
+      <span class="visually-hidden">Loading...</span>
+    </div>
     <span>Sign In</span>
   </button>
 

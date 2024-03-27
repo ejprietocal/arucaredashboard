@@ -126,7 +126,9 @@ function login(){
 function submitLogin(){
     const login = document.querySelector('.form_container'),
             input_email = login.querySelector('#validationCustomUsername'),
-            input_password = login.querySelector('#password_field');
+            input_password = login.querySelector('#password_field'),
+            spinner_border = login.querySelector('button .spinner-border'),
+            button_submit = login.querySelector('button');
 
     const toastLiveExample = document.getElementById('liveToast');
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
@@ -154,13 +156,11 @@ function submitLogin(){
             else{
                 e.preventDefault();
                 e.stopPropagation();
-                              
+                button_submit.disabled = true;
+                spinner_border.style.display = 'flex';
 
                 signInWithEmailAndPassword(autorization,input_email.value,input_password.value)
                 .then(cred =>{
-                    // alert('usuario logeado');
-                    spinner.style.display ="flex";
-                    
                     const user = cred.user;
                     const uid = user.uid;
                    validateAccess(uid)
@@ -169,35 +169,49 @@ function submitLogin(){
                             if(promise){
                                 user.getIdToken()
                                     .then(token=>{
+                                        if(!token) {
+                                            throw new Error('Access token couldn\'t be found');
+                                        }
+                                        else{
+                                            return token;
+                                        }
+                                    })
+                                    .then(token=>{
                                         document.cookie = `token=${token}; max-age=86400 path=/`;
                                         fetch('public/assets/pages/dashboard/dashboard.php')
                                         .then(response=>{
                                             if (response.status === 404) {
-                                                throw new Error('El recurso solicitado no se encontró');
+                                                throw new Error('Resource page couldn\'t be found 404');
                                             } else if (response.status === 500) {
-                                            throw new Error('Error interno del servidor');
+                                            throw new Error('Internal Server Error: 500');
                                             } else if(!response.ok) {
-                                            throw new Error('Error en la solicitud fetch: ' + response.status);
+                                            throw new Error('Error in fetch: ' + response.status);
                 
                                         }
                                             else{
                                                 return response.text();
                                             }
                                         })
-                                        .then((data)=>{
-                                            return data;
-                                        })
-                                        .then(data=>{                
+                                        .then(data=>{        
                                             window.location.href = "dashboard.php";
-                                            // const home = document.querySelector('.home');
                                         })
                                         .catch(error => {
                                             // Manejo de errores
-                                            return error;
+                                            messagepop = error;
+                                            toastBody.innerHTML = messagepop;
+                                            toastBootstrap.show(); 
+                                            button_submit.disabled = false;
+                                            spinner_border.style.display = 'none';
+                                            // console.log(error);
+            
                                         });
                                     })
                                     .catch(error => {
-                                        console.error('Error al obtener el token:', error);
+                                        messagepop = error;
+                                        toastBody.innerHTML = messagepop;
+                                        toastBootstrap.show(); 
+                                        button_submit.disabled = false;
+                                        spinner_border.style.display = 'none'; 
                                     });
                             }
                             else{
@@ -210,7 +224,8 @@ function submitLogin(){
                             // console.log(error);
                             
                             messagepop = error.message
-
+                            button_submit.disabled = false;
+                            spinner_border.style.display = 'none';
                             toastBody.innerHTML = messagepop;
                             toastBootstrap.show();
                         })
@@ -238,7 +253,8 @@ function submitLogin(){
                     else{
                         messagepop = error.message;
                     }
-
+                    button_submit.disabled = false;
+                    spinner_border.style.display ="none";
                     toastBody.innerHTML = messagepop;
                     toastBootstrap.show();
 

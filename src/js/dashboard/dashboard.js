@@ -1,7 +1,7 @@
 import { getData,setCollection,deleteDocument,getDocToupdate, updateDocument} from "../../../database/firebase/conexion.js";
 import {createUserWithEmailAndPassword,getAuth,signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 import { firebaseApp } from "../../../database/firebase/conexion.js";
-import { initializateGraph,initializateGraphApp } from "../graph/graph.min.js";
+import { initializateGraph,initializateGraphApp,initializateGraphStatus } from "../graph/graph.min.js";
 
 
 
@@ -285,16 +285,18 @@ export function clickoption(){
                                   </td>
                                   <td class="pt-3 pb-3 text-center">
                                     ${statusAppointment = appointment.status === '0' ? "<span class='btn btn-danger fw-bold  h-100 w-100 text-center p-3' data-bs-html='true' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='<em>there is no Invoice</em><br><strong>Appointment cancelled<strong>' >Cancelled <i class='bi bi-ban'></i></span>" :
-                                                          appointment.status === '1' ? "<span class='btn btn-warning fw-bold   h-100 w-100 text-center p-3' data-bs-html='true' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='<em>Appointment Booked</em><br><strong>A Doctor is taking care of it already<strong>'>Booked <i class='bi bi-journal-check'></i></span>" :
-                                                          appointment.status === '2' ? "<span class='btn btn-success fw-bold  h-100 w-100 text-center p-3' data-bs-html='true' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='<em>Appointment sesion</em><br><strong>Appointment sesion was done <strong>'>Finished</span>" :
+                                                          appointment.status === '1' ? "<span class='btn btn-primary fw-bold  h-100 w-100 text-center p-3'data-bs-html='true' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='<em>Patient request Appointment</em><br><strong>None of Doctors has taken it yet<strong>'>Check-in <i class='bi bi-door-open-fill'></i></span>" :
                                                           appointment.status === '3' ? "<span class='btn bg-success-subtle text-success-emphasis fw-bold  h-100 w-100 text-center p-3' data-bs-html='true'  data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='<em>Appointment sesion</em><br><strong>Appointment sesion was done <strong>'>Check-out <i class='bi bi-box-arrow-right'></i></span>" :
-                                                          "<span class='btn btn-primary fw-bold  h-100 w-100 text-center p-3'data-bs-html='true' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='<em>Patient request Appointment</em><br><strong>None of Doctors has taken it yet<strong>'>Check-in <i class='bi bi-door-open-fill'></i></span>" 
+                                                          "<span class='btn btn-warning fw-bold   h-100 w-100 text-center p-3' data-bs-html='true' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='<em>Appointment Booked</em><br><strong>A Doctor is taking care of it already<strong>'>Booked <i class='bi bi-journal-check'></i></span>" 
                                    }</td>
+                                   
                                   <td class="pt-3 pb-3 text-center">
                                       <button class="btn btn-sm btn-danger p-3 pe-4 ps-4" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash fs-4"></i></button>
                                   </td>
                               </tr>
                               `
+
+                            //   
                           })
                           return content;
       
@@ -808,6 +810,7 @@ export function clickoption(){
                     home.appendChild(datos);
                     initializateGraph('myChart');
                     initializateGraphApp('myChartApp');
+                    initializateGraphStatus('myChartAppointments');
                     activateTooltips();
                     clickAdd();
                   })

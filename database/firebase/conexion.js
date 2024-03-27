@@ -116,6 +116,50 @@ export function getAmountAppointmentsUserPerMonth(){
 }
 
 
+export function getAppointmentStatus(){
+    const stateofApp = collection(db,'Appointments');
+
+    const appoitmentStatus = {};
+    appoitmentStatus['cancelled'] = 0; //0
+    appoitmentStatus['booked'] = 0;  //4
+    appoitmentStatus['checkout'] = 0; //3 
+    appoitmentStatus['checkin'] = 0; //1
+
+    //0 = cancelled
+    //1 = checking
+
+
+    return getDocs(stateofApp)
+        .then(docdata=>{
+            docdata.forEach(row=>{
+                const numberOfstatus = row.data().status;
+                // console.log(numberOfstatus);
+
+                if(numberOfstatus === '0'){
+                    appoitmentStatus['cancelled']++;
+                }
+                else if(numberOfstatus === '1'){
+                    appoitmentStatus['checkin']++;
+                }
+                else if(numberOfstatus === '3'){
+                    appoitmentStatus['checkout']++;
+                }
+                else if(numberOfstatus === '4'){
+                    appoitmentStatus['booked']++;
+                }
+            })
+            // console.log(appoitmentStatus);
+            return appoitmentStatus;
+        })
+        .catch(error=>{
+            throw new Error(error);
+        })
+
+
+
+}
+
+
 export async function setCollection(tableName,formDataObject,idToken = null,uid = null,mapa=null){
     try{
         const db = getFirestore(firebaseApp);

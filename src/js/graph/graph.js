@@ -1,4 +1,4 @@
-import { getAmountOf ,getAmountAppointmentsUserPerMonth} from "../../../database/firebase/conexion.js";
+import { getAmountOf ,getAmountAppointmentsUserPerMonth,getAppointmentStatus} from "../../../database/firebase/conexion.js";
 
 
 export function initializateGraph(mychart) {
@@ -138,5 +138,59 @@ export function initializateGraphApp(mychart){
             throw error;
         })
         
+
+}
+
+
+export function initializateGraphStatus(mychart){
+    const ctx = document.getElementById(`${mychart}`);
+    const loadingAppointments = document.querySelector('div.loading3');
+    const data = [];
+    const dataLabels = [];
+    const backgroundColors = ['#36187d'];
+
+    const result = getAppointmentStatus()
+        .then(appointmentData => {
+            Object.entries(appointmentData).forEach(([key, value]) => {
+                data.push(value);
+                dataLabels.push(key);
+            });
+
+
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dataLabels,
+                    datasets: [{
+                        label: 'Appointments',
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        // borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    aspectRatio: 1,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true
+                        }
+                    },
+                    legend: {
+                        display: false // Ocultar la barra de color (legend)
+                    },
+                }
+            });
+
+            loadingAppointments.style.display = 'none';
+        })
+        .catch(error=>{
+            console.log(error);
+        })
 
 }
