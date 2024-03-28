@@ -1,4 +1,4 @@
-import { initializateGraph,initializateGraphApp,initializateGraphStatus } from "../graph/graph.min.js";
+import { initializateGraph,initializateGraphApp,initializateGraphStatus,initializateGraphBills } from "../graph/graph.min.js";
 import { clickAdd ,activateTooltips} from "../dashboard/dashboard.min.js";
 document.addEventListener('DOMContentLoaded',function(e){
 
@@ -37,6 +37,7 @@ function loadDash(){
       initializateGraph('myChart');  
       initializateGraphApp('myChartApp');
       initializateGraphStatus('myChartAppointments');
+      initializateGraphBills('myChartBills');
       clickAdd();
     })
     .catch(error=>{

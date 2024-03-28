@@ -1,4 +1,4 @@
-import { getAmountOf ,getAmountAppointmentsUserPerMonth,getAppointmentStatus} from "../../../database/firebase/conexion.js";
+import { getAmountOf ,getAmountAppointmentsUserPerMonth,getAppointmentStatus,getBillStatus} from "../../../database/firebase/conexion.js";
 
 
 export function initializateGraph(mychart) {
@@ -193,4 +193,56 @@ export function initializateGraphStatus(mychart){
             console.log(error);
         })
 
+}
+
+export function initializateGraphBills(mychart){
+    const ctx = document.getElementById(`${mychart}`);
+    const loadingAppointments = document.querySelector('div.loading4');
+    const data = [];
+    const dataLabels = [];
+    const backgroundColors = ['#0196e3'];
+
+    const result = getBillStatus()
+    .then(billstatus => {
+        Object.entries(billstatus).forEach(([key, value]) => {
+            data.push(value);
+            dataLabels.push(key);
+        });
+
+
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dataLabels,
+                datasets: [{
+                    label: 'Bills',
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    // borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                aspectRatio: 1,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true
+                    }
+                },
+                legend: {
+                    display: false // Ocultar la barra de color (legend)
+                },
+            }
+        });
+
+        loadingAppointments.style.display = 'none';
+    })
+    .catch(error=>{
+        console.log(error);
+    })
 }

@@ -63,5 +63,16 @@ if(!isset($_COOKIE['token'])){
             </div>
           </div>
         </div>
+        <div class="card contain-graph patients-container p-2 rounded shadow position-relative">
+          <div class="card-header fs-2" style="height:5rem">
+            Bills status
+          </div>
+          <canvas id="myChartBills" class="graph-data p-4"></canvas>
+          <div class="loading4 align-items-center justify-content-center position-absolute top-50 start-50 translate-middle" style="display:flex;width:10rem;height:10rem;">
+            <div class="spinner-border text-primary w-75 h-75" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
       </div>
 </div>

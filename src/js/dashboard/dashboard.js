@@ -1,7 +1,7 @@
 import { getData,setCollection,deleteDocument,getDocToupdate, updateDocument} from "../../../database/firebase/conexion.js";
 import {createUserWithEmailAndPassword,getAuth,signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 import { firebaseApp } from "../../../database/firebase/conexion.js";
-import { initializateGraph,initializateGraphApp,initializateGraphStatus } from "../graph/graph.min.js";
+import { initializateGraph,initializateGraphApp,initializateGraphStatus,initializateGraphBills} from "../graph/graph.min.js";
 
 
 
@@ -811,6 +811,7 @@ export function clickoption(){
                     initializateGraph('myChart');
                     initializateGraphApp('myChartApp');
                     initializateGraphStatus('myChartAppointments');
+                    initializateGraphBills('myChartBills')
                     activateTooltips();
                     clickAdd();
                   })

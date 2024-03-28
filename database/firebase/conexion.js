@@ -158,7 +158,44 @@ export function getAppointmentStatus(){
 
 
 }
+export function getBillStatus(){
+    const stateofbill = collection(db,'Appointments');
+    const billStatus = {};
 
+    billStatus['Unpaid'] = 0;
+    billStatus['Paid'] = 0;
+    billStatus['Pending'] = 0;
+    billStatus['Cancelled'] = 0;
+
+
+
+    return getDocs(stateofbill)
+           .then(datashoot=>{
+               datashoot.forEach(data=>{
+                   const billStatu = data.data().billsEntity;
+                   const statusApp = data.data().status;
+                   console.log(statusApp);
+                   if(statusApp === '0'){
+                       billStatus['Cancelled']++;
+                   }
+                   else if(billStatu === null){
+                       billStatus['Pending'] ++;
+                   }
+                   else if(billStatu[0].Status === 'Unpaid'){
+                       billStatus['Unpaid']++;
+                   }
+                   else if(billStatu[0].Status === 'Paid'){
+                       billStatus['Paid']++;
+                   }
+                }) 
+                console.log(billStatus);
+                return billStatus
+           }) 
+           .catch(error=>{
+                throw new Error(error);
+           })
+
+}
 
 export async function setCollection(tableName,formDataObject,idToken = null,uid = null,mapa=null){
     try{
