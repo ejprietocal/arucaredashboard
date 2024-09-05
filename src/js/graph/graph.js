@@ -1,5 +1,5 @@
 import { getAmountOf ,getAmountAppointmentsUserPerMonth,getAppointmentStatus,getBillStatus} from "../../../database/firebase/conexion.js";
-
+// import { destroyChart } from "../dashboard/dashboard.min.js";
 
 export function initializateGraph(mychart) {
     const ctx = document.getElementById(`${mychart}`);
@@ -9,6 +9,8 @@ export function initializateGraph(mychart) {
     const doctorsPromise = getAmountOf('Doctors');
     const appointmentsPromise = getAmountOf('Appointments');
     const loadingPatient = document.querySelector('.patients-container > .loading')
+
+
 
     // Esperar que todas las promesas se resuelvan
     Promise.all([patientsPromise, doctorsPromise, appointmentsPromise])

@@ -62,6 +62,4 @@ function eliminarUsuario($uid, $apiKey, $cookieValue) {
     curl_close($ch);
 }
 
-
-
 ?>
