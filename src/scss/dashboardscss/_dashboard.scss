@@ -587,22 +587,28 @@ body.dark {
         backdrop-filter: blur(9px) saturate(152%);
         -webkit-backdrop-filter: blur(9px) saturate(152%);
         background-color: rgba(255, 255, 255, 0.58);
-        .card{
-            .background-color{
-                background: var(--sidebar-color);
-                transition: var(--tran-04);
+        
+        .background-color{
+            background: var(--sidebar-color);
+            transition: var(--tran-04);
+        }
+        
+        .card-header{
+            background: var(--body-color);
+            transition: var(--tran-04);    
+            color: var(--backColorInverse);
+            .icono_refresh{
+                pointer-events: all;
+                cursor: pointer;
+                transition: var(--tran-03);
+                &:hover{
+                    transform: rotate(180deg);
+                }
             }
-            
-            .card-header{
-                background: var(--body-color);
-                transition: var(--tran-04);    
-                color: var(--backColorInverse);
-            }
-            .graph-data{
-                // max-width: 30rem;
-                height: 100%;
-                width: 100%;
-            }
+        }
+        .graph-data{
+            height: 100%;
+            width: 100%;
         }
     }
 }

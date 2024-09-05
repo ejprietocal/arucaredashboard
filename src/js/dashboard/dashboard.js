@@ -813,6 +813,7 @@ export function clickoption(){
                     initializateGraphStatus('myChartAppointments');
                     initializateGraphBills('myChartBills')
                     activateTooltips();
+                    refreshGraph();
                     clickAdd();
                   })
                   .catch(error=>{
@@ -1805,5 +1806,71 @@ export function validateEmail(email) {
     // Expresión regular para validar un email
     var patronEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return patronEmail.test(email);
+}
+
+export function refreshGraph(){
+    const graph = document.querySelectorAll('.contain-graph');
+
+
+    graph.forEach(graphs =>{
+        graphs.addEventListener('click',function(e){
+            if(e.target.classList.contains('icono_refresh')){
+                // console.log('click en graph');
+                const canvas = graphs.querySelector('canvas');
+                const loadingInter = graphs.querySelector('.cargando');
+                loadingInter.style.display= 'flex';
+                if(canvas.id === 'myChart'){
+                    const idfordestroy = getChartByCanvasId(canvas.id).id; 
+                    destroyChart(idfordestroy);
+                    initializateGraph(canvas.id);
+                }
+                else if(canvas.id === 'myChartApp'){
+                    const idfordestroy = getChartByCanvasId(canvas.id).id; 
+                    destroyChart(idfordestroy);
+                    initializateGraphApp(canvas.id);
+                }
+                else if(canvas.id === 'myChartAppointments'){
+                    const idfordestroy = getChartByCanvasId(canvas.id).id; 
+                    destroyChart(idfordestroy);
+                    initializateGraphStatus(canvas.id);
+                }
+                else if(canvas.id === 'myChartBills'){
+                    const idfordestroy = getChartByCanvasId(canvas.id).id; 
+                    destroyChart(idfordestroy);
+                    initializateGraphBills(canvas.id);
+                }
+            }
+        })
+    })
+}
+
+
+
+export function destroyChart(chartId) {
+    const allChartInstances = Chart.instances;
+
+
+    if (allChartInstances[chartId]) {
+        allChartInstances[chartId].destroy();
+        delete allChartInstances[chartId];
+    } else {
+        console.log(`No chart found with ID ${chartId}`);
+    }
+}
+
+export function getChartByCanvasId(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    let chart;
+    if (canvas) {
+         chart = Chart.getChart(canvas);
+        if (chart) {
+            // console.log(chart);
+        } else {
+            console.log(`No se encontró ningún gráfico asociado al canvas con ID ${canvasId}`);
+        }
+    } else {
+        console.log(`No se encontró ningún canvas con ID ${canvasId}`);
+    }
+    return chart;
 }
 

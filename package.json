@@ -6,6 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "gulp build",
+    "start": "node index.js",
+    "pm2-start": "pm2 start server.js --name server-users",
     "build": "gulp cssgenerator && gulp versionWebp && gulp versionAvif && gulp imgGenerator && gulp assetsGenerator  && gulp jsGenerator"
   },
   "keywords": [
@@ -31,5 +33,12 @@
     "gulp-uglify": "^3.0.2",
     "gulp-webp": "^4.0.1",
     "sass": "^1.69.7"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "firebase": "^10.12.3",
+    "firebase-admin": "^12.2.0"
   }
 }

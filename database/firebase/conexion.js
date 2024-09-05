@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
 import { getFirestore, collection, getDocs,getDoc, setDoc, updateDoc, addDoc,deleteDoc,doc,Timestamp} from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
-import {getAuth} from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+import {getAuth, deleteUser} from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+
 // Inicializa la aplicación de Firebase con las credenciales
 // import { obtenerValorCookie } from "../../src/js/dashboard/dashboard.js";
 
@@ -45,7 +46,7 @@ const auth = getAuth(firebaseApp);
 // Obtiene una instancia de Firestore
 const db = getFirestore(firebaseApp);
 
-
+  
 
 export function getAmountOf(nameTable){
     const quantityOf = collection(db, nameTable);
@@ -115,7 +116,6 @@ export function getAmountAppointmentsUserPerMonth(){
         
 }
 
-
 export function getAppointmentStatus(){
     const stateofApp = collection(db,'Appointments');
 
@@ -174,7 +174,6 @@ export function getBillStatus(){
                datashoot.forEach(data=>{
                    const billStatu = data.data().billsEntity;
                    const statusApp = data.data().status;
-                   console.log(statusApp);
                    if(statusApp === '0'){
                        billStatus['Cancelled']++;
                    }
@@ -188,7 +187,6 @@ export function getBillStatus(){
                        billStatus['Paid']++;
                    }
                 }) 
-                console.log(billStatus);
                 return billStatus
            }) 
            .catch(error=>{
@@ -292,18 +290,47 @@ export async function setCollection(tableName,formDataObject,idToken = null,uid 
 
 }
 
+async function eliminarUsuario(uid) {
+    const url = 'https://server-fragrant-cherry-5505.fly.dev/delete-user';  // Reemplaza con la URL de tu servidor
+  
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ uid })
+      });
+  
+      if (!response.ok) {
+        throw new Error('No se pudo eliminar el usuario');
+      }
+  
+      const data = await response.json();
+      console.log('Usuario eliminado correctamente:', data);
+      return data;  // Puedes retornar cualquier dato necesario después de la eliminación
+    } catch (error) {
+      console.error('Error al eliminar usuario:', error);
+      throw error;  // Puedes manejar el error según tus necesidades
+    }
+  }
+
 export async function deleteDocument(tableName, documentId) {
     try {
         // Obtener una referencia a la colección
         const db = getFirestore(firebaseApp);
         const collectionRef = collection(db, tableName);
         const collectionUsers = collection(db,'Users');
+        const auth = getAuth(firebaseApp);
     
+        
         // Obtener una referencia al documento que se desea eliminar
         const documentRef = doc(collectionRef, documentId);
         const UserRef = doc(collectionUsers,documentId);
-
+        
         // Eliminar el documento
+        // await deleteUser(auth,documentId);
+        await eliminarUsuario(documentId);
         await deleteDoc(UserRef);
         await deleteDoc(documentRef);
 
@@ -372,7 +399,6 @@ export async function getDocToupdate(tableName, documentId) {
         throw error;
     }
 }
-
 
 export async function updateDocument(tablename,formDataObject,documentId,mapa=null){
 
