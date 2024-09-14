@@ -11,6 +11,7 @@
             <tr>
                 <th class="">name</th>
                 <th class="text-center">status</th>
+                <th class="text-center">ID</th>
                 <th class="text-center">action</th>
             </tr>
         </thead>

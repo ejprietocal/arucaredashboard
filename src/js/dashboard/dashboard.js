@@ -148,6 +148,7 @@ export function clickoption(){
                                                  '<span class="p-3 border  bg-warning-subtle text-warning-emphasis border-warning border-3 rounded-3">Not Available <i class="bi bi-bookmark-x-fill"></i></span>'
                                             }
                                   </td>
+                                  <td class="pt-3 pb-3 text-center">${service.id}</td>
                                   <td class="pt-3 pb-3 text-center">
                                       <button class="btn btn-sm p-3 btn-primary"><i class="fa-solid fa-pencil"></i></button>
                                       <button class="btn btn-sm p-3 btn-danger"><i class="fa-solid fa-trash"></i></button>
@@ -164,9 +165,9 @@ export function clickoption(){
                               responsive:true,
                               scrollCollapse: true,
                               columnDefs: [
-                                          {orderable:false,targets:[2]},
+                                          {orderable:false,targets:[3]},
                                           { responsivePriority: 1, targets: 0 },
-                                          { responsivePriority: 2, targets: 2 }
+                                          { responsivePriority: 2, targets: 3 }
                                           // {searchable:false,targets:[9]}
                                           ],
                               scroller: true,
@@ -303,7 +304,7 @@ export function clickoption(){
                       }).then(data=>{
                           tbody_patients.innerHTML = data;
                           const  table = new DataTable('#myTable',{
-  
+
                               responsive:true,
                               scrollCollapse: true,
                               columnDefs: [{className:"text-centered",targets:[0,1,2,3,4,5]},
@@ -418,12 +419,13 @@ export function clickoption(){
                                     <td class="pt-3 pb-3">${doctor.FirstName}</td>
                                     <td class="pt-3 pb-3">${doctor.LastName}</td>
                                     <td class="pt-3 pb-3 text-center">${doctor.DocumentID}</td>
-                                    <td id="email-doctor-table" data-title="email" class="pt-3 pb-3">${doctor.Email}</td>
+                                    <td id="email-doctor-table" data-title="email" class="pt-3 pb-3 text-center">${doctor.Email}</td>
                                     <td class="pt-3 pb-3 text-center">${doctor.Contact}</td>
-                                    <td class="pt-3 pb-3"></td>
+                                    <td class="pt-3 pb-3 text-center">${doctor.Address}</td>
                                     <td class="pt-3 pb-3 text-center">${doctor.Experience}</td>
-                                    <td class="pt-3 pb-3">${doctor.Dob}</td>
-                                    <td class="pt-3 pb-3">
+                                    <td class="pt-3 pb-3 text-center">${doctor.Dob}</td>
+                                    <td class="pt-3 pb-3 text-center">${doctor.id}</td>
+                                    <td class="pt-3 pb-3 text-center">
                                     ${ resultedted = doctor.Gender === 'Male' ? doctor.Gender + "<i class='bi bi-gender-male fw-bold fs-3 ms-3' style='color:#0196e3'></i>" :
                                                    doctor.Gender === 'Female' ? doctor.Gender + "<i class='bi bi-gender-female fw-bold fs-3 ms-3' style='color:pink'></i>":
                                                    doctor.Gender+"<i class='bi bi-gender-neuter ms-3 fw-bold fs-3' style='color:purple'></i>"
@@ -445,14 +447,14 @@ export function clickoption(){
                       }).then(data=>{
                           tbody_patients.innerHTML = data;
                           const  table = new DataTable('#myTable',{
-  
+                              order: [3, 'asc'],
                               responsive:true,
                               scrollCollapse: true,
                               columnDefs: [{className:"text-centered",targets:[0,1,2,3,4,5]},
-                                          {orderable:false,targets:[10]},
+                                          {orderable:false,targets:[11]},
                                           { responsivePriority: 1, targets: 0 },
-                                          { responsivePriority: 2, targets: 10 },
-                                          { responsivePriority: 3, targets: 9 }
+                                          { responsivePriority: 2, targets: 11 },
+                                          { responsivePriority: 3, targets: 10 }
                                           // {searchable:false,targets:[9]}
                                           ],         
                               scroller: true,
@@ -564,6 +566,7 @@ export function clickoption(){
                                                  paciente.Gender+"<i class='bi bi-gender-neuter ms-3 fw-bold fs-3' style='color:purple'></i>"
                                   }
                                   </td>
+                                  <td class="pt-3 pb-3 text-center" data-title="uid">${paciente.id}</td>
                                   <td class="pt-3 pb-3 text-center" data-title="created">${paciente.CreateIn.split('.')[0]}</td>
                                   <td class="text-center d-flex align-items-center justify-content-center gap-1">
                                       <button class="p-3 btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="fa-solid fa-trash"></i></button>
@@ -576,14 +579,15 @@ export function clickoption(){
                       }).then(data=>{
                           tbody_patients.innerHTML = data;
                           const  table = new DataTable('#myTable',{
-  
+                              order: [1, 'asc'],
                               responsive:true,
                               scrollCollapse: true,
                               columnDefs: [{className:"text-centered",targets:[0,1,2,3,4,5]},
-                                          {orderable:false,targets:[5]},
-                                          {searchable:false,targets:[5]},
-                                          { responsivePriority: 1, targets: 0 },
-                                          { responsivePriority: 2, targets: 5 },
+                                          {orderable:false,targets:[6]},
+                                          {searchable:false,targets:[6]},
+                                          { responsivePriority: 1, targets: 1 },
+                                          { responsivePriority: 2, targets: 4 },
+                                          { responsivePriority: 3, targets: 6 },
                                           ],
                               scroller: true,
                               scrollY: heightContent,
@@ -693,6 +697,7 @@ export function clickoption(){
                                                  '<span class="p-3 border  bg-warning-subtle text-warning-emphasis border-warning border-3 rounded-3">Not Available <i class="bi bi-bookmark-x-fill"></i></span>'
                                             }
                                   </td>
+                                  <td class="pt-3 pb-3 text-center" >${medicines.id}</td>
                                   <td class="pt-3 pb-3 text-center" >${medicines.Delivery}</td>
                                   <td class="d-flex align-items-center p-4 justify-content-center gap-2">
                                       <button class="btn p-4 btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modify"><i class="fa-solid fa-pencil"></i></button>
@@ -710,10 +715,10 @@ export function clickoption(){
                               responsive:true,
                               scrollCollapse: true,
                               columnDefs: [
-                                          {orderable:false,targets:[4]},
-                                          {searchable:false,targets:[4]},
+                                          {orderable:false,targets:[7]},
+                                          {searchable:false,targets:[7]},
                                           { responsivePriority: 1, targets: 0 },
-                                          { responsivePriority: 2, targets: 6 }
+                                          { responsivePriority: 2, targets: 7 }
                                           ],
                               scroller: true,
                               scrollY: heightContent,

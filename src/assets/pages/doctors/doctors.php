@@ -19,6 +19,7 @@
                 <th class="text-center">Address</th>
                 <th class="text-center">Experience <br><em>In Years</em> </th>
                 <th class="text-center">DOB</th>
+                <th class="text-center">UID</th>
                 <th class="text-center">Gender</th>
                 <th class="text-center">Status</th>
                 <th class="text-center">Options</th>

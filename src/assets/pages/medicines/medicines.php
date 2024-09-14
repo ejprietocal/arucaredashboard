@@ -14,6 +14,7 @@
                 <th class="text-center">composition</th>
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Availability</th>
+                <th class="text-center">ID</th>
                 <th class="text-center">delivery</th>
                 <th class="text-center">action</th>
             </tr>

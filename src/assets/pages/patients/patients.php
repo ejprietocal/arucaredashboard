@@ -19,6 +19,7 @@ if(!isset($_COOKIE['token'])){
                 <th class="">Email</th>
                 <th class="">Mobile</th>
                 <th class="text-center">Gender</th>
+                <th class="text-center">UID</th>
                 <th class="text-center">Created</th>
                 <th class="text-center">Action</th>
             </tr>
