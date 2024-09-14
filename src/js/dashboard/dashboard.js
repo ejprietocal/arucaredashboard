@@ -272,7 +272,7 @@ export function clickoption(){
                               <tr id="${appointment.id}">
                                   <td class="pt-3 pb-3">${appointment.patientFirstName}</td>
                                   <td class="pt-3 pb-3">${appointment.patientLastName}</td>
-                                  <td class="pt-3 pb-3">${appointment.patientEmail}</td>
+                                  <td class="pt-3 pb-3" data-title="email">${appointment.patientEmail}</td>
                                   <td class="pt-3 pb-3">${appointment.service}</td>
                                   <td class="pt-3 pb-3">${appointment.description}</td>
                                   <td class="pt-3 pb-3">${appointment.doctorFirstName} ${appointment.doctorLastName}</td>
@@ -418,7 +418,7 @@ export function clickoption(){
                                     <td class="pt-3 pb-3">${doctor.FirstName}</td>
                                     <td class="pt-3 pb-3">${doctor.LastName}</td>
                                     <td class="pt-3 pb-3 text-center">${doctor.DocumentID}</td>
-                                    <td id="email-doctor-table" class="pt-3 pb-3">${doctor.Email}</td>
+                                    <td id="email-doctor-table" data-title="email" class="pt-3 pb-3">${doctor.Email}</td>
                                     <td class="pt-3 pb-3 text-center">${doctor.Contact}</td>
                                     <td class="pt-3 pb-3"></td>
                                     <td class="pt-3 pb-3 text-center">${doctor.Experience}</td>
@@ -1209,6 +1209,8 @@ if(rows){
       rows.forEach(row =>{
             row.addEventListener('click', function(event){
             if(event.target.classList.contains('btn-danger')){
+                  const email = row.querySelector('td[data-title="email"]');
+                  const formatedEmail = email ? email.textContent : '';    
 
                   loading.style.display = 'flex';
                   fetch('public/assets/pages/delete/delete.php',{
@@ -1217,7 +1219,7 @@ if(rows){
                         headers: {
                         'Content-Type': 'application/x-www-form-urlencoded' // Tipo de contenido específico
                         },
-                        body:"id="+row.id + "&name=" + row.querySelector('td').textContent + '&category=' + home.dataset.idbutton 
+                        body:"id="+row.id + "&name=" + row.querySelector('td').textContent + "&email=" + formatedEmail + '&category=' + home.dataset.idbutton 
 
                   })
                   .then(response=>{

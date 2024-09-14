@@ -1,5 +1,6 @@
 const admin = require('firebase-admin');
 const serviceAccount = require('../key/key.json'); // Reemplaza con la ruta a tu archivo JSON
+const fireBaseConfig = require('../key/firebaseConfig.json')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -21,4 +22,4 @@ async function deleteUser(uid){
     }
 }
 
-module.exports = { db, admin, deleteUser }; // Exporta lo que necesites
+module.exports = { db, admin, deleteUser, auth, fireBaseConfig }; // Exporta lo que necesites

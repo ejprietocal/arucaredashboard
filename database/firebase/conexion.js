@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
 import { getFirestore, collection, getDocs,getDoc, setDoc, updateDoc, addDoc,deleteDoc,doc,Timestamp} from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
-import {getAuth, deleteUser} from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+import {getAuth} from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 
 // Inicializa la aplicación de Firebase con las credenciales
 // import { obtenerValorCookie } from "../../src/js/dashboard/dashboard.js";
@@ -292,7 +292,9 @@ export async function setCollection(tableName,formDataObject,idToken = null,uid 
 
 async function eliminarUsuario(uid) {
     const url = 'https://server-fragrant-cherry-5505.fly.dev/delete-user';  // Reemplaza con la URL de tu servidor
-  
+    const body = JSON.stringify({uid})
+    console.log('UID a enviar:', uid); 
+    console.log(body)
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -321,6 +323,7 @@ export async function deleteDocument(tableName, documentId) {
         const db = getFirestore(firebaseApp);
         const collectionRef = collection(db, tableName);
         const collectionUsers = collection(db,'Users');
+        const collectionsApointments = collection(db, 'Appointments')
         const auth = getAuth(firebaseApp);
     
         
@@ -330,10 +333,16 @@ export async function deleteDocument(tableName, documentId) {
         
         // Eliminar el documento
         // await deleteUser(auth,documentId);
-        await eliminarUsuario(documentId);
-        await deleteDoc(UserRef);
-        await deleteDoc(documentRef);
 
+        if(tableName !== 'Doctors' && tableName  !== 'Patients'){
+            await deleteDoc(UserRef);
+            await deleteDoc(documentRef);
+        }
+        else{
+            await deleteDoc(UserRef);
+            await deleteDoc(documentRef);
+            await eliminarUsuario(documentId);
+        }
 
         return documentId;
 

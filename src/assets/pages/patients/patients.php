@@ -12,7 +12,7 @@ if(!isset($_COOKIE['token'])){
 <div class="table-responsive" id="no-more-tables">
 
     <table class="table table-striped caption-top display responsive nowrap"style="width:100%" id="myTable">
-        <caption class="fs-3">List of patients</caption>
+        <caption class="fs-3">Patients's list</caption>
         <thead class="text-light" >
             <tr>
                 <th class="">Name</th>
